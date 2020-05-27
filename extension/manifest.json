@@ -1,0 +1,6 @@
+{
+  "manifest_version": 2,
+  "name": "REACTionary",
+  "version": "0.1",
+  "devtools_page": "./devtools/devtools-page.html"
+}

@@ -4,7 +4,8 @@
   "description": "A React component visualizer and performance optimizer",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "cd extension && web-ext run --target chromium"
   },
   "repository": {
     "type": "git",
@@ -15,5 +16,6 @@
   "bugs": {
     "url": "https://github.com/oslabs-beta/REACTionary/issues"
   },
-  "homepage": "https://github.com/oslabs-beta/REACTionary#readme"
+  "homepage": "https://github.com/oslabs-beta/REACTionary#readme",
+  "devDependencies": {}
 }

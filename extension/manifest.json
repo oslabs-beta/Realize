@@ -5,13 +5,13 @@
 
 
   "background": {
-    "scripts": ["background-scripts/background.js"]
+    "scripts": ["background.js"]
   },
 
   "permissions": [
     "<all_urls>"
   ],
 
-  "devtools_page": "devtools/devtools-page.html"
+  "devtools_page": "devtools-root.html"
 
 }

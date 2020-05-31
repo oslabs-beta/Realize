@@ -1,11 +1,12 @@
 const path = require('path');
 const CopyPlugin = require('copy-webpack-plugin');
-const WriteFilePlugin = require('write-file-webpack-plugin');
+const ExtensionReloader  = require('webpack-extension-reloader');
 
 module.exports = {
   entry: {
     bundle: './extension/devtools/panel/panel.js',
     // "create-panel": './extension/devtools/create-panel.js'
+    background: './extension/backend/background.js',
   },
   output: {
     filename: '[name].js',
@@ -21,7 +22,13 @@ module.exports = {
         { from: 'extension/devtools/panel/panel.html', to: '../extension/panel.html' },
       ],
     }),
-    new WriteFilePlugin(), // writes files to drive in dev server (providing hacky, hot reloading)
+    new ExtensionReloader({
+      manifest: path.resolve(__dirname, "./extension/manifest.json"),
+      entries: { 
+        bundle: 'bundle',
+        background: '`background'
+      }
+    })
   ],
-  devtool: 'cheap-module-source-map', // Needed as to stop Chrome eval errors when using dev server
+  // devtool: 'cheap-module-source-map', // Needed as to stop Chrome eval errors when using dev server
 };

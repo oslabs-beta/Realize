@@ -1,5 +1,6 @@
 const path = require('path');
 const CopyPlugin = require('copy-webpack-plugin');
+const WriteFilePlugin = require('write-file-webpack-plugin');
 
 module.exports = {
   entry: {
@@ -19,6 +20,8 @@ module.exports = {
         { from: 'extension/devtools/create-panel.js', to: '../extension/create-panel.js' },
         { from: 'extension/devtools/panel/panel.html', to: '../extension/panel.html' },
       ],
-      }),
+    }),
+    new WriteFilePlugin(), // writes files to drive in dev server (providing hacky, hot reloading)
   ],
+  devtool: 'cheap-module-source-map', // Needed as to stop Chrome eval errors when using dev server
 };

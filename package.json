@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "cd build/extension && web-ext run --target chromium",
-    "build": "webpack"
+    "build": "webpack",
+    "start:dev": "webpack-dev-server"
   },
   "repository": {
     "type": "git",
@@ -21,6 +22,8 @@
   "devDependencies": {
     "copy-webpack-plugin": "^6.0.1",
     "webpack": "^4.43.0",
-    "webpack-cli": "^3.3.11"
+    "webpack-cli": "^3.3.11",
+    "webpack-dev-server": "^3.11.0",
+    "write-file-webpack-plugin": "^4.5.1"
   }
 }

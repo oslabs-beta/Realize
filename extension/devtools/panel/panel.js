@@ -1,4 +1,5 @@
 import * as d3 from '../../libraries/d3.min.js';
+import { data } from './data-example.js';
 // THIS PAGE IS TO STORE THE JAVASCRIPT NEEDED INSIDE THE DEVTOOLS PANEL
 
 // ALSO, FROM HERE WE CAN SEND MESSAGES TO THE BACKGROUND.js
@@ -28,59 +29,13 @@ document.getElementById("color-button").addEventListener("click", () => {
 // Can also manipulate the HTML of the dev tools directly
 document.getElementById('title-panel').style.color = 'white'
 
-let data = {
-  name: "Main Parent",
-  children: [
-    {
-      name: "child1",
-      children: [
-        {
-          name: "grandchild 1",
-          value: "1",
-        },
-        {
-          name: "grandchild 2",
-          value: "2",
-        },
-        {
-          name: "grandchild 3",
-          value: "3",
-        },
-      ],
-    },
-    {
-      name: "child2",
-      children: [
-        {
-          name: "grandchild 100",
-          value: "100",
-        },
-        {
-          name: "grandchild 200",
-          value: "200",
-        },
-        {
-          name: "grandchild 300",
-          value: "300",
-        },
-        {
-          name: "grandchild 400",
-          value: "400",
-        },
-        {
-          name: "grandchild 500",
-          value: "500",
-        },
-      ],
-    },
-  ],
-};
+
 
 // Creates a function which will add
 let treeLayout = d3.tree().size([400, 200]);
 
 // Creates a heirarchical data structure based on the object passed into it
-let root = d3.hierarchy(data);
+let root = d3.hierarchy(data.data[0]); // using fake data here
 console.log("ROOT");
 console.log(root);
 

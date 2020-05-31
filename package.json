@@ -2,10 +2,11 @@
   "name": "reactionary",
   "version": "1.0.0",
   "description": "A React component visualizer and performance optimizer",
-  "main": "index.js",
+  "private": true,
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "cd extension && web-ext run --target chromium"
+    "build": "webpack",
+    "dev": "NODE_ENV=development webpack --mode=development --watch"
   },
   "repository": {
     "type": "git",
@@ -17,5 +18,11 @@
     "url": "https://github.com/oslabs-beta/REACTionary/issues"
   },
   "homepage": "https://github.com/oslabs-beta/REACTionary#readme",
-  "devDependencies": {}
+  "devDependencies": {
+    "copy-webpack-plugin": "^6.0.1",
+    "webpack": "^4.43.0",
+    "webpack-cli": "^3.3.11",
+    "webpack-dev-server": "^3.11.0",
+    "webpack-extension-reloader": "^1.1.4"
+  }
 }

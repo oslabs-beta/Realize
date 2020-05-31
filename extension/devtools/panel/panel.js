@@ -1,3 +1,5 @@
+import * as d3 from '../../libraries/d3.min.js';
+import { data } from './data-example.js';
 // THIS PAGE IS TO STORE THE JAVASCRIPT NEEDED INSIDE THE DEVTOOLS PANEL
 
 // ALSO, FROM HERE WE CAN SEND MESSAGES TO THE BACKGROUND.js
@@ -23,3 +25,59 @@ const evalString = "document.getElementById('body').style.backgroundColor = 'pin
 document.getElementById("color-button").addEventListener("click", () => {
   chrome.devtools.inspectedWindow.eval(evalString);
 });
+
+// Can also manipulate the HTML of the dev tools directly
+document.getElementById('title-panel').style.color = 'white'
+
+
+
+// Creates a function which will add
+let treeLayout = d3.tree().size([400, 200]);
+
+// Creates a heirarchical data structure based on the object passed into it
+let root = d3.hierarchy(data.data[0]); // using fake data here
+console.log("ROOT");
+console.log(root);
+
+// Can check out what the structure looks like
+console.log(root.descendants());
+console.log(root.links());
+
+treeLayout(root); // Creates x and y values on each node of root.
+// We will later use this x and y values to:
+// 1. position the circles (after joining the root.descendents data to svg circles)
+// 2. create links between the circles (after creating lines using root.links that go from x to y)
+
+// SELECT a g object with node as their class
+d3.select("svg g.nodes")
+  .selectAll("circle.node") // select ALL circle objects with nodes as class (there are none)
+  .data(root.descendants()) // attach the data to each of the nodes
+  .enter() // as there are no nodes we will make them using enter (and attach the data)
+  .append("circle") // add all the circle objects
+  .classed("node", true) // add classes of node to each of them
+  .attr("cx", function (d) {
+    return d.x;
+  }) // set its x coordinate
+  .attr("cy", function (d) {
+    return d.y;
+  }) // set its y coordinate
+  .attr("r", 7); // set radius of the circle size
+
+d3.select("svg g.links") // select the g object with class links
+  .selectAll("line.link") // select all the line objects with class link - ain't any so we gunna create them
+  .data(root.links()) // attach the links data
+  .enter() // add the nodes that are missing
+  .append("line") // by creating a line object
+  .classed("link", true) // set the class
+  .attr("x1", function (d) {
+    return d.source.x;
+  }) // set the source x and y coordinates
+  .attr("y1", function (d) {
+    return d.source.y;
+  })
+  .attr("x2", function (d) {
+    return d.target.x;
+  }) // set the target x and y coordinates
+  .attr("y2", function (d) {
+    return d.target.y;
+  });

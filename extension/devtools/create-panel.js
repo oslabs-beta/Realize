@@ -3,7 +3,7 @@
 chrome.devtools.panels.create(
   "REACTionary", // title
   "", // icon
-  "./devtools/panel/panel.html", // content
+  "./panel.html", // content
   function() {
     // code that will run when the devtools panel is loaded up
   }

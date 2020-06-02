@@ -3,15 +3,20 @@
   "name": "REACTionary",
   "version": "0.1",
 
-
   "background": {
     "scripts": ["background.js"]
   },
 
-  "permissions": [
-    "<all_urls>"
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content_script.js"]
+    }
   ],
 
-  "devtools_page": "devtools-root.html"
+  "web_accessible_resources": ["hook.js"],
 
+  "permissions": ["<all_urls>"],
+
+  "devtools_page": "devtools-root.html"
 }

@@ -36,13 +36,12 @@ module.exports = {
       },
     ],
   },
-  
+
   plugins: [
     // Copies files to 'build' folder without bundling them
     new CopyPlugin({
       patterns: [
         { from: 'extension/manifest.json', to: '../extension/manifest.json' },
-<<<<<<< HEAD
         {
           from: 'extension/backend/background.js',
           to: '../extension/background.js',
@@ -64,13 +63,10 @@ module.exports = {
           from: 'extension/backend/content_script.js',
           to: '../extension/content_script.js',
         },
-=======
-        { from: 'extension/backend/background.js', to: '../extension/background.js' },
-        { from: 'extension/devtools/devtools-root.html', to: '../extension/devtools-root.html' },
-        { from: 'extension/devtools/create-panel.js', to: '../extension/create-panel.js' },
-        { from: 'extension/devtools/panel/panel.html', to: '../extension/panel.html' },
-        { from: 'extension/devtools/panel/styles.css', to: '../extension/styles.css' },
->>>>>>> 445267d912e151aeaba50587b2caf9551751144c
+        {
+          from: 'extension/devtools/panel/styles.css',
+          to: '../extension/styles.css',
+        },
       ],
     }),
     // Enables hot reloading - use npm run dev command

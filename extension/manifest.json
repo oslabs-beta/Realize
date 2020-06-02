@@ -14,7 +14,13 @@
     }
   ],
 
+<<<<<<< HEAD
   "web_accessible_resources": ["hook.js"],
+=======
+  "devtools_page": "devtools-root.html",
+
+  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self';"
+>>>>>>> 445267d912e151aeaba50587b2caf9551751144c
 
   "permissions": ["<all_urls>"],
 

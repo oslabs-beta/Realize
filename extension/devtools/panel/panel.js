@@ -32,7 +32,7 @@ document.getElementById('title-panel').style.color = 'white'
 
 
 // Creates a function which will add
-let treeLayout = d3.tree().size([400, 200]);
+let treeLayout = d3.tree().size([920, 1920]);
 
 // Creates a heirarchical data structure based on the object passed into it
 let root = d3.hierarchy(data.data[0]); // using fake data here
@@ -41,7 +41,7 @@ console.log(root);
 
 // Can check out what the structure looks like
 console.log(root.descendants());
-console.log(root.links());
+console.log("LINKS", root.links());
 
 treeLayout(root); // Creates x and y values on each node of root.
 // We will later use this x and y values to:
@@ -61,7 +61,20 @@ d3.select("svg g.nodes")
   .attr("cy", function (d) {
     return d.y;
   }) // set its y coordinate
-  .attr("r", 7); // set radius of the circle size
+  .attr("r", 7) // set radius of the circle size
+
+// Add text labels at the same x / y co-ordinates as the nodes
+d3.selectAll('svg g.nodes')
+  .selectAll('text.label')
+  .data(root.descendants())
+  .enter()
+  .append('text')
+  .style("text-anchor", "middle")
+  .style("fill", "white")
+  .text(d => d.data.name)
+  .attr('x', d => d.x)
+  .attr('y', d => d.y - 10)
+
 
 d3.select("svg g.links") // select the g object with class links
   .selectAll("line.link") // select all the line objects with class link - ain't any so we gunna create them
@@ -81,3 +94,46 @@ d3.select("svg g.links") // select the g object with class links
   .attr("y2", function (d) {
     return d.target.y;
   });
+  
+// Functionality for zooming
+const svg = d3.select("#tree")
+const g = d3.select("#treeG");
+function zoomed() {
+  g.attr("transform", d3.event.transform);
+}
+
+function startZoom() {
+  svg.call(d3.zoom()
+    .on("zoom", zoomed));
+}
+
+function endZoom() {
+  svg.on(".zoom", null);
+}
+
+// Grab 
+let bodyElement = document.getElementsByTagName('body')[0];
+
+bodyElement.addEventListener('keydown', event => {
+  if (event.keyCode === 18){
+    console.log('keydown')
+    startZoom()
+  }
+})
+
+bodyElement.addEventListener('keyup', event => {
+  if (event.keyCode === 18){
+    console.log('keyup')
+    endZoom()
+  }
+})
+
+function centerTree(x, y) {
+  console.log('fired')
+  g.transition()
+    .duration(750)
+    .attr("transform", "translate(" + x + "," + y + ")")
+  g.attr("transform", d3.translate(x, y))
+}
+ 
+document.getElementById("center-tree").addEventListener("click", centerTree);

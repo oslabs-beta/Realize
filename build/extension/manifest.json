@@ -1,0 +1,19 @@
+{
+  "manifest_version": 2,
+  "name": "REACTionary",
+  "version": "0.1",
+
+
+  "background": {
+    "scripts": ["background.js"]
+  },
+
+  "permissions": [
+    "<all_urls>"
+  ],
+
+  "devtools_page": "devtools-root.html",
+
+  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self';"
+
+}

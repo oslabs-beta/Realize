@@ -2,7 +2,7 @@
 function handleMessage(request, sender, sendResponse) {
 
   // Check that the message is coming from the devtools panel and nowhere else
-  if (sender.url != chrome.runtime.getURL("/devtools/panel/panel.html")) {
+  if (sender.url != chrome.runtime.getURL("panel.html")) {
     console.log("Unknown sender");
     return;
   }

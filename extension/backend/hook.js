@@ -19,20 +19,9 @@ function hook() {
       const arr = [];
       recurse(rootNode.child, arr);
       console.log('fibertree: ', arr);
-      // sendToServer(arr);
       return original(...args);
     };
   })(devTools.onCommitFiberRoot);
-}
-
-function sendToServer(arr) {
-  fetch('/receive', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(arr),
-  });
 }
 
 function getProps(props) {
@@ -140,5 +129,3 @@ function recurse(node, parentArr) {
 }
 
 hook();
-
-// module.exports = hook;

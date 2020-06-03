@@ -4,11 +4,10 @@
 /* eslint-disable func-names */
 /* eslint-disable no-underscore-dangle */
 function hook() {
-  console.log('hooked');
   const devTools = window.__REACT_DEVTOOLS_GLOBAL_HOOK__;
 
-  if (!devTools) {
-    console.log('this page does not use React');
+  if (devTools.renderers.size < 1) {
+    console.log("looks like this page doesn't use react");
     return;
   }
 
@@ -18,25 +17,30 @@ function hook() {
       const rootNode = fiberDOM.current.stateNode.current;
       const arr = [];
       recurse(rootNode.child, arr);
-      console.log('sample of tree: ', arr);
-      const testName = 'Main Parent';
-      console.log('search functionality:', findComponent(tree, testName));
+      sendToContentScript(arr);
+      console.log('searchhhhh', findComp);
       return original(...args);
     };
   })(devTools.onCommitFiberRoot);
 }
 
-function findComponent(tree, testName) {
-  let value;
-  Object.values(tree).some(function(k) {
-      if (tree.testName) {
-          value = tree[k];
-          return value;
-      }
+// Recursively go over the tree until we find the name of a component
+function findComp(tree, compName) {
+  // Base case
+  if (tree.name === compName) return tree;
+  // If it does not have any children
+  if (!tree.children) return -1;
+
+  // Iterate over the array(one we get from D3)
+  tree.children.forEach((child) => {
+    findComp(child, compName);
   });
-  return value;
 }
-  
+
+// message sending function
+function sendToContentScript(tree) {
+  window.postMessage({ tree }, '*');
+}
 
 function getProps(props) {
   const cleanProps = {};
@@ -59,7 +63,7 @@ function getState(stateNode, arr) {
 }
 
 // get type of state
-function getStateType(node, component) {
+function getStateType(component) {
   // has own state
   const stateful = !!component.state;
 
@@ -132,7 +136,7 @@ function recurse(node, parentArr) {
   if (node.sibling) recurse(node.sibling, parentArr);
 
   // get state type
-  component.stateType = getStateType(node, component);
+  component.stateType = getStateType(component);
   if (component.stateType === -1) delete component.stateType;
 
   // remove children arr if none added in recursion

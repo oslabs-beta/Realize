@@ -1,8 +1,8 @@
 // This creates the dev tools panel using the panel.html file as the template
 
 chrome.devtools.panels.create(
-  "REACTionary", // title
-  "", // icon
+  "REACTionary ", // title
+  "palm-tree.svg", // icon
   "./panel.html", // content
   function() {
     // code that will run when the devtools panel is loaded up

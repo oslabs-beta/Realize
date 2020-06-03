@@ -1,26 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Test Titleeeeee</title>
-  <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-  <!-- Main window of Panel.html -->
-  <div id="main-container">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Test Titleeeeee</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <!-- Main window of Panel.html -->
+    <div id="main-container">
+      <!-- Left panel containing the SVG Tree diagram -->
+      <div id="left-panel">
+        <svg width="1000" height="2000" id="tree">
+          <g transform="translate(20, 20)" id="treeG">
+            <g class="links"></g>
+            <g class="nodes"></g>
+          </g>
+        </svg>
+      </div>
 
-    <!-- Left panel containing the SVG Tree diagram -->
-    <div id="left-panel">
-      <svg width="1000" height="2000" id="tree">
-        <g transform="translate(20, 20)" id="treeG" >
-          <g class="links"></g>
-          <g class="nodes"></g>
-        </g>
-      </svg>
-
-    </div>
-
+<<<<<<< HEAD
     <!-- Right panel containing additional information on components etc -->
     <div id="right-panel">
       <div id="buttons">
@@ -28,12 +27,21 @@
         <button id="center-tree">Click to center tree</button>
         <button id="alert-button">Click to send an alert via background.js</button>
         <button id="color-button">Click to change color directly</button>
+=======
+      <!-- Right panel containing additional information on components etc -->
+      <div id="right-panel">
+        <div id="buttons">
+          <h1 id="title-panel">Hello</h1>
+          <button id="center-tree">Click to center tree</button>
+          <button id="alert-button">
+            Click to send an alert via background.js
+          </button>
+          <button id="color-button">Click to change color directly</button>
+        </div>
+>>>>>>> 2557d3bd9cee3a4b2703091914e3fdbef4b166d6
       </div>
-      
     </div>
-  
-  </div>
 
-  <script src="bundle.js"></script>
-</body>
+    <script src="bundle.js"></script>
+  </body>
 </html>

@@ -4,11 +4,10 @@
 /* eslint-disable func-names */
 /* eslint-disable no-underscore-dangle */
 function hook() {
-  console.log('hooked');
   const devTools = window.__REACT_DEVTOOLS_GLOBAL_HOOK__;
 
-  if (!devTools) {
-    console.log('this page does not use React');
+  if (devTools.renderers.size < 1) {
+    console.log("looks like this page doesn't use react");
     return;
   }
 
@@ -18,10 +17,15 @@ function hook() {
       const rootNode = fiberDOM.current.stateNode.current;
       const arr = [];
       recurse(rootNode.child, arr);
-      console.log('fibertree: ', arr);
+      sendToContentScript(arr);
       return original(...args);
     };
   })(devTools.onCommitFiberRoot);
+}
+
+// message sending function
+function sendToContentScript(tree) {
+  window.postMessage({ tree }, '*');
 }
 
 function getProps(props) {
@@ -45,7 +49,7 @@ function getState(stateNode, arr) {
 }
 
 // get type of state
-function getStateType(node, component) {
+function getStateType(component) {
   // has own state
   const stateful = !!component.state;
 
@@ -118,7 +122,7 @@ function recurse(node, parentArr) {
   if (node.sibling) recurse(node.sibling, parentArr);
 
   // get state type
-  component.stateType = getStateType(node, component);
+  component.stateType = getStateType(component);
   if (component.stateType === -1) delete component.stateType;
 
   // remove children arr if none added in recursion

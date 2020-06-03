@@ -39,6 +39,7 @@ function findComp(tree, compName) {
 
 // message sending function
 function sendToContentScript(tree) {
+  console.log(tree);
   window.postMessage({ tree }, '*');
 }
 
@@ -46,6 +47,8 @@ function getProps(props) {
   const cleanProps = {};
   Object.keys(props).forEach((prop) => {
     cleanProps[prop] = props[prop];
+    if (typeof cleanProps[prop] === 'function')
+      cleanProps[prop] = `f ${prop}()`;
   });
 
   return cleanProps;

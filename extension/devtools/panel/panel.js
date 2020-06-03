@@ -77,9 +77,11 @@ function createTree(inputData) {
   let nodes = d3.selectAll('circle.node')
   nodes.on('click', function(datum, index, nodes) {
     console.log(datum.data)
+    populatePanel(datum.data)
   })
 }
 
+// DELETE WHEN LIVE
 createTree(data.data[0]);
 createTree(data.data[0].children[0]);
 
@@ -130,3 +132,58 @@ function centerTree() {
 
 // Add event listener to the center tree button
 document.getElementById("center-tree").addEventListener("click", centerTree);
+
+
+// ################################# POPULATING THE PANEL
+// name - String
+// state - object
+// stateCategory
+// props - array?
+// hooks if functional
+
+function populatePanel(dataObj) {
+  // Clear the previous data
+  clearPanel()
+  // Grab the info panel element
+  const infoPanel = document.getElementById('info-panel');
+  // Add the name bar
+  addNameBar(infoPanel, dataObj.name);
+  // If has state, add state panel
+  if (dataObj.state) addState(infoPanel, dataObj.state);
+  // Add props panel
+  // Add list of hooks ? needed?
+  // Add children panel
+}
+
+function clearPanel() {
+  const infoPanel = document.getElementById('info-panel');
+  infoPanel.innerHTML = '';
+}
+
+function addNameBar(infoPanel, componentName) {
+  const titleBar = document.createElement('div');
+  titleBar.className = 'component-title-bar';
+  titleBar.innerHTML = `<div class="title">${componentName}</div>`
+  infoPanel.appendChild(titleBar);
+}
+
+function addState(infoPanel, stateObject) {
+  const statePanel = document.createElement('div');
+  statePanel.id = 'state-panel'
+  statePanel.innerHTML = `
+    <div class="title-bar">
+      <div id="state-title">State</div>
+      <div id="state-type">${stateObject.stateType}</div>
+    </div>
+    <div id="state-properties">
+    </div>`
+  infoPanel.appendChild(statePanel);
+  const stateProperties = document.getElementById('state-properties')
+  for (let property in stateObject) {
+    const statePropBar = document.createElement('div');
+    statePropBar.className = 'property-bar';
+    statePropBar.innerHTML = `<div class="property-name">${property}</div>
+    <div class="property-value">${stateObject[property]}</div>`
+    stateProperties.appendChild(statePropBar);
+  }
+}

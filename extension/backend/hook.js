@@ -7,7 +7,7 @@ function hook() {
   const devTools = window.__REACT_DEVTOOLS_GLOBAL_HOOK__;
 
   // if devtools not activated
-  if (!devtools) {
+  if (!devTools) {
     console.log("looks like you don't have react devtools activated");
     return;
   }
@@ -58,13 +58,15 @@ function getProps(props) {
 // recursion for state linked list
 function getState(stateNode, arr) {
   if (Array.isArray(stateNode.memoizedState)) {
+    const stateArr = [];
     stateNode.memoizedState.forEach((elem, idx) => {
       // clean elements of state arr if they are react components
       if (elem.$$typeof && typeof elem.$$typeof === 'symbol') {
         console.log('bad state here');
-        arr.push(`< ${elem.type.name} />`);
+        stateArr.push(`< ${elem.type.name} />`);
       }
     });
+    arr.push(stateArr);
   } else {
     arr.push(stateNode.memoizedState);
   }

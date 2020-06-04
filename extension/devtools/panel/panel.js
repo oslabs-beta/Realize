@@ -4,6 +4,23 @@ import { data } from './data-example.js';
 // Store 66% of the users screen width for creating the tree
 const panelWidth = Math.floor(screen.width * 0.66);
 
+// ########################################## CREATE PORT CONNECTION WITH BACKGROUND.JS
+const createPort = () => {
+  const port = chrome.runtime.connect({ name: 'test' });
+  port.postMessage({
+    name: 'connect',
+    tabID: chrome.devtools.inspectedWindow.tabId,
+  });
+
+  port.onMessage.addListener((message) => {
+    // if (!message.data) return;
+
+    console.log('message received by panel ', message);
+    createTree(message);
+  });
+};
+createPort();
+
 // ##########################################   BUILDING THE TREE
 function createTree(inputData) {
   // Clear any previous tree data to avoid overlap
@@ -83,8 +100,8 @@ function createTree(inputData) {
 }
 
 // DELETE WHEN LIVE
-createTree(data.data[0]);
-createTree(data.data[0].children[0]);
+// createTree(data.data[0]);
+// createTree(data.data[0].children[0]);
 
 // ##########################################   TREE ZOOMING / PANNING / CENTERING
 // Grab svg and g elements | create d3.zoom() instance
@@ -127,12 +144,12 @@ bodyElement.addEventListener('keyup', (event) => {
 
 // Centering the tree
 // Function to reset svg so tree is centered
-function centerTree() {
-  svg.transition().duration(750).call(zoom.transform, d3.zoomIdentity);
-}
+// function centerTree() {
+//   svg.transition().duration(750).call(zoom.transform, d3.zoomIdentity);
+// }
 
 // Add event listener to the center tree button
-document.getElementById('center-tree').addEventListener('click', centerTree);
+// document.getElementById('center-tree').addEventListener('click', centerTree);
 
 // ################################# POPULATING THE PANEL
 // name - String
@@ -171,16 +188,7 @@ function addNameBar(infoPanel, componentName) {
 
 function addState(infoPanel, stateObject) {
   const statePanel = document.createElement('div');
-<<<<<<< HEAD
   statePanel.id = 'state-panel';
-  statePanel.innerHTML = `<div class="title-bar">
-                            <div id="state-title">State</div>
-                            <div id="state-type">${stateObject.stateType}</div>
-                          </div>
-                          <div id="state-properties">
-                          </div>`;
-=======
-  statePanel.id = 'state-panel'
   statePanel.innerHTML = `<div class="title-bar">                         
                               <details>
                                 <summary id="state-title">State</summary>
@@ -190,19 +198,14 @@ function addState(infoPanel, stateObject) {
                                 </ul>
                                 </div>
                               </details>
-                           </div>`
->>>>>>> 92418c4a1c383a3f756858e21807da189c1395dc
+                           </div>`;
   infoPanel.appendChild(statePanel);
   const stateProperties = document.getElementById('state-properties');
   for (let property in stateObject) {
     const statePropBar = document.createElement('div');
     statePropBar.className = 'property-bar';
     statePropBar.innerHTML = `<div class="property-name">${property}</div>
-<<<<<<< HEAD
-                              <div class="property-value">${stateObject[property]}</div>`;
-=======
-                              <div class="property-value"><li>${stateObject[property]}</li></div>`
->>>>>>> 92418c4a1c383a3f756858e21807da189c1395dc
+                              <div class="property-value"><li>${stateObject[property]}</li></div>`;
     stateProperties.appendChild(statePropBar);
   }
 }

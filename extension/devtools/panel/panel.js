@@ -1,6 +1,5 @@
 import * as d3 from '../../libraries/d3.min.js';
 import { data } from './data-example2.js';
-import { data as oldData } from './data-example.js';
 
 // Store 66% of the users screen width for creating the tree
 const panelWidth = Math.floor(screen.width * 0.66);
@@ -107,7 +106,7 @@ function createTree(inputData) {
 }
 
 // DELETE WHEN LIVE
-// createTree(data.data[0]);
+// createTree(data[0]);
 // createTree(data.data[0].children[0]);
 
 // ##########################################   TREE ZOOMING / PANNING / CENTERING
@@ -164,17 +163,36 @@ var t = d3.transition()
     .ease(d3.easeLinear);
 
 // Updating to show state
-function updateNodes(){
-  let nodes = d3.selectAll('circle.node')
-  nodes.each(function(d) {
-    if (d.data.stateType.stateful){
-      d3.select(this).transition(t)
-                    .style("fill", "#E45F59");
-    }
-  })
+function createClosure() {
+  let stateShown = false;
+  return function updateNodes(){
+    let nodes = d3.selectAll('circle.node')
+    let color;
+    let size;
+    if (stateShown) {
+      color = '#14a897'
+      size = 7
+      stateShown = false
+    } else {
+      color = '#E45F59'
+      size = 14
+      stateShown = true
+    };
+    nodes.each(function(d) {
+      if (d.data.stateType){
+        if(d.data.stateType.stateful) {
+          d3.select(this).transition(t)
+                      .style("fill", color)
+                      .attr('r', size)
+        }
+      }
+    })
+  }
 }
 
-document.getElementById('show-state').addEventListener('click', updateNodes)
+const showState = createClosure()
+
+document.getElementById('show-state').addEventListener('click', showState)
 
 // ################################# POPULATING THE PANEL
 // name - String
@@ -276,7 +294,7 @@ function addChildren(infoPanel, childrenObject) {
     const childrenBar = document.createElement('div');
     childrenBar.className = 'childrenBar';
     childrenBar.innerHTML = `<div class="property-name>${property}</div>
-                         <div class="property-value"><li>${childrenObject[property]}</li></div>`;
+                         <div class="property-value"><li>${childrenObject[property].name}</li></div>`;
     childrenProperties.appendChild(childrenBar);
   }
 }

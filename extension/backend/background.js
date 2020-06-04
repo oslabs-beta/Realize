@@ -36,8 +36,8 @@ function handleMessage(request, sender, sendResponse) {
   if (sender.tab) {
     const tabID = sender.tab.id;
     if (tabID in connectedTabs) {
-      // connectedTabs[tabID].postMessage(request);
-      console.log('got message from tab: ', tabID);
+      connectedTabs[tabID].postMessage(request);
+      console.log('message sent to tab: ', tabID);
     }
   }
 

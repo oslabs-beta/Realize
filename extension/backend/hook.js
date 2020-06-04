@@ -5,9 +5,9 @@
 /* eslint-disable no-underscore-dangle */
 
 // Importing the D3 array from panel.js
-import objectNode  from '../devtools/panel/panel.js'
-console.log('object node is;', objectNode[0].data.children[0].name);
 
+// importing data example
+import {searchData} from '../devtools/panel/search-example.js'
 
 function hook() {
   const devTools = window.__REACT_DEVTOOLS_GLOBAL_HOOK__;
@@ -23,19 +23,27 @@ function hook() {
       const rootNode = fiberDOM.current.stateNode.current;
       const arr = [];
       recurse(rootNode.child, arr);
-      sendToContentScript(arr);
-      console.log('searchhhhh', objectNode);
+      //console.log('Search Data:', searchData);
+
+      // component name hardcoded 
+      let compName = 'App';
+      console.log('searchhhhh', findComp(searchData, compName));
+      sendToContentScript(arr[0]);
       return original(...args);
     };
   })(devTools.onCommitFiberRoot);
 }
 
+// declare global variable to hold name
+let name = 'App';
+
 // Recursively go over the tree until we find the name of a component
 function findComp(tree, compName) {
   // Base case
-  if (tree.name === compName) return tree;
+  if (tree[name] === compName) return tree;
+
   // If it does not have any children
-  if (!tree.children) return -1;
+  if (!tree[name]) return -1;
 
   // Iterate over the array(one we get from D3)
   tree.children.forEach((child) => {

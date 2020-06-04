@@ -17,7 +17,7 @@ function hook() {
       const rootNode = fiberDOM.current.stateNode.current;
       const arr = [];
       recurse(rootNode.child, arr);
-      sendToContentScript(arr);
+      sendToContentScript(arr[0]);
       return original(...args);
     };
   })(devTools.onCommitFiberRoot);

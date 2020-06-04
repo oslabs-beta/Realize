@@ -13,7 +13,7 @@ function hook() {
   const devTools = window.__REACT_DEVTOOLS_GLOBAL_HOOK__;
 
   // if devtools not activated
-  if (!devtools) {
+  if (!devTools) {
     console.log("looks like you don't have react devtools activated");
     return;
   }

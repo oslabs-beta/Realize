@@ -251,7 +251,7 @@ function addState(infoPanel, stateObject) {
     const statePropBar = document.createElement('div');
     statePropBar.className = 'property-bar';
     statePropBar.innerHTML = `<div class="property-name">${property}</div>
-                              <div class="property-value"><li>${stateObject[property]}</li></div>`;
+                              <div class="property-value"><li>${property}: ${stateObject[property]}</li></div>`;
     stateProperties.appendChild(statePropBar);
   }
 }
@@ -274,7 +274,7 @@ function addProps(infoPanel, propsObject) {
     const propBar = document.createElement('div');
     propBar.className = 'propBar';
     propBar.innerHTML = `<div class="property-name>${property}</div>
-                         <div class="property-value"><li>${propsObject[property]}</li></div>`;
+                         <div class="property-value"><li>${property}: ${propsObject[property]}</li></div>`;
     propsProperties.appendChild(propBar);
   }
 }

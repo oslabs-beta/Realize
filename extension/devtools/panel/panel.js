@@ -1,5 +1,6 @@
 import * as d3 from '../../libraries/d3.min.js';
-import { data } from './data-example.js';
+import { data } from './data-example2.js';
+import { data as oldData } from './data-example.js';
 
 // Store 66% of the users screen width for creating the tree
 const panelWidth = Math.floor(screen.width * 0.66);
@@ -10,8 +11,6 @@ function createTree(inputData) {
   d3.selectAll("circle.node").remove()
   d3.selectAll("line.link").remove()
   d3.selectAll("text.label").remove()
-  // Creates a function which will later create the co-ordinates for the tree structure
-  let treeLayout = d3.tree().size([panelWidth - 80, 1920]);
 
   // Creates a heirarchical data structure based on the object passed into it
   let root = d3.hierarchy(inputData); // using fake data here
@@ -19,6 +18,14 @@ function createTree(inputData) {
   // console.log(root.descendants()) // -> shows the nested object of nodes
   // console.log(root.links()) // -> shows the array on links which connect the nodes
 
+  // Find out the height of the tree and size the svg accordingly (each level havin 95px)
+  const dataHeight = root.height;
+  const treeHeight = dataHeight * 95;
+
+  // Creates a function which will later create the co-ordinates for the tree structure
+  let treeLayout = d3.tree().size([panelWidth - 80, treeHeight]);
+  d3.select('#tree')
+    .attr('height', treeHeight + 80)
   // Creates x and y values on each node of root.
   // We will later use this x and y values to:
   // 1. position the circles (after joining the root.descendents data to svg circles)
@@ -82,8 +89,8 @@ function createTree(inputData) {
 }
 
 // DELETE WHEN LIVE
-createTree(data.data[0]);
-createTree(data.data[0].children[0]);
+console.log("DATATAAAAAA", data[0])
+createTree(data[0]);
 
 // ##########################################   TREE ZOOMING / PANNING / CENTERING
 // Grab svg and g elements | create d3.zoom() instance
@@ -133,6 +140,24 @@ function centerTree() {
 // Add event listener to the center tree button
 document.getElementById("center-tree").addEventListener("click", centerTree);
 
+
+
+var t = d3.transition()
+    .duration(750)
+    .ease(d3.easeLinear);
+
+// Updating to show state
+function updateNodes(){
+  let nodes = d3.selectAll('circle.node')
+  nodes.each(function(d) {
+    if (d.data.stateType.stateful){
+      d3.select(this).transition(t)
+                    .style("fill", "#E45F59");
+    }
+  })
+}
+
+document.getElementById('show-state').addEventListener('click', updateNodes)
 
 // ################################# POPULATING THE PANEL
 // name - String

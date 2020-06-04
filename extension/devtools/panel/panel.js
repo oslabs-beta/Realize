@@ -197,19 +197,23 @@ function addNameBar(infoPanel, componentName) {
 function addState(infoPanel, stateObject) {
   const statePanel = document.createElement('div');
   statePanel.id = 'state-panel'
-  statePanel.innerHTML = `<div class="title-bar">
-                            <div id="state-title">State</div>
-                            <div id="state-type">${stateObject.stateType}</div>
-                          </div>
-                          <div id="state-properties">
-                          </div>`
+  statePanel.innerHTML = `<div class="title-bar">                         
+                              <details>
+                                <summary id="state-title">State</summary>
+                                <div id="state-type"><ul><li>${stateObject.stateType}</li></ul></div>
+                                <div id="state-properties">
+                                <ul>
+                                </ul>
+                                </div>
+                              </details>
+                           </div>`
   infoPanel.appendChild(statePanel);
   const stateProperties = document.getElementById('state-properties')
   for (let property in stateObject) {
     const statePropBar = document.createElement('div');
     statePropBar.className = 'property-bar';
     statePropBar.innerHTML = `<div class="property-name">${property}</div>
-                              <div class="property-value">${stateObject[property]}</div>`
+                              <div class="property-value"><li>${stateObject[property]}</li></div>`
     stateProperties.appendChild(statePropBar);
   }
 }
@@ -217,17 +221,22 @@ function addState(infoPanel, stateObject) {
 function addProps(infoPanel, propsObject){
   const propsPanel = document.createElement('div');
   propsPanel.id = 'props-panel';
-  propsPanel.innerHTML = `<div class="title-bar">
-                            <div id="props-title">Props</div>
-                          </div>
-                          <div id="props-properties"></div>`;
+  propsPanel.innerHTML = `<div class="title-bar">                          
+                            <details>
+                              <summary id="props-title">Props</summary>                                           
+                              <div id="props-properties">
+                              <ul>
+                              </ul>
+                              </div>
+                            </details>
+                            </div>`;
   infoPanel.appendChild(propsPanel);
   const propsProperties = document.getElementById('props-properties');
   for (let property in propsObject){
     const propBar = document.createElement('div');
     propBar.className = 'propBar';
     propBar.innerHTML = `<div class="property-name>${property}</div>
-                         <div class="property-value">${propsObject[property]}</div>`;
+                         <div class="property-value"><li>${propsObject[property]}</li></div>`;
     propsProperties.appendChild(propBar);
 
   }
@@ -238,16 +247,21 @@ function addChildren(infoPanel, childrenObject){
   const childrenPanel = document.createElement('div');
   childrenPanel.id = 'children-panel';
   childrenPanel.innerHTML = `<div class="title-bar">
-                            <div id="children-title">Children</div>
-                          </div>
-                          <div id="children-properties"></div>`;
+                              <details>
+                                <summary id="children-title">Children</summary>
+                                <div id="children-properties">
+                                <ul>
+                                </ul>
+                                </div>
+                              </details>
+                                </div>`;
   infoPanel.appendChild(childrenPanel);
   const childrenProperties = document.getElementById('children-properties');
   for (let property in childrenObject){
     const childrenBar = document.createElement('div');
     childrenBar.className = 'childrenBar';
     childrenBar.innerHTML = `<div class="property-name>${property}</div>
-                         <div class="property-value">${childrenObject[property]}</div>`;
+                         <div class="property-value"><li>${childrenObject[property]}</li></div>`;
     childrenProperties.appendChild(childrenBar);
 
   }

@@ -12,6 +12,13 @@ import {searchData} from '../devtools/panel/search-example.js'
 function hook() {
   const devTools = window.__REACT_DEVTOOLS_GLOBAL_HOOK__;
 
+  // if devtools not activated
+  if (!devTools) {
+    console.log("looks like you don't have react devtools activated");
+    return;
+  }
+
+  // if hook can't find react
   if (devTools.renderers.size < 1) {
     console.log("looks like this page doesn't use react");
     return;
@@ -57,12 +64,20 @@ function sendToContentScript(tree) {
   window.postMessage({ tree }, '*');
 }
 
+// get props and clean
 function getProps(props) {
   const cleanProps = {};
   Object.keys(props).forEach((prop) => {
     cleanProps[prop] = props[prop];
     if (typeof cleanProps[prop] === 'function')
       cleanProps[prop] = `f ${prop}()`;
+    if (
+      cleanProps[prop].$$typeof &&
+      typeof cleanProps[prop].$$typeof === 'symbol'
+    )
+      cleanProps[prop] = cleanProps[prop].type
+        ? `<${cleanProps[prop].type.name} />`
+        : 'react component';
   });
 
   return cleanProps;
@@ -70,9 +85,19 @@ function getProps(props) {
 
 // recursion for state linked list
 function getState(stateNode, arr) {
-  //   arr.push('something');
-  arr.push(stateNode.memoizedState);
-  // && stateNode.next.memoizedState.tag !== 5
+  if (Array.isArray(stateNode.memoizedState)) {
+    const stateArr = [];
+    stateNode.memoizedState.forEach((elem, idx) => {
+      // clean elements of state arr if they are react components
+      if (elem.$$typeof && typeof elem.$$typeof === 'symbol') {
+        console.log('bad state here');
+        stateArr.push(`< ${elem.type.name} />`);
+      }
+    });
+    arr.push(stateArr);
+  } else {
+    arr.push(stateNode.memoizedState);
+  }
   if (stateNode.next && stateNode.next.memoizedState.tag !== 5)
     // ^^^
     // DEFINITELY CHECK THIS OUT
@@ -140,7 +165,7 @@ function recurse(node, parentArr) {
   // get hooks
   if (node._debugHookTypes) component.hooks = node._debugHookTypes;
 
-  if (component.name === 'App') component.state = null;
+  if (component.name === 'App') delete component.state;
 
   // insert component into parent's children array
   parentArr.push(component);
@@ -158,9 +183,6 @@ function recurse(node, parentArr) {
 
   // remove children arr if none added in recursion
   if (component.children.length === 0) delete component.children;
-
-  // remove state if App component
-  if (!component.stateType && component.state === null) delete component.state;
 }
 
 hook();

@@ -149,3 +149,18 @@ summary, details {
 #tree-container {
   padding: 10px;
 }
+
+.button-bar {
+  display: flex;
+  flex-direction: column;
+}
+
+#center-tree, #show-state {
+  /* font-size: 1.2rem; */
+  color: white;
+  font-size: 1em;
+  text-align: center;
+  letter-spacing: 0.2em;
+  padding: 3px;
+  opacity: .8;
+}

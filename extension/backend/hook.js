@@ -5,8 +5,8 @@
 /* eslint-disable no-underscore-dangle */
 
 // Importing the D3 array from panel.js
-import { objectNode } from '../devtools/panel/panel.js'
-// console.log('object node is;', objectNode);
+import objectNode  from '../devtools/panel/panel.js'
+console.log('object node is;', objectNode[0].data.children[0].name);
 
 
 function hook() {
@@ -24,7 +24,7 @@ function hook() {
       const arr = [];
       recurse(rootNode.child, arr);
       sendToContentScript(arr);
-      console.log('searchhhhh', findComp);
+      console.log('searchhhhh', objectNode);
       return original(...args);
     };
   })(devTools.onCommitFiberRoot);

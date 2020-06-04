@@ -230,4 +230,4 @@ function addChildren(infoPanel, childrenObject){
 
   // Exporting the objects w/ nodes here (change Name)
   let objectNode = root.descendants;
-  export { objectNode };
+  export default  objectNode;

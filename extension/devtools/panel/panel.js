@@ -190,6 +190,8 @@ function createClosure() {
         }
       }
     })
+    let button = d3.select('#show-state')
+    stateShown ? button.transition(t).style('color', color)  : button.transition(t).style('color', 'white')
   }
 }
 

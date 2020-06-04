@@ -3,6 +3,12 @@
 /* eslint-disable no-use-before-define */
 /* eslint-disable func-names */
 /* eslint-disable no-underscore-dangle */
+
+// Importing the D3 array from panel.js
+import { objectNode } from '../devtools/panel/panel.js'
+// console.log('object node is;', objectNode);
+
+
 function hook() {
   const devTools = window.__REACT_DEVTOOLS_GLOBAL_HOOK__;
 

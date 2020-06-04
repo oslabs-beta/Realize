@@ -3,9 +3,22 @@
 /* eslint-disable no-use-before-define */
 /* eslint-disable func-names */
 /* eslint-disable no-underscore-dangle */
+
+// Importing the D3 array from panel.js
+
+// importing data example
+import {searchData} from '../devtools/panel/search-example.js'
+
 function hook() {
   const devTools = window.__REACT_DEVTOOLS_GLOBAL_HOOK__;
 
+  // if devtools not activated
+  if (!devtools) {
+    console.log("looks like you don't have react devtools activated");
+    return;
+  }
+
+  // if hook can't find react
   if (devTools.renderers.size < 1) {
     console.log("looks like this page doesn't use react");
     return;
@@ -13,14 +26,36 @@ function hook() {
 
   devTools.onCommitFiberRoot = (function (original) {
     return function (...args) {
-      const fiberDOM = args[1];
+      const fiberDOM = args[1]; 
       const rootNode = fiberDOM.current.stateNode.current;
       const arr = [];
       recurse(rootNode.child, arr);
+      //console.log('Search Data:', searchData);
+
+      // component name hardcoded 
+      let compName = 'App';
+      console.log('searchhhhh', findComp(searchData, compName));
       sendToContentScript(arr[0]);
       return original(...args);
     };
   })(devTools.onCommitFiberRoot);
+}
+
+// declare global variable to hold name
+let name = 'App';
+
+// Recursively go over the tree until we find the name of a component
+function findComp(tree, compName) {
+  // Base case
+  if (tree[name] === compName) return tree;
+
+  // If it does not have any children
+  if (!tree[name]) return -1;
+
+  // Iterate over the array(one we get from D3)
+  tree.children.forEach((child) => {
+    findComp(child, compName);
+  });
 }
 
 // message sending function
@@ -29,12 +64,20 @@ function sendToContentScript(tree) {
   window.postMessage({ tree }, '*');
 }
 
+// get props and clean
 function getProps(props) {
   const cleanProps = {};
   Object.keys(props).forEach((prop) => {
     cleanProps[prop] = props[prop];
     if (typeof cleanProps[prop] === 'function')
       cleanProps[prop] = `f ${prop}()`;
+    if (
+      cleanProps[prop].$$typeof &&
+      typeof cleanProps[prop].$$typeof === 'symbol'
+    )
+      cleanProps[prop] = cleanProps[prop].type
+        ? `<${cleanProps[prop].type.name} />`
+        : 'react component';
   });
 
   return cleanProps;
@@ -42,9 +85,17 @@ function getProps(props) {
 
 // recursion for state linked list
 function getState(stateNode, arr) {
-  //   arr.push('something');
-  arr.push(stateNode.memoizedState);
-  // && stateNode.next.memoizedState.tag !== 5
+  if (Array.isArray(stateNode.memoizedState)) {
+    stateNode.memoizedState.forEach((elem, idx) => {
+      // clean elements of state arr if they are react components
+      if (elem.$$typeof && typeof elem.$$typeof === 'symbol') {
+        console.log('bad state here');
+        arr.push(`< ${elem.type.name} />`);
+      }
+    });
+  } else {
+    arr.push(stateNode.memoizedState);
+  }
   if (stateNode.next && stateNode.next.memoizedState.tag !== 5)
     // ^^^
     // DEFINITELY CHECK THIS OUT
@@ -112,7 +163,7 @@ function recurse(node, parentArr) {
   // get hooks
   if (node._debugHookTypes) component.hooks = node._debugHookTypes;
 
-  if (component.name === 'App') component.state = null;
+  if (component.name === 'App') delete component.state;
 
   // insert component into parent's children array
   parentArr.push(component);
@@ -130,9 +181,6 @@ function recurse(node, parentArr) {
 
   // remove children arr if none added in recursion
   if (component.children.length === 0) delete component.children;
-
-  // remove state if App component
-  if (!component.stateType && component.state === null) delete component.state;
 }
 
 hook();

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Test Titleeeeee</title>
+  <link rel="stylesheet" href="styles.css">
+  <link href="fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <!-- Main window of Panel.html -->
+  <div id="main-container">
+
+    <!-- Left panel containing the SVG Tree diagram -->
+    <div id="left-panel">
+      <svg width="100%" height="2000" id="tree">
+        <g transform="translate(20, 20)" id="treeG" >
+          <g class="links"></g>
+          <g class="nodes"></g>
+        </g>
+      </svg>
+
+    </div>
+
+      <!-- Right panel containing additional information on components etc -->
+      <div id="right-panel">
+        <div id="info-title">Click a node for more information</div>
+        <div id="info-panel">
+        </div>
+
+      </div>
+
+    </div>
+    <script src="bundle.js"></script>
+  </body>
+</html>

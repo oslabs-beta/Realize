@@ -21,6 +21,8 @@ const createPort = () => {
 };
 createPort();
 
+// A global variable to hold the node(s)
+let globalRoot;
 // ##########################################   BUILDING THE TREE
 function createTree(inputData) {
   // Clear any previous tree data to avoid overlap
@@ -31,7 +33,8 @@ function createTree(inputData) {
   // Creates a heirarchical data structure based on the object passed into it
   let root = d3.hierarchy(inputData); // using fake data here
   // // Can check out what the structure looks like
-  // console.log(root.descendants()) // -> shows the nested object of nodes
+  globalRoot = root;
+  console.log('Nodes',root.descendants()) // -> shows the nested object of nodes
   // console.log(root.links()) // -> shows the array on links which connect the nodes
 
   // Find out the height of the tree and size the svg accordingly (each level havin 95px)
@@ -65,7 +68,7 @@ function createTree(inputData) {
     })
     .attr('r', 7); // set radius of the circle size
 
-  // Add text labels at the same x / y co-ordinates as the nodes
+  // Add tex"nodes:",t labels at the same x / y co-ordinates as the nodes
   d3.selectAll('svg g.nodes')
     .selectAll('text.label')
     .data(root.descendants())
@@ -298,3 +301,6 @@ function addChildren(infoPanel, childrenObject) {
     childrenProperties.appendChild(childrenBar);
   }
 }
+  // Exporting the objects w/ nodes here (change Name)
+  export const objectNode  =  globalRoot;
+

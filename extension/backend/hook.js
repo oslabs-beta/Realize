@@ -29,12 +29,20 @@ function sendToContentScript(tree) {
   window.postMessage({ tree }, '*');
 }
 
+// get props anc clean
 function getProps(props) {
   const cleanProps = {};
   Object.keys(props).forEach((prop) => {
     cleanProps[prop] = props[prop];
     if (typeof cleanProps[prop] === 'function')
       cleanProps[prop] = `f ${prop}()`;
+    if (
+      cleanProps[prop].$$typeof &&
+      typeof cleanProps[prop].$$typeof === 'symbol'
+    )
+      cleanProps[prop] = cleanProps[prop].type
+        ? `<${cleanProps[prop].type.name} />`
+        : 'react component';
   });
 
   return cleanProps;
@@ -42,9 +50,7 @@ function getProps(props) {
 
 // recursion for state linked list
 function getState(stateNode, arr) {
-  //   arr.push('something');
   arr.push(stateNode.memoizedState);
-  // && stateNode.next.memoizedState.tag !== 5
   if (stateNode.next && stateNode.next.memoizedState.tag !== 5)
     // ^^^
     // DEFINITELY CHECK THIS OUT
@@ -112,7 +118,7 @@ function recurse(node, parentArr) {
   // get hooks
   if (node._debugHookTypes) component.hooks = node._debugHookTypes;
 
-  if (component.name === 'App') component.state = null;
+  if (component.name === 'App') delete component.state;
 
   // insert component into parent's children array
   parentArr.push(component);

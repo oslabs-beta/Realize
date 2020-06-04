@@ -6,6 +6,13 @@
 function hook() {
   const devTools = window.__REACT_DEVTOOLS_GLOBAL_HOOK__;
 
+  // if devtools not activated
+  if (!devtools) {
+    console.log("looks like you don't have react devtools activated");
+    return;
+  }
+
+  // if hook can't find react
   if (devTools.renderers.size < 1) {
     console.log("looks like this page doesn't use react");
     return;
@@ -29,7 +36,7 @@ function sendToContentScript(tree) {
   window.postMessage({ tree }, '*');
 }
 
-// get props anc clean
+// get props and clean
 function getProps(props) {
   const cleanProps = {};
   Object.keys(props).forEach((prop) => {
@@ -50,7 +57,17 @@ function getProps(props) {
 
 // recursion for state linked list
 function getState(stateNode, arr) {
-  arr.push(stateNode.memoizedState);
+  if (Array.isArray(stateNode.memoizedState)) {
+    stateNode.memoizedState.forEach((elem, idx) => {
+      // clean elements of state arr if they are react components
+      if (elem.$$typeof && typeof elem.$$typeof === 'symbol') {
+        console.log('bad state here');
+        arr.push(`< ${elem.type.name} />`);
+      }
+    });
+  } else {
+    arr.push(stateNode.memoizedState);
+  }
   if (stateNode.next && stateNode.next.memoizedState.tag !== 5)
     // ^^^
     // DEFINITELY CHECK THIS OUT
@@ -136,9 +153,6 @@ function recurse(node, parentArr) {
 
   // remove children arr if none added in recursion
   if (component.children.length === 0) delete component.children;
-
-  // remove state if App component
-  if (!component.stateType && component.state === null) delete component.state;
 }
 
 hook();

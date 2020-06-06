@@ -31,14 +31,20 @@ it('dom manipulation', () => {
 });
 
 it('function test', () => {
-  // set up sample data obj
+  // set up environment
   const dataObj = [
     [1, 2],
-    [1, 2],
+    [3, 4],
   ];
 
   const infoPanel = document.createElement('div');
 
+  // execution of what's being tested
   const val = displayComposite(dataObj);
+
+  // check that everything looks good
   expect(val).toBe(1);
+
+  expect(val.children.length).toBe(1);
+  expect(val.children[0].children.length).toBe(2);
 });

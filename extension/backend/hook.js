@@ -44,17 +44,19 @@ function hook() {
 // declare global variable to hold name
 let name = 'App';
 
+
+
 // Recursively go over the tree until we find the name of a component
 function findComp(tree, compName) {
   // Base case
-  if (tree[name] === compName) return tree;
+  if (tree[name] === compName) return tree; // Always return an array
 
   // If it does not have any children
-  if (!tree[name]) return -1;
+  if (!tree[name]) return -1; // Always checks to see if they are not children
 
   // Iterate over the array(one we get from D3)
   tree.children.forEach((child) => {
-    findComp(child, compName);
+    findComp(child, compName); 
   });
 }
 

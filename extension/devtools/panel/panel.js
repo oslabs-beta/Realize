@@ -202,7 +202,7 @@ document.getElementById('show-state').addEventListener('click', showState);
 // stateCategory
 // props - array?
 // hooks if functional
-
+// const infoPanel = document.getElementById('info-panel');
 // const sidePanel = new ComponentDisplay(componentObj, parentElement)
 // sidePanel.update(componentObj)
 

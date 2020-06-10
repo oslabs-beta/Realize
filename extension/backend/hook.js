@@ -30,7 +30,6 @@ function hook() {
       const rootNode = fiberDOM.current.stateNode.current;
       const arr = [];
       recurse(rootNode.child, arr);
-      //console.log('Search Data:', searchData);
 
       // component name hardcoded 
       let compName = 'App';
@@ -47,17 +46,18 @@ let name = 'App';
 
 
 // Recursively go over the tree until we find the name of a component
-function findComp(tree, compName) {
-  // Base case
-  if (tree[name] === compName) return tree; // Always return an array
-
-  // If it does not have any children
-  if (!tree[name]) return -1; // Always checks to see if they are not children
+function findComp(arr, name) {
+  const result = [];
 
   // Iterate over the array(one we get from D3)
-  tree.children.forEach((child) => {
-    findComp(child, compName); 
+  arr.forEach((elem) => {
+    if (elem.data && elem.data.name === name) {
+      const { data, ...clone } = elem;
+      result.push(clone)
+    };
   });
+
+  return result;
 }
 
 // message sending function

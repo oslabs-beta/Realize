@@ -1,4 +1,8 @@
+/* eslint-disable no-use-before-define */
+/* eslint-disable class-methods-use-this */
 /* eslint-env browser */
+
+// parent: everything in the infopanel div
 class ComponentDisplay {
   constructor(obj, parent) {
     this.component = {
@@ -11,14 +15,18 @@ class ComponentDisplay {
   update(component) {
     // clear
     this.parent.innerHTML = '';
+    const compObj = {};
 
+    // conditionals
+    // if (component.state) this.state = displayState(component.state);
+    if (component.children)
+      compObj.children = this.displayChildren(component.children);
+
+    // append node/nodes
     this.parent.append();
-    // if (component.state) this.state =
   }
 
   displayChildren(arr) {
-    if (this.parent === 1) console.log('ay');
-
     const details = document.createElement('details');
     const summary = document.createElement('summary');
     const list = document.createElement('ul');
@@ -47,6 +55,7 @@ class ComponentDisplay {
 
   //   displayProps(input) {}
 
+  // recursive function for composite data types
   displayData(input) {
     // base case
     if (typeof input !== 'object') return input;
@@ -65,15 +74,16 @@ class ComponentDisplay {
         li.append(this.displayData(elem));
         list.appendChild(li);
       });
+    } else {
+      // if object
+      summary.textContent = 'Object';
+      list = document.createElement('ul');
+      Object.keys(input).forEach((key) => {
+        const li = document.createElement('li');
+        li.append(`${key}`, this.displayData(input[key]));
+        list.appendChild(li);
+      });
     }
-    //   else {
-    //     // if object
-    //     Object.keys(input).forEach((elem) => {
-    //       const li = document.createElement('li');
-    //       li.append(displayComposite(elem));
-    //       ul.appendChild(li);
-    //     });
-    //   }
 
     details.append(summary, list);
     return details;

@@ -1,6 +1,7 @@
 /* eslint-env browser */
 import * as d3 from '../../libraries/d3.min.js';
 import { data } from './data-example2.js';
+import ComponentDisplay from './componentDisplay';
 
 // Store 66% of the users screen width for creating the tree
 const panelWidth = Math.floor(screen.width * 0.66);
@@ -202,29 +203,17 @@ document.getElementById('show-state').addEventListener('click', showState);
 // stateCategory
 // props - array?
 // hooks if functional
-// const infoPanel = document.getElementById('info-panel');
-// const sidePanel = new ComponentDisplay(componentObj, parentElement)
-// sidePanel.update(componentObj)
+
+const theInfoPanel = document.getElementById('info-panel');
+const CompDisplay = new ComponentDisplay(theInfoPanel);
 
 function populatePanel(dataObj) {
-  // Clear the previous data
-  clearPanel();
   // Grab the info panel element
   const infoPanel = document.getElementById('info-panel');
   // Add the name bar
   addNameBar(infoPanel, dataObj.name);
-  // If has state, add state panel
-  if (dataObj.state) addState(infoPanel, dataObj.state);
-  // Add props panel
-  if (dataObj.props) addProps(infoPanel, dataObj.props);
-  // Add list of hooks ? needed?
-  // Add children panel
-  if (dataObj.children) addChildren(infoPanel, dataObj.children);
-}
 
-function clearPanel() {
-  const infoPanel = document.getElementById('info-panel');
-  infoPanel.innerHTML = '';
+  CompDisplay.update(dataObj);
 }
 
 function addNameBar(infoPanel, componentName) {
@@ -233,68 +222,3 @@ function addNameBar(infoPanel, componentName) {
   titleBar.innerHTML = `<div class="title">${componentName}</div>`;
   infoPanel.appendChild(titleBar);
 }
-
-function addState(infoPanel, stateObject) {
-  const statePanel = document.createElement('div');
-  statePanel.id = 'state-panel';
-  statePanel.innerHTML = `<div class="title-bar">
-                              <details>
-                                <summary>State</summary>
-                                <ul id="state-properties">
-                                </ul>
-                              </details>
-                           </div>`;
-  infoPanel.appendChild(statePanel);
-  const stateProperties = document.getElementById('state-properties');
-  for (let property in stateObject) {
-    const statePropBar = document.createElement('li');
-    statePropBar.className = 'property-bar';
-    statePropBar.innerHTML = `<li>${property}</li>
-                              <li>${property}: ${stateObject[property]}</li>`;
-    stateProperties.appendChild(statePropBar);
-  }
-}
-
-function addProps(infoPanel, propsObject) {
-  const propsPanel = document.createElement('div');
-  propsPanel.id = 'props-panel';
-  propsPanel.innerHTML = `<div class="title-bar">                          
-                            <details>
-                              <summary id="props-title">Props</summary>                                           
-                              <div id="props-properties">
-                              <ul>
-                              </ul>
-                              </div>
-                            </details>
-                            </div>`;
-  infoPanel.appendChild(propsPanel);
-  const propsProperties = document.getElementById('props-properties');
-  for (let property in propsObject) {
-    const propBar = document.createElement('div');
-    propBar.className = 'propBar';
-    propBar.innerHTML = `<div class="property-name>${property}</div>
-                         <div class="property-value"><li>${property}: ${propsObject[property]}</li></div>`;
-    propsProperties.appendChild(propBar);
-  }
-}
-
-function addChildren(infoPanel, childrenObject) {
-  const children = document.createElement('div');
-  children.id = 'children';
-  children.innerHTML = `<details>
-                          <summary id="children-title">Children</summary>
-                          <ul id="children-properties">
-                          </ul>
-                        </details>`;
-  infoPanel.appendChild(children);
-  const childrenProperties = document.getElementById('children-properties');
-  for (let property in childrenObject) {
-    const child = document.createElement('li');
-    child.className = 'child';
-    child.innerHTML = childrenObject[property].name;
-    childrenProperties.appendChild(child);
-  }
-}
-
-// Exporting the objects w/ nodes here (change Name)
-export const objectNode = globalRoot;

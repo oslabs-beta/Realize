@@ -7,6 +7,8 @@ function findComp(arr, name) {
     if (elem.data && elem.data.name === name) {
       const { data, ...clone } = elem;
       result.push(clone);
+    } else {
+      return -1;
     }
   });
 

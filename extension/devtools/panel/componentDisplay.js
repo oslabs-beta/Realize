@@ -2,14 +2,11 @@
 /* eslint-disable class-methods-use-this */
 /* eslint-env browser */
 
-// parent: everything in the infopanel div
+// parent: reference to infopanel dom node
+// obj: component being sent by the tree (node)
 class ComponentDisplay {
-  constructor(obj, parent) {
-    this.component = {
-      name: obj.name,
-    };
+  constructor(parent) {
     this.parent = parent;
-    // this.update(obj);
   }
 
   update(component) {
@@ -18,12 +15,13 @@ class ComponentDisplay {
     const compObj = {};
 
     // conditionals
-    // if (component.state) this.state = displayState(component.state);
+    if (component.state) compObj.state = this.displayState(component.state);
     if (component.children)
       compObj.children = this.displayChildren(component.children);
+    if (component.props) compObj.props = this.displayProps(component.props);
 
     // append node/nodes
-    this.parent.append();
+    this.parent.append(...Object.values(compObj));
   }
 
   displayChildren(arr) {
@@ -34,7 +32,7 @@ class ComponentDisplay {
 
     arr.forEach((child) => {
       const item = document.createElement('li');
-      item.textContent = child;
+      item.textContent = child.name;
       list.append(item);
     });
 
@@ -46,14 +44,29 @@ class ComponentDisplay {
   displayState(input) {
     const details = document.createElement('details');
     const summary = document.createElement('summary');
-    const p = document.createElement('p');
+    const span = document.createElement('span');
     summary.textContent = 'State';
 
-    p.append(this.displayData(input));
-    details.append(summary, p);
+    span.append(this.displayData(input));
+    details.append(summary, span);
+    return details;
   }
 
-  //   displayProps(input) {}
+  displayProps(input) {
+    const details = document.createElement('details');
+    const summary = document.createElement('summary');
+    const list = document.createElement('ul');
+    summary.textContent = 'Props';
+
+    Object.keys(input).forEach((prop) => {
+      const li = document.createElement('li');
+      li.append(`${prop}: `, this.displayData(input[prop]));
+      list.appendChild(li);
+    });
+
+    details.append(summary, list);
+    return details;
+  }
 
   // recursive function for composite data types
   displayData(input) {
@@ -67,20 +80,28 @@ class ComponentDisplay {
     if (Array.isArray(input)) {
       // if array
       summary.textContent = 'Array';
-      list = document.createElement('ol');
-      list.start = '0';
-      input.forEach((elem) => {
+      // if empty
+      if (input.length === 0) {
+        list = document.createElement('ul');
         const li = document.createElement('li');
-        li.append(this.displayData(elem));
+        li.textContent = 'empty array';
         list.appendChild(li);
-      });
+      } else {
+        list = document.createElement('ol');
+        list.start = '0';
+        input.forEach((elem) => {
+          const li = document.createElement('li');
+          li.append(this.displayData(elem));
+          list.appendChild(li);
+        });
+      }
     } else {
       // if object
       summary.textContent = 'Object';
       list = document.createElement('ul');
       Object.keys(input).forEach((key) => {
         const li = document.createElement('li');
-        li.append(`${key}`, this.displayData(input[key]));
+        li.append(`${key}: `, this.displayData(input[key]));
         list.appendChild(li);
       });
     }
@@ -90,4 +111,4 @@ class ComponentDisplay {
   }
 }
 
-module.exports = ComponentDisplay;
+export default ComponentDisplay;

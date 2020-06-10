@@ -11,9 +11,21 @@ function findComp(arr, name) {
     } 
   });
   
-  // If the name we look for is not found -1
+  // If the name we look for is not found or found
   return result.length == 0 ? -1 : result
   
 }
+
+
+function autoComplete(input) {
+  let reg = new RegExp(input.split('').join('\\w*').replace(/\W/, ""), 'i');
+  return input.filter(function(input) {
+    if (input.match(reg)) {
+      return input;
+    }
+  });
+}
+
+
 
 module.exports = findComp;

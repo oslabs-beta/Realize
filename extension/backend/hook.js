@@ -7,7 +7,7 @@
 // Importing the D3 array from panel.js
 
 // importing data example
-import { searchData } from '../devtools/panel/search-example.js';
+// import { searchData } from '../devtools/panel/search-example.js';
 
 function hook() {
   const devTools = window.__REACT_DEVTOOLS_GLOBAL_HOOK__;
@@ -188,3 +188,7 @@ function recurse(node, parentArr) {
 }
 
 hook();
+
+module.exports = function (a, b) {
+  return a + b;
+};

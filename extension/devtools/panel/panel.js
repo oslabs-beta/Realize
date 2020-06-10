@@ -1,3 +1,4 @@
+/* eslint-env browser */
 import * as d3 from '../../libraries/d3.min.js';
 import { data } from './data-example2.js';
 
@@ -202,6 +203,9 @@ document.getElementById('show-state').addEventListener('click', showState);
 // props - array?
 // hooks if functional
 
+// const sidePanel = new ComponentDisplay(componentObj, parentElement)
+// sidePanel.update(componentObj)
+
 function populatePanel(dataObj) {
   // Clear the previous data
   clearPanel();
@@ -228,27 +232,6 @@ function addNameBar(infoPanel, componentName) {
   titleBar.className = 'component-title-bar';
   titleBar.innerHTML = `<div class="title">${componentName}</div>`;
   infoPanel.appendChild(titleBar);
-}
-
-function displayComposite(obj) {
-  return 1;
-  // // create container
-  // const dropList = document.createElement('div');
-  // dropList.innerHTML = `<details>
-  //                         </details>`;
-  // // either array or object
-  // if (Array.isArray(obj)) {
-  //   const summary = document.createElement('summary');
-  //   const list = document.createElement('li');
-  //   summary.innerHTML = 'Array';
-  //   dropList.children[0].appendChild(summary);
-  //   obj.forEach((elem) => {
-  //     const item = document.createElement('li');
-  //     item.append(typeof elem === 'object' ? displayComposite(elem) : elem);
-  //     // ${stateObject[property]}
-  //     // is parent the parent node or the parent object?
-  //   });
-  // }
 }
 
 function addState(infoPanel, stateObject) {
@@ -315,5 +298,3 @@ function addChildren(infoPanel, childrenObject) {
 
 // Exporting the objects w/ nodes here (change Name)
 export const objectNode = globalRoot;
-
-module.exports = displayComposite;

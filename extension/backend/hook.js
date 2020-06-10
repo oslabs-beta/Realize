@@ -7,7 +7,7 @@
 // Importing the D3 array from panel.js
 
 // importing data example
-import {searchData} from '../devtools/panel/search-example.js'
+// import { searchData } from '../devtools/panel/search-example.js';
 
 function hook() {
   const devTools = window.__REACT_DEVTOOLS_GLOBAL_HOOK__;
@@ -26,38 +26,18 @@ function hook() {
 
   devTools.onCommitFiberRoot = (function (original) {
     return function (...args) {
-      const fiberDOM = args[1]; 
+      const fiberDOM = args[1];
       const rootNode = fiberDOM.current.stateNode.current;
       const arr = [];
       recurse(rootNode.child, arr);
 
-      // component name hardcoded 
-      let compName = 'App';
-      console.log('searchhhhh', findComp(searchData, compName));
+      // component name hardcoded
+      // let compName = 'App';
+      // console.log('searchhhhh', findComp(searchData, compName));
       sendToContentScript(arr[0]);
       return original(...args);
     };
   })(devTools.onCommitFiberRoot);
-}
-
-// declare global variable to hold name
-let name = 'App';
-
-
-
-// Recursively go over the tree until we find the name of a component
-function findComp(arr, name) {
-  const result = [];
-
-  // Iterate over the array(one we get from D3)
-  arr.forEach((elem) => {
-    if (elem.data && elem.data.name === name) {
-      const { data, ...clone } = elem;
-      result.push(clone)
-    };
-  });
-
-  return result;
 }
 
 // message sending function
@@ -93,7 +73,9 @@ function getState(stateNode, arr) {
       // clean elements of state arr if they are react components
       if (elem.$$typeof && typeof elem.$$typeof === 'symbol') {
         console.log('bad state here');
-        stateArr.push(`< ${elem.type.name} />`);
+        stateArr.push(`<${elem.type.name} />`);
+      } else {
+        stateArr.push(elem);
       }
     });
     arr.push(stateArr);
@@ -188,3 +170,7 @@ function recurse(node, parentArr) {
 }
 
 hook();
+
+module.exports = function (a, b) {
+  return a + b;
+};

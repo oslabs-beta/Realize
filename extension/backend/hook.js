@@ -7,7 +7,7 @@
 // Importing the D3 array from panel.js
 
 // importing data example
-import {searchData} from '../devtools/panel/search-example.js'
+// import { searchData } from '../devtools/panel/search-example.js';
 
 function hook() {
   const devTools = window.__REACT_DEVTOOLS_GLOBAL_HOOK__;
@@ -26,36 +26,19 @@ function hook() {
 
   devTools.onCommitFiberRoot = (function (original) {
     return function (...args) {
-      const fiberDOM = args[1]; 
+      const fiberDOM = args[1];
       const rootNode = fiberDOM.current.stateNode.current;
       const arr = [];
       recurse(rootNode.child, arr);
       //console.log('Search Data:', searchData);
 
-      // component name hardcoded 
-      let compName = 'App';
-      console.log('searchhhhh', findComp(searchData, compName));
+      // component name hardcoded
+      // let compName = 'App';
+      // console.log('searchhhhh', findComp(searchData, compName));
       sendToContentScript(arr[0]);
       return original(...args);
     };
   })(devTools.onCommitFiberRoot);
-}
-
-// declare global variable to hold name
-let name = 'App';
-
-// Recursively go over the tree until we find the name of a component
-function findComp(tree, compName) {
-  // Base case
-  if (tree[name] === compName) return tree;
-
-  // If it does not have any children
-  if (!tree[name]) return -1;
-
-  // Iterate over the array(one we get from D3)
-  tree.children.forEach((child) => {
-    findComp(child, compName);
-  });
 }
 
 // message sending function
@@ -91,7 +74,9 @@ function getState(stateNode, arr) {
       // clean elements of state arr if they are react components
       if (elem.$$typeof && typeof elem.$$typeof === 'symbol') {
         console.log('bad state here');
-        stateArr.push(`< ${elem.type.name} />`);
+        stateArr.push(`<${elem.type.name} />`);
+      } else {
+        stateArr.push(elem);
       }
     });
     arr.push(stateArr);
@@ -186,3 +171,7 @@ function recurse(node, parentArr) {
 }
 
 hook();
+
+module.exports = function (a, b) {
+  return a + b;
+};

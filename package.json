@@ -4,7 +4,7 @@
   "description": "A React component visualizer and performance optimizer",
   "private": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "build": "webpack",
     "dev": "NODE_ENV=development webpack --mode=development --watch"
   },
@@ -19,8 +19,11 @@
   },
   "homepage": "https://github.com/oslabs-beta/REACTionary#readme",
   "devDependencies": {
+    "@babel/preset-env": "^7.10.2",
+    "babel-jest": "^26.0.1",
     "copy-webpack-plugin": "^6.0.1",
     "css-loader": "^3.5.3",
+    "jest": "^26.0.1",
     "sass": "^1.26.7",
     "sass-loader": "^8.0.2",
     "webpack": "^4.43.0",

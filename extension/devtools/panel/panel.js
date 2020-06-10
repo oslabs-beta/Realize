@@ -153,12 +153,12 @@ bodyElement.addEventListener('keyup', (event) => {
 
 // Centering the tree
 // Function to reset svg so tree is centered
-// function centerTree() {
-//   svg.transition().duration(750).call(zoom.transform, d3.zoomIdentity);
-// }
+function centerTree() {
+  svg.transition().duration(750).call(zoom.transform, d3.zoomIdentity);
+}
 
 // Add event listener to the center tree button
-// document.getElementById('center-tree').addEventListener('click', centerTree);
+document.getElementById('center-tree').addEventListener('click', centerTree);
 
 
 var t = d3.transition()

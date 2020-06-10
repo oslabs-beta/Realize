@@ -5,6 +5,7 @@ const ComponentDisplay = require('../extension/devtools/panel/componentDisplay')
 const searchData = require('../temp/search-example');
 const search = require('../temp/search');
 
+
 xdescribe('ComponentDisplay class testing', () => {
   let CD;
   const testName = 'test';
@@ -99,19 +100,6 @@ xdescribe('ComponentDisplay class testing', () => {
   });
 });
 
-describe('Search functionality', () => {
-  it('finds App', () => {
-    const result = search(searchData, 'App');
-
-    expect(result.length).toBe(1);
-  });
-
-  it('returns -1 when none found', () => {
-    const result = search(searchData, 'afjasdnflnaslfmsad');
-
-    expect(result).toBe(-1);
-  });
-});
 
 xit('panel display', () => {
   // create environment
@@ -134,6 +122,24 @@ xit('isEqualNode test', () => {
   console.log(test2.innerHTML);
   expect(test1.isEqualNode(test2)).toBe(true);
 });
+
+xdescribe('Search functionality', () => {
+  it('finds App', () => {
+    const result = search(searchData, 'App');
+
+    expect(result.length).toBe(1);
+  });
+
+  it('returns -1 when none found', () => {
+    const result = search(searchData, 'afjasdnflnaslfmsad');
+
+    expect(result).toBe(-1);
+  });
+});
+
+
+
+
 
 function formatHTML(strings) {
   return strings[0]

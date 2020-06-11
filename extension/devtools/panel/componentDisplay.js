@@ -28,15 +28,10 @@ class ComponentDisplay {
     }
     if (component.props) compArr.push(this.displayProps(component.props));
     if (component.children)
-<<<<<<< HEAD
-      compObj.children = this.displayChildren(component.children);
-    if (component.props) compObj.props = this.displayProps(component.props);
-    // adding a check for hooks
-    // if (component.)
-=======
       compArr.push(this.displayChildren(component.children));
->>>>>>> 0a95ff25c768a271682bea1c2dc544e4e8fb76d4
 
+    // add the hook
+    if (component.hooks) compArr.push(this.displayHooks(component.hooks))
     // append node/nodes from compArr
     this.parent.append(...compArr);
   }
@@ -139,18 +134,20 @@ class ComponentDisplay {
   }
 
 
-  displayHooks(){
+  displayHooks(input){
     const details = document.createElement('details');
     const summary = document.createElement('summary');
-    const list = document.createElement('list');
+    const list = document.createElement('ul');
+    summary.textContent = 'Hooks';
+    input.forEach((hook) => {
+      const li = document.createElement('li');
+      li.innerHTML = hook;
+      list.appendChild(li);
+    })
 
-  
+    details.append(summary, list);
+    return details;
   }
 }
 
-<<<<<<< HEAD
-
-export default ComponentDisplay;
-=======
 module.exports = ComponentDisplay;
->>>>>>> 0a95ff25c768a271682bea1c2dc544e4e8fb76d4

@@ -2,6 +2,7 @@
 /* eslint-disable class-methods-use-this */
 /* eslint-env browser */
 
+
 // parent: reference to infopanel dom node
 // obj: component being sent by the tree (node)
 class ComponentDisplay {
@@ -13,6 +14,9 @@ class ComponentDisplay {
     // clear
     this.parent.innerHTML = '';
     const compArr = [];
+
+    // add name of component
+    compArr.push(this.displayName(component.name))
 
     // conditionals to load compArr based on component properties
     if (component.state) {
@@ -26,12 +30,21 @@ class ComponentDisplay {
         compArr.push(this.displayState(component.state, false));
       }
     }
+    // add the hook
+    if (component.hooks) compArr.push(this.displayHooks(component.hooks))
     if (component.props) compArr.push(this.displayProps(component.props));
     if (component.children)
       compArr.push(this.displayChildren(component.children));
 
     // append node/nodes from compArr
     this.parent.append(...compArr);
+  }
+
+  displayName(name){
+    const span = document.createElement('span')
+    span.classList.add('component-display-name')
+    span.textContent = name
+    return span
   }
 
   displayChildren(arr) {
@@ -126,6 +139,22 @@ class ComponentDisplay {
         list.appendChild(li);
       });
     }
+
+    details.append(summary, list);
+    return details;
+  }
+
+
+  displayHooks(input){
+    const details = document.createElement('details');
+    const summary = document.createElement('summary');
+    const list = document.createElement('ul');
+    summary.textContent = 'Hooks';
+    input.forEach((hook) => {
+      const li = document.createElement('li');
+      li.innerHTML = hook;
+      list.appendChild(li);
+    })
 
     details.append(summary, list);
     return details;

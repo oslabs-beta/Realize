@@ -2,7 +2,8 @@
 import * as d3 from '../../libraries/d3.min.js';
 import { data } from './data-example2.js';
 import ComponentDisplay from './componentDisplay';
-import { getValue } from './search';
+// import  getValue  from './search'; 
+import { getValue } from './search';  
 
 // Store 66% of the users screen width for creating the tree
 const panelWidth = Math.floor(screen.width * 0.66);

@@ -204,11 +204,11 @@ describe('Search functionality', () => {
     expect(result.length).toBe(1);
   });
 
-  it('returns -1 when none found', () => {
-    const result = search(searchData, 'afjasdnflnaslfmsad');
+  // it('returns -1 when none found', () => {
+  //   const result = search(searchData, 'afjasdnflnaslfmsad');
 
-    expect(result).toBe(-1);
-  });
+  //   expect(result).toBe(-1);
+  // });
 });
 
 xit('panel display', () => {

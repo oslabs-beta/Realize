@@ -1,4 +1,3 @@
-import * as d3 from '../../libraries/d3.min.js';
 // Recursively go over the tree until we find the name of a component
 // function findComp(arr, name) {
 //   const result = [];
@@ -18,7 +17,7 @@ import * as d3 from '../../libraries/d3.min.js';
 
 
 let result = document.querySelector('.result');
-let arr = ['HTML', 'CSS', 'PHP', 'Javascript', 'Dart', 'Python', 'Swift', 'Java', 'C++','Go','SASS','C#','LISP','Perl', 'Ruby']
+// let arr = ['HTML', 'CSS', 'PHP', 'Javascript', 'Dart', 'Python', 'Swift', 'Java', 'C++','Go','SASS','C#','LISP','Perl', 'Ruby']
 
   // make it all lowercase
  function autoComplete(arr, input) {
@@ -50,3 +49,4 @@ function getValue(val){
  }
 
 export { getValue }
+// module.exports = getValue;

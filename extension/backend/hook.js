@@ -30,7 +30,6 @@ function hook() {
       const rootNode = fiberDOM.current.stateNode.current;
       const arr = [];
       recurse(rootNode.child, arr);
-      //console.log('Search Data:', searchData);
 
       // component name hardcoded
       // let compName = 'App';

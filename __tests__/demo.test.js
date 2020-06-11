@@ -1,9 +1,9 @@
 /* eslint-disable no-use-before-define */
 /* eslint-env jest */
 /* eslint-env browser */
-const ComponentDisplay = require('../extension/devtools/panel/componentDisplay');
+const  ComponentDisplay  = require('../extension/devtools/panel/componentDisplay');
 const searchData = require('../temp/search-example');
-const search = require('../temp/search');
+const search = require('../extension/devtools/panel/search');
 
 describe('ComponentDisplay class testing', () => {
   let CD;
@@ -197,7 +197,7 @@ describe('ComponentDisplay class testing', () => {
   });
 });
 
-xdescribe('Search functionality', () => {
+describe('Search functionality', () => {
   it('finds App', () => {
     const result = search(searchData, 'App');
 

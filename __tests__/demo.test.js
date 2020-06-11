@@ -1,15 +1,9 @@
 /* eslint-disable no-use-before-define */
 /* eslint-env jest */
 /* eslint-env browser */
-<<<<<<< HEAD
-const ComponentDisplay = require('../extension/devtools/panel/componentDisplay');
-// const searchData = require('../temp/search-example');
-// const search = require('../temp/search');
-=======
 const  ComponentDisplay  = require('../extension/devtools/panel/componentDisplay');
 const searchData = require('../temp/search-example');
 const search = require('../extension/devtools/panel/search');
->>>>>>> 27efc5a517e5a2bcac23941050cfc2ea20afeedd
 
 describe('ComponentDisplay class testing', () => {
   let CD;
@@ -23,6 +17,14 @@ describe('ComponentDisplay class testing', () => {
   xit('class instantiates', () => {
     expect(!!CD).toBe(true);
   });
+
+  it('displays component name', () => {
+    const test = 'Name'
+    const result = CD.displayName(test);
+    const target = document.createElement('span')
+    target.classList.add('component')
+    target.innerHTML = formatHTML``
+  })
 
   xit('displays children', () => {
     const testArr = [{ name: 1 }, { name: 2 }, { name: 3 }];
@@ -219,7 +221,7 @@ describe('ComponentDisplay class testing', () => {
     expect(result.isEqualNode(target)).toBe(true)
   })
 });
-
+// To fix search testing to accomodate for the new function
 describe('Search functionality', () => {
   it('finds App', () => {
     const result = search(searchData, 'App');

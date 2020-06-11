@@ -6,6 +6,7 @@
 /* eslint-disable no-underscore-dangle */
 exports.__esModule = true;
 function hook() {
+<<<<<<< HEAD
     var devTools = window.__REACT_DEVTOOLS_GLOBAL_HOOK__;
     // if devtools not activated
     if (!devTools) {
@@ -37,6 +38,36 @@ function hook() {
             return original.apply(void 0, args);
         };
     })(devTools.onCommitFiberRoot);
+=======
+  const devTools = window.__REACT_DEVTOOLS_GLOBAL_HOOK__;
+
+  // if devtools not activated
+  if (!devTools) {
+    console.log("looks like you don't have react devtools activated");
+    return;
+  }
+
+  // if hook can't find react
+  if (devTools.renderers.size < 1) {
+    console.log("looks like this page doesn't use react");
+    return;
+  }
+
+  devTools.onCommitFiberRoot = (function (original) {
+    return function (...args) {
+      const fiberDOM = args[1];
+      const rootNode = fiberDOM.current.stateNode.current;
+      const arr = [];
+      recurse(rootNode.child, arr);
+
+      // component name hardcoded
+      // let compName = 'App';
+      // console.log('searchhhhh', findComp(searchData, compName));
+      sendToContentScript(arr[0]);
+      return original(...args);
+    };
+  })(devTools.onCommitFiberRoot);
+>>>>>>> c5ebe638676bb0170ef444f34e95372a7eb6e5c0
 }
 // message sending function
 function sendToContentScript(tree) {

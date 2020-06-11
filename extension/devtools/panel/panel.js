@@ -2,6 +2,7 @@
 import * as d3 from '../../libraries/d3.min.js';
 import { data } from './data-example2.js';
 import ComponentDisplay from './componentDisplay';
+import { getValue } from './search';
 
 // Store 66% of the users screen width for creating the tree
 const panelWidth = Math.floor(screen.width * 0.66);
@@ -159,9 +160,10 @@ function centerTree() {
 }
 
 // Add event listener to the center tree button
-document.getElementById('center-tree').addEventListener('click', centerTree);
+// document.getElementById('center-tree').addEventListener('click', centerTree);
 
-var t = d3.transition().duration(750).ease(d3.easeLinear);
+
+// var t = d3.transition().duration(750).ease(d3.easeLinear);
 
 // Updating to show state
 function createClosure() {
@@ -222,3 +224,11 @@ function addNameBar(infoPanel, componentName) {
   titleBar.innerHTML = `<div class="title">${componentName}</div>`;
   infoPanel.appendChild(titleBar);
 }
+
+let idFind = document.getElementById("searchInput")
+idFind.addEventListener('keyup', () => {
+  console.log('hi there');
+  let value = document.getElementById("searchInput").value;
+  getValue(value)
+})
+

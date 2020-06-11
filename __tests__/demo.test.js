@@ -1,9 +1,15 @@
 /* eslint-disable no-use-before-define */
 /* eslint-env jest */
 /* eslint-env browser */
+<<<<<<< HEAD
 const ComponentDisplay = require('../extension/devtools/panel/componentDisplay');
+// const searchData = require('../temp/search-example');
+// const search = require('../temp/search');
+=======
+const  ComponentDisplay  = require('../extension/devtools/panel/componentDisplay');
 const searchData = require('../temp/search-example');
-const search = require('../temp/search');
+const search = require('../extension/devtools/panel/search');
+>>>>>>> 27efc5a517e5a2bcac23941050cfc2ea20afeedd
 
 describe('ComponentDisplay class testing', () => {
   let CD;
@@ -156,7 +162,7 @@ describe('ComponentDisplay class testing', () => {
     expect(target.isEqualNode(result)).toBe(true);
   });
 
-  it('displays useState state properly', () => {
+  xit('displays useState state properly', () => {
     const state = [['a', 'b', 'c'], 2, 3];
 
     const result = CD.displayState(state, true);
@@ -197,9 +203,26 @@ describe('ComponentDisplay class testing', () => {
     console.log('result: ', result.innerHTML);
     expect(target.isEqualNode(result)).toBe(true);
   });
+
+  xit('displays state hooks', () => {
+    const hooks = [1, 'hello'];
+
+    const result = CD.displayHooks(hooks);
+
+
+    const target = document.createElement('details')
+    target.innerHTML = formatHTML`<summary>Hooks</summary>
+                                <ul>
+                                  <li>1</li>
+                                  <li>hello</li>
+                                </ul>`;
+    console.log('result  :', result.innerHTML)
+    console.log('target  :', target.innerHTML)                          
+    expect(result.isEqualNode(target)).toBe(true)
+  })
 });
 
-xdescribe('Search functionality', () => {
+describe('Search functionality', () => {
   it('finds App', () => {
     const result = search(searchData, 'App');
 
@@ -239,4 +262,8 @@ function formatHTML(strings) {
     .split('\n')
     .map((s) => s.trim())
     .join('');
+}
+
+module.exports = {
+  verbose: true,
 }

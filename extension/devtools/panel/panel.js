@@ -41,20 +41,9 @@ const theInfoPanel = document.getElementById('info-panel');
 const CompDisplay = new ComponentDisplay(theInfoPanel);
 
 function populatePanel(dataObj) {
-  // Grab the info panel element
-  const infoPanel = document.getElementById('info-panel');
-  // Add the name bar
-  addNameBar(infoPanel, dataObj.name);
-
   CompDisplay.update(dataObj);
 }
 
-function addNameBar(infoPanel, componentName) {
-  const titleBar = document.createElement('div');
-  titleBar.className = 'component-title-bar';
-  titleBar.innerHTML = `<div class="title">${componentName}</div>`;
-  infoPanel.appendChild(titleBar);
-}
 
 let idFind = document.getElementById("searchInput")
 idFind.addEventListener('keyup', () => {

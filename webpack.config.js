@@ -8,7 +8,7 @@ module.exports = {
     bundle: './extension/devtools/panel/panel.js',
     // "create-panel": './extension/devtools/create-panel.js'
     background: './extension/backend/background.js',
-    hook: './extension/backend/hook.js',
+    hook: './extension/backend/hook.ts',
   },
   // Location to bundle them to
   output: {
@@ -33,6 +33,15 @@ module.exports = {
           'css-loader',
           // Compiles Sass to CSS
           'sass-loader',
+        ],
+      },
+      {
+        rules: [
+          {
+            test: /\.tsx?$/,
+            use: 'ts-loader',
+            exclude: /node_modules/,
+          },
         ],
       },
     ],

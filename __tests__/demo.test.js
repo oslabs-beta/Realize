@@ -19,7 +19,15 @@ describe('ComponentDisplay class testing', () => {
     expect(!!CD).toBe(true);
   });
 
-  it('displays children', () => {
+  it('displays component name', () => {
+    const test = 'Name';
+    const result = CD.displayName(test);
+    const target = document.createElement('span');
+    target.classList.add('component');
+    target.innerHTML = formatHTML``;
+  });
+
+  xit('displays children', () => {
     const testArr = [{ name: 1 }, { name: 2 }, { name: 3 }];
 
     const result = CD.displayChildren(testArr);
@@ -214,7 +222,7 @@ describe('ComponentDisplay class testing', () => {
     expect(result.isEqualNode(target)).toBe(true);
   });
 });
-
+// To fix search testing to accomodate for the new function
 describe('Search functionality', () => {
   it('finds App', () => {
     const result = search(searchData, 'App');

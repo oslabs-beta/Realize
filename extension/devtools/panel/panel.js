@@ -106,6 +106,7 @@ function createTree(inputData) {
   let nodes = d3.selectAll('circle.node');
   nodes.on('click', function (datum, index, nodes) {
     console.log(datum.data);
+    console.log('this is the name inside the nodes   ', datum.data.name)
     populatePanel(datum.data);
   });
 }
@@ -210,20 +211,9 @@ const theInfoPanel = document.getElementById('info-panel');
 const CompDisplay = new ComponentDisplay(theInfoPanel);
 
 function populatePanel(dataObj) {
-  // Grab the info panel element
-  const infoPanel = document.getElementById('info-panel');
-  // Add the name bar
-  addNameBar(infoPanel, dataObj.name);
-
   CompDisplay.update(dataObj);
 }
 
-function addNameBar(infoPanel, componentName) {
-  const titleBar = document.createElement('div');
-  titleBar.className = 'component-title-bar';
-  titleBar.innerHTML = `<div class="title">${componentName}</div>`;
-  infoPanel.appendChild(titleBar);
-}
 
 let idFind = document.getElementById("searchInput")
 idFind.addEventListener('keyup', () => {

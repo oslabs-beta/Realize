@@ -1,15 +1,9 @@
 /* eslint-disable no-use-before-define */
 /* eslint-env jest */
 /* eslint-env browser */
-<<<<<<< HEAD
 const ComponentDisplay = require('../extension/devtools/panel/componentDisplay');
-// const searchData = require('../temp/search-example');
-// const search = require('../temp/search');
-=======
-const  ComponentDisplay  = require('../extension/devtools/panel/componentDisplay');
 const searchData = require('../temp/search-example');
 const search = require('../extension/devtools/panel/search');
->>>>>>> 27efc5a517e5a2bcac23941050cfc2ea20afeedd
 
 describe('ComponentDisplay class testing', () => {
   let CD;
@@ -209,17 +203,16 @@ describe('ComponentDisplay class testing', () => {
 
     const result = CD.displayHooks(hooks);
 
-
-    const target = document.createElement('details')
+    const target = document.createElement('details');
     target.innerHTML = formatHTML`<summary>Hooks</summary>
                                 <ul>
                                   <li>1</li>
                                   <li>hello</li>
                                 </ul>`;
-    console.log('result  :', result.innerHTML)
-    console.log('target  :', target.innerHTML)                          
-    expect(result.isEqualNode(target)).toBe(true)
-  })
+    console.log('result  :', result.innerHTML);
+    console.log('target  :', target.innerHTML);
+    expect(result.isEqualNode(target)).toBe(true);
+  });
 });
 
 describe('Search functionality', () => {
@@ -266,4 +259,4 @@ function formatHTML(strings) {
 
 module.exports = {
   verbose: true,
-}
+};

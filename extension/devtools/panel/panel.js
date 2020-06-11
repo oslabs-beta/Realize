@@ -1,5 +1,7 @@
+/* eslint-env browser */
 import * as d3 from '../../libraries/d3.min.js';
 import { data } from './data-example2.js';
+import ComponentDisplay from './componentDisplay';
 
 // Store 66% of the users screen width for creating the tree
 const panelWidth = Math.floor(screen.width * 0.66);
@@ -26,15 +28,15 @@ let globalRoot;
 // ##########################################   BUILDING THE TREE
 function createTree(inputData) {
   // Clear any previous tree data to avoid overlap
-  d3.selectAll("circle.node").remove()
-  d3.selectAll("line.link").remove()
-  d3.selectAll("text.label").remove()
+  d3.selectAll('circle.node').remove();
+  d3.selectAll('line.link').remove();
+  d3.selectAll('text.label').remove();
 
   // Creates a heirarchical data structure based on the object passed into it
   let root = d3.hierarchy(inputData); // using fake data here
   // // Can check out what the structure looks like
   globalRoot = root;
-  console.log('Nodes',root.descendants()) // -> shows the nested object of nodes
+  console.log('Nodes', root.descendants()); // -> shows the nested object of nodes
   // console.log(root.links()) // -> shows the array on links which connect the nodes
 
   // Find out the height of the tree and size the svg accordingly (each level havin 95px)
@@ -43,8 +45,7 @@ function createTree(inputData) {
 
   // Creates a function which will later create the co-ordinates for the tree structure
   let treeLayout = d3.tree().size([panelWidth - 80, treeHeight]);
-  d3.select('#tree')
-    .attr('height', treeHeight + 80)
+  d3.select('#tree').attr('height', treeHeight + 80);
   // Creates x and y values on each node of root.
   // We will later use this x and y values to:
   // 1. position the circles (after joining the root.descendents data to svg circles)
@@ -159,45 +160,46 @@ function centerTree() {
 
 // Add event listener to the center tree button
 document.getElementById('center-tree').addEventListener('click', centerTree);
+<<<<<<< HEAD
 
+=======
+>>>>>>> 7727dcc46e314588770d478d596c2512b71dc174
 
-var t = d3.transition()
-    .duration(750)
-    .ease(d3.easeLinear);
+var t = d3.transition().duration(750).ease(d3.easeLinear);
 
 // Updating to show state
 function createClosure() {
   let stateShown = false;
-  return function updateNodes(){
-    let nodes = d3.selectAll('circle.node')
+  return function updateNodes() {
+    let nodes = d3.selectAll('circle.node');
     let color;
     let size;
     if (stateShown) {
-      color = '#14a897'
-      size = 7
-      stateShown = false
+      color = '#14a897';
+      size = 7;
+      stateShown = false;
     } else {
-      color = '#E45F59'
-      size = 14
-      stateShown = true
-    };
-    nodes.each(function(d) {
-      if (d.data.stateType){
-        if(d.data.stateType.stateful) {
-          d3.select(this).transition(t)
-                      .style("fill", color)
-                      .attr('r', size)
+      color = '#E45F59';
+      size = 14;
+      stateShown = true;
+    }
+    nodes.each(function (d) {
+      if (d.data.stateType) {
+        if (d.data.stateType.stateful) {
+          d3.select(this).transition(t).style('fill', color).attr('r', size);
         }
       }
-    })
-    let button = d3.select('#show-state')
-    stateShown ? button.transition(t).style('color', color)  : button.transition(t).style('color', 'white')
-  }
+    });
+    let button = d3.select('#show-state');
+    stateShown
+      ? button.transition(t).style('color', color)
+      : button.transition(t).style('color', 'white');
+  };
 }
 
-const showState = createClosure()
+const showState = createClosure();
 
-document.getElementById('show-state').addEventListener('click', showState)
+document.getElementById('show-state').addEventListener('click', showState);
 
 // ################################# POPULATING THE PANEL
 // name - String
@@ -206,25 +208,16 @@ document.getElementById('show-state').addEventListener('click', showState)
 // props - array?
 // hooks if functional
 
+const theInfoPanel = document.getElementById('info-panel');
+const CompDisplay = new ComponentDisplay(theInfoPanel);
+
 function populatePanel(dataObj) {
-  // Clear the previous data
-  clearPanel();
   // Grab the info panel element
   const infoPanel = document.getElementById('info-panel');
   // Add the name bar
   addNameBar(infoPanel, dataObj.name);
-  // If has state, add state panel
-  if (dataObj.state) addState(infoPanel, dataObj.state);
-  // Add props panel
-  if (dataObj.props) addProps(infoPanel, dataObj.props);
-  // Add list of hooks ? needed?
-  // Add children panel
-  if (dataObj.children) addChildren(infoPanel, dataObj.children);
-}
 
-function clearPanel() {
-  const infoPanel = document.getElementById('info-panel');
-  infoPanel.innerHTML = '';
+  CompDisplay.update(dataObj);
 }
 
 function addNameBar(infoPanel, componentName) {
@@ -233,76 +226,3 @@ function addNameBar(infoPanel, componentName) {
   titleBar.innerHTML = `<div class="title">${componentName}</div>`;
   infoPanel.appendChild(titleBar);
 }
-
-function addState(infoPanel, stateObject) {
-  const statePanel = document.createElement('div');
-  statePanel.id = 'state-panel';
-  statePanel.innerHTML = `<div class="title-bar">                         
-                              <details>
-                                <summary id="state-title">State</summary>
-                                <div id="state-type"><ul><li>${stateObject.stateType}</li></ul></div>
-                                <div id="state-properties">
-                                <ul>
-                                </ul>
-                                </div>
-                              </details>
-                           </div>`;
-  infoPanel.appendChild(statePanel);
-  const stateProperties = document.getElementById('state-properties');
-  for (let property in stateObject) {
-    const statePropBar = document.createElement('div');
-    statePropBar.className = 'property-bar';
-    statePropBar.innerHTML = `<div class="property-name">${property}</div>
-                              <div class="property-value"><li>${property}: ${stateObject[property]}</li></div>`;
-    stateProperties.appendChild(statePropBar);
-  }
-}
-
-function addProps(infoPanel, propsObject) {
-  const propsPanel = document.createElement('div');
-  propsPanel.id = 'props-panel';
-  propsPanel.innerHTML = `<div class="title-bar">                          
-                            <details>
-                              <summary id="props-title">Props</summary>                                           
-                              <div id="props-properties">
-                              <ul>
-                              </ul>
-                              </div>
-                            </details>
-                            </div>`;
-  infoPanel.appendChild(propsPanel);
-  const propsProperties = document.getElementById('props-properties');
-  for (let property in propsObject) {
-    const propBar = document.createElement('div');
-    propBar.className = 'propBar';
-    propBar.innerHTML = `<div class="property-name>${property}</div>
-                         <div class="property-value"><li>${property}: ${propsObject[property]}</li></div>`;
-    propsProperties.appendChild(propBar);
-  }
-}
-
-function addChildren(infoPanel, childrenObject) {
-  const childrenPanel = document.createElement('div');
-  childrenPanel.id = 'children-panel';
-  childrenPanel.innerHTML = `<div class="title-bar">
-                              <details>
-                                <summary id="children-title">Children</summary>
-                                <div id="children-properties">
-                                <ul>
-                                </ul>
-                                </div>
-                              </details>
-                                </div>`;
-  infoPanel.appendChild(childrenPanel);
-  const childrenProperties = document.getElementById('children-properties');
-  for (let property in childrenObject) {
-    const childrenBar = document.createElement('div');
-    childrenBar.className = 'childrenBar';
-    childrenBar.innerHTML = `<div class="property-name>${property}</div>
-                         <div class="property-value"><li>${childrenObject[property].name}</li></div>`;
-    childrenProperties.appendChild(childrenBar);
-  }
-}
-  // Exporting the objects w/ nodes here (change Name)
-  export const objectNode  =  globalRoot;
-

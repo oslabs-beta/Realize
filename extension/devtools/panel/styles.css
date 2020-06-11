@@ -23,6 +23,7 @@ body {
   box-sizing: border-box;
   text-decoration: none;
   margin: 0;
+  color:white;
   /* border: 1px solid white; */
 }
 
@@ -52,6 +53,10 @@ body {
   border-left: 1px solid grey;
   padding: 20px 5px;
   flex-direction: column;
+}
+
+#searchInput {
+  color:black;
 }
 
 #title-panel{

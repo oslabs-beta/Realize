@@ -1,9 +1,15 @@
 /* eslint-disable no-use-before-define */
 /* eslint-env jest */
 /* eslint-env browser */
+<<<<<<< HEAD
 const ComponentDisplay = require('../extension/devtools/panel/componentDisplay');
 // const searchData = require('../temp/search-example');
 // const search = require('../temp/search');
+=======
+const  ComponentDisplay  = require('../extension/devtools/panel/componentDisplay');
+const searchData = require('../temp/search-example');
+const search = require('../extension/devtools/panel/search');
+>>>>>>> 27efc5a517e5a2bcac23941050cfc2ea20afeedd
 
 describe('ComponentDisplay class testing', () => {
   let CD;
@@ -214,7 +220,7 @@ describe('ComponentDisplay class testing', () => {
   })
 });
 
-xdescribe('Search functionality', () => {
+describe('Search functionality', () => {
   it('finds App', () => {
     const result = search(searchData, 'App');
 

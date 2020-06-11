@@ -1,30 +1,31 @@
 /* eslint-disable no-use-before-define */
 /* eslint-env jest */
 /* eslint-env browser */
-const  ComponentDisplay  = require('../extension/devtools/panel/componentDisplay');
+const ComponentDisplay = require('../extension/devtools/panel/componentDisplay');
 const searchData = require('../temp/search-example');
 const search = require('../extension/devtools/panel/search');
 
 describe('ComponentDisplay class testing', () => {
   let CD;
   const testName = 'test';
+  let parent;
 
   beforeEach(() => {
-    const parent = document.createElement('div');
+    parent = document.createElement('div');
     CD = new ComponentDisplay({ name: testName }, parent);
   });
 
-  xit('class instantiates', () => {
+  it('class instantiates', () => {
     expect(!!CD).toBe(true);
   });
 
   it('displays component name', () => {
-    const test = 'Name'
+    const test = 'Name';
     const result = CD.displayName(test);
-    const target = document.createElement('span')
-    target.classList.add('component')
-    target.innerHTML = formatHTML``
-  })
+    const target = document.createElement('span');
+    target.classList.add('component');
+    target.innerHTML = formatHTML``;
+  });
 
   xit('displays children', () => {
     const testArr = [{ name: 1 }, { name: 2 }, { name: 3 }];
@@ -42,7 +43,7 @@ describe('ComponentDisplay class testing', () => {
     expect(result.isEqualNode(target)).toBe(true);
   });
 
-  xit('displays arrays', () => {
+  it('displays arrays', () => {
     // set up environment
     const testArr = [
       [1, 2],
@@ -82,6 +83,7 @@ describe('ComponentDisplay class testing', () => {
     expect(result.isEqualNode(target)).toBe(true);
   });
 
+  // bug here - not sure why
   xit('displays objects', () => {
     // set up input
     const testObj = {
@@ -106,7 +108,7 @@ describe('ComponentDisplay class testing', () => {
     expect(result.isEqualNode(target)).toBe(true);
   });
 
-  xit('displays nested objects', () => {
+  it('displays nested objects', () => {
     // set up input
     const testObj = {
       a: 1,
@@ -137,7 +139,7 @@ describe('ComponentDisplay class testing', () => {
     expect(1).toBe(1);
   });
 
-  xit('displays state', () => {
+  it('displays state', () => {
     const state = [1, 2, 3];
 
     const result = CD.displayState(state, false);
@@ -187,7 +189,7 @@ describe('ComponentDisplay class testing', () => {
     expect(target.isEqualNode(result)).toBe(true);
   });
 
-  xit('displays props', () => {
+  it('displays props', () => {
     const props = { a: 1, b: 2 };
 
     const result = CD.displayProps(props);
@@ -209,17 +211,16 @@ describe('ComponentDisplay class testing', () => {
 
     const result = CD.displayHooks(hooks);
 
-
-    const target = document.createElement('details')
+    const target = document.createElement('details');
     target.innerHTML = formatHTML`<summary>Hooks</summary>
                                 <ul>
                                   <li>1</li>
                                   <li>hello</li>
                                 </ul>`;
-    console.log('result  :', result.innerHTML)
-    console.log('target  :', target.innerHTML)                          
-    expect(result.isEqualNode(target)).toBe(true)
-  })
+    console.log('result  :', result.innerHTML);
+    console.log('target  :', target.innerHTML);
+    expect(result.isEqualNode(target)).toBe(true);
+  });
 });
 // To fix search testing to accomodate for the new function
 describe('Search functionality', () => {
@@ -266,4 +267,4 @@ function formatHTML(strings) {
 
 module.exports = {
   verbose: true,
-}
+};

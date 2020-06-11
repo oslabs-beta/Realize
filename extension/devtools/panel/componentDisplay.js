@@ -30,6 +30,8 @@ class ComponentDisplay {
     if (component.children)
       compArr.push(this.displayChildren(component.children));
 
+    // add the hook
+    if (component.hooks) compArr.push(this.displayHooks(component.hooks))
     // append node/nodes from compArr
     this.parent.append(...compArr);
   }
@@ -126,6 +128,22 @@ class ComponentDisplay {
         list.appendChild(li);
       });
     }
+
+    details.append(summary, list);
+    return details;
+  }
+
+
+  displayHooks(input){
+    const details = document.createElement('details');
+    const summary = document.createElement('summary');
+    const list = document.createElement('ul');
+    summary.textContent = 'Hooks';
+    input.forEach((hook) => {
+      const li = document.createElement('li');
+      li.innerHTML = hook;
+      list.appendChild(li);
+    })
 
     details.append(summary, list);
     return details;

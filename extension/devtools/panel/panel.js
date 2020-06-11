@@ -159,13 +159,10 @@ function centerTree() {
 }
 
 // Add event listener to the center tree button
-document.getElementById('center-tree').addEventListener('click', centerTree);
-<<<<<<< HEAD
+// document.getElementById('center-tree').addEventListener('click', centerTree);
 
-=======
->>>>>>> 7727dcc46e314588770d478d596c2512b71dc174
 
-var t = d3.transition().duration(750).ease(d3.easeLinear);
+// var t = d3.transition().duration(750).ease(d3.easeLinear);
 
 // Updating to show state
 function createClosure() {

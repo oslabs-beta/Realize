@@ -2,8 +2,8 @@
 /* eslint-env jest */
 /* eslint-env browser */
 const ComponentDisplay = require('../extension/devtools/panel/componentDisplay');
-const searchData = require('../temp/search-example');
-const search = require('../temp/search');
+// const searchData = require('../temp/search-example');
+// const search = require('../temp/search');
 
 describe('ComponentDisplay class testing', () => {
   let CD;
@@ -166,6 +166,19 @@ describe('ComponentDisplay class testing', () => {
     console.log('result: ', result.innerHTML);
     expect(target.isEqualNode(result)).toBe(true);
   });
+
+  it('displays state hooks', () => {
+    const hooks = [1, 'hello'];
+
+    const result = CD.displayHooks(hooks);
+
+    const target = formatHTML`<summary>Hooks</summary>
+                                <ul>
+                                  <li>1</li>
+                                  <li>2</li>
+                                </ul>`
+    expect(result.isEqualNode(target)).toBe(true)
+  })
 });
 
 xdescribe('Search functionality', () => {
@@ -208,4 +221,8 @@ function formatHTML(strings) {
     .split('\n')
     .map((s) => s.trim())
     .join('');
+}
+
+module.exports = {
+  verbose: true,
 }

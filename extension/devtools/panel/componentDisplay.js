@@ -19,6 +19,8 @@ class ComponentDisplay {
     if (component.children)
       compObj.children = this.displayChildren(component.children);
     if (component.props) compObj.props = this.displayProps(component.props);
+    // adding a check for hooks
+    // if (component.)
 
     // append node/nodes
     this.parent.append(...Object.values(compObj));
@@ -109,6 +111,16 @@ class ComponentDisplay {
     details.append(summary, list);
     return details;
   }
+
+
+  displayHooks(){
+    const details = document.createElement('details');
+    const summary = document.createElement('summary');
+    const list = document.createElement('list');
+
+  
+  }
 }
+
 
 export default ComponentDisplay;

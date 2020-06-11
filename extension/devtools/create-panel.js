@@ -3,7 +3,7 @@
 
 chrome.devtools.panels.create(
   'Realise', // title
-  'palm-tree.svg', // icon
+  '', // icon
   './panel.html' // content
 );
 // Adds a sidebar to the elements panel

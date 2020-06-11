@@ -1,5 +1,5 @@
 import * as d3 from '../../libraries/d3.min.js';
-import { data } from './data-example2.js';
+import { data } from './data-example.js';
 
 // Store 66% of the users screen width for creating the tree
 const panelWidth = Math.floor(screen.width * 0.66);
@@ -21,8 +21,7 @@ const createPort = () => {
 };
 createPort();
 
-// A global variable to hold the node(s)
-let globalRoot;
+
 // ##########################################   BUILDING THE TREE
 function createTree(inputData) {
   // Clear any previous tree data to avoid overlap
@@ -33,25 +32,26 @@ function createTree(inputData) {
   // Creates a heirarchical data structure based on the object passed into it
   let root = d3.hierarchy(inputData); // using fake data here
   // // Can check out what the structure looks like
-  globalRoot = root;
   console.log('Nodes',root.descendants()) // -> shows the nested object of nodes
   // console.log(root.links()) // -> shows the array on links which connect the nodes
 
   // Find out the height of the tree and size the svg accordingly (each level havin 95px)
   const dataHeight = root.height;
   const treeHeight = dataHeight * 95;
+  const svgHeight = Math.max(window.innerHeight, treeHeight)
 
   // Creates a function which will later create the co-ordinates for the tree structure
   let treeLayout = d3.tree().size([panelWidth - 80, treeHeight]);
   d3.select('#tree')
-    .attr('height', treeHeight + 80)
+    .attr('height', svgHeight + 80)
+
   // Creates x and y values on each node of root.
   // We will later use this x and y values to:
   // 1. position the circles (after joining the root.descendents data to svg circles)
   // 2. create links between the circles (after creating lines using root.links that go from x to y)
   treeLayout(root);
 
-  // SELECT a g object with node as their class
+  // SELECT a g object with nodes as their class
   d3.select('svg g.nodes')
     .selectAll('circle.node') // select ALL circle objects with nodes as class (there are none)
     .data(root.descendants()) // attach the data to each of the nodes
@@ -68,7 +68,7 @@ function createTree(inputData) {
     })
     .attr('r', 7); // set radius of the circle size
 
-  // Add tex"nodes:",t labels at the same x / y co-ordinates as the nodes
+  // Add text nodes:",t labels at the same x / y co-ordinates as the nodes
   d3.selectAll('svg g.nodes')
     .selectAll('text.label')
     .data(root.descendants())
@@ -109,7 +109,7 @@ function createTree(inputData) {
 }
 
 // DELETE WHEN LIVE
-// createTree(data[0]);
+createTree(data[0]);
 // createTree(data.data[0].children[0]);
 
 // ##########################################   TREE ZOOMING / PANNING / CENTERING
@@ -120,17 +120,20 @@ const zoom = d3.zoom();
 
 // Updates the g position based on user interactions (gets invoked inside startZoom())
 function zoomed() {
+  const g = d3.select('#treeG');
   g.attr('transform', d3.event.transform);
 }
 
 // Start and end zoom functions for event listener
 function startZoom() {
   // Set zoom event listener on svg
+  const svg = d3.select('#tree');
   svg.call(zoom.on('zoom', zoomed));
 }
 
 function endZoom() {
   // remove zoom listener
+  const svg = d3.select('#tree');
   svg.on('.zoom', null);
 }
 
@@ -151,7 +154,7 @@ bodyElement.addEventListener('keyup', (event) => {
   }
 });
 
-// Centering the tree
+// Centering the tree (resource which might help - http://bl.ocks.org/robschmuecker/7926762)
 // Function to reset svg so tree is centered
 function centerTree() {
   svg.transition().duration(750).call(zoom.transform, d3.zoomIdentity);
@@ -303,6 +306,3 @@ function addChildren(infoPanel, childrenObject) {
     childrenProperties.appendChild(childrenBar);
   }
 }
-  // Exporting the objects w/ nodes here (change Name)
-  export const objectNode  =  globalRoot;
-

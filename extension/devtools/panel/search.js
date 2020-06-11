@@ -1,3 +1,4 @@
+import * as d3 from '../../libraries/d3.min.js';
 // Recursively go over the tree until we find the name of a component
 // function findComp(arr, name) {
 //   const result = [];
@@ -21,7 +22,10 @@ let arr = ['HTML', 'CSS', 'PHP', 'Javascript', 'Dart', 'Python', 'Swift', 'Java'
 
   // make it all lowercase
  function autoComplete(arr, input) {
-    return arr.filter(e =>e.toLowerCase().includes(input.toLowerCase()));
+  //  Grab all nodes use d3.selectall
+  // replicate filter using d3 method -> d3 object of filters
+    let allNodes = d3.selectAll('circle.node');
+    return allNodes.filter(e =>e.data.name.toLowerCase().includes(input.toLowerCase()));
  }
 
 function getValue(val){
@@ -31,18 +35,18 @@ function getValue(val){
        result.innerHTML='';
        return
      }
-     console.log('Hi, are we in?');
+   
      // search goes here 
      let data = autoComplete(arr,val);
     
     
     // append list data
      let res = '';
-     data.forEach(e=>{
-        res += '<li>'+e+'</li>';
+     data.each(e=>{
+        res += '<li>'+e.data.name+'</li>';
      })
   
      result.innerHTML = res;
  }
 
-module.exports = findComp;
+export { getValue }

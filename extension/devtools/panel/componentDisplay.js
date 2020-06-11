@@ -12,16 +12,26 @@ class ComponentDisplay {
   update(component) {
     // clear
     this.parent.innerHTML = '';
-    const compObj = {};
+    const compArr = [];
 
-    // conditionals
-    if (component.state) compObj.state = this.displayState(component.state);
+    // conditionals to load compArr based on component properties
+    if (component.state) {
+      // if functional state
+      if (
+        component.hooks &&
+        component.hooks.some((hook) => hook === 'useState')
+      ) {
+        compArr.push(this.displayState(component.state, true));
+      } else {
+        compArr.push(this.displayState(component.state, false));
+      }
+    }
+    if (component.props) compArr.push(this.displayProps(component.props));
     if (component.children)
-      compObj.children = this.displayChildren(component.children);
-    if (component.props) compObj.props = this.displayProps(component.props);
+      compArr.push(this.displayChildren(component.children));
 
-    // append node/nodes
-    this.parent.append(...Object.values(compObj));
+    // append node/nodes from compArr
+    this.parent.append(...compArr);
   }
 
   displayChildren(arr) {
@@ -41,14 +51,25 @@ class ComponentDisplay {
     return details;
   }
 
-  displayState(input) {
+  displayState(input, usedHooks) {
     const details = document.createElement('details');
     const summary = document.createElement('summary');
-    const span = document.createElement('span');
+    const list = document.createElement('ul');
     summary.textContent = 'State';
 
-    span.append(this.displayData(input));
-    details.append(summary, span);
+    if (usedHooks) {
+      input.forEach((stateValue) => {
+        const li = document.createElement('li');
+        li.append(this.displayData(stateValue));
+        list.appendChild(li);
+      });
+    } else {
+      const li = document.createElement('li');
+      li.append(this.displayData(input));
+      list.appendChild(li);
+    }
+
+    details.append(summary, list);
     return details;
   }
 
@@ -111,4 +132,4 @@ class ComponentDisplay {
   }
 }
 
-module.exports = ComponentDisplay ;
+module.exports = ComponentDisplay;

@@ -1,7 +1,8 @@
 import * as d3 from '../../libraries/d3.min.js';
+import { addInterationsListeners } from './interactions';
 
 // ##########################################   BUILDING THE TREE
-function createTree(inputData) {
+function createTree(inputData, panelInstance) {
   
 
   // Clear any previous tree data to avoid overlap
@@ -13,7 +14,7 @@ function createTree(inputData) {
   let root = d3.hierarchy(inputData); // using fake data here
   // // Can check out what the structure looks like
   console.log('Nodes',root.descendants()) // -> shows the nested object of nodes
-  // console.log(root.links()) // -> shows the array on links which connect the nodes
+  console.log(root.links()) // -> shows the array on links which connect the nodes
 
   // Store 66% of the users screen width for creating the tree
   const panelWidth = Math.floor(screen.width * 0.66);
@@ -64,31 +65,56 @@ function createTree(inputData) {
     .attr('x', (d) => d.x)
     .attr('y', (d) => d.y - 10);
 
-  d3.select('svg g.links') // select the g object with class links
-    .selectAll('line.link') // select all the line objects with class link - ain't any so we gunna create them
-    .data(root.links()) // attach the links data
-    .enter() // add the nodes that are missing
-    .append('line') // by creating a line object
-    .classed('link', true) // set the class
-    .attr('x1', function (d) {
-      return d.source.x;
-    }) // set the source x and y coordinates
-    .attr('y1', function (d) {
-      return d.source.y;
-    })
-    .attr('x2', function (d) {
-      return d.target.x;
-    }) // set the target x and y coordinates
-    .attr('y2', function (d) {
-      return d.target.y;
-    });
+    // Links with straight lines
+  // d3.select('svg g.links') // select the g object with class links
+  //   .selectAll('line.link') // select all the line objects with class link - ain't any so we gunna create them
+  //   .data(root.links()) // attach the links data
+  //   .enter() // add the nodes that are missing
+  //   .append('line') // by creating a line object
+  //   .classed('link', true) // set the class
+  //   .attr('x1', function (d) {
+  //     return d.source.x;
+  //   }) // set the source x and y coordinates
+  //   .attr('y1', function (d) {
+  //     return d.source.y;
+  //   })
+  //   .attr('x2', function (d) {
+  //     return d.target.x;
+  //   }) // set the target x and y coordinates
+  //   .attr('y2', function (d) {
+  //     return d.target.y;
+  //   });
 
-  // Grabs all nodes and adds 'click' event listener
-  let nodes = d3.selectAll('circle.node');
-  nodes.on('click', function (datum, index, nodes) {
-    console.log(datum.data);
-    populatePanel(datum.data);
-  });
+    // Links with Curves
+    // Link for potentially making curves more extreme - https://stackoverflow.com/questions/44958789/d3-v4-how-to-use-linkradial-to-draw-a-link-between-two-points
+    d3.select('svg g.links') // select the g object with class links
+      .attr("fill", "none")
+      .attr("stroke", "#e8e888")
+      .attr("stroke-opacity", 0.4)
+      .attr("stroke-width", 1.5)
+      .selectAll('path.link') // select all the line objects with class link - ain't any so we gunna create them
+      .data(root.links())
+      .join("path")
+      // .attr("d", function(d) {
+      //     var x0 = d.source.x;
+      //     var y0 = d.source.y;
+      //     var y1 = d.target.y;
+      //     var x1 = d.target.x;
+      //     var k = 10;
+        
+      //     var path = d3.path()
+      //     path.moveTo(x0, y0)
+      //     path.bezierCurveTo(x1,y0-k,x0,y1-k,x1,y1);
+      //     path.lineTo(x1,y1);
+        
+      //     return path.toString();
+      //   })
+      // OR
+      .attr("d", d3.linkVertical()
+              .x(d => d.x)
+              .y(d => d.y));
+
+  addInterationsListeners(panelInstance)
 }
 
 export {createTree};

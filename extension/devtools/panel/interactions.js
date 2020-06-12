@@ -1,18 +1,22 @@
 import * as d3 from '../../libraries/d3.min.js';
 
 // ##########################################   OVERALL FUNCTION
-function addInterationsListeners() {
+function addInteractionsListeners(panelInstance) {
   const zoom = d3.zoom();
   addZoomListener(zoom);
   addCenterTreeListener(zoom);
   addShowStateListener();
-  addSearchListener();
+  addClickListeners(panelInstance)
 }
 
 // Utility function for transitions
 let t = d3.transition()
-    .duration(750)
-    .ease(d3.easeLinear);
+          .duration(750)
+          .ease(d3.easeLinear);
+
+let tSlow = d3.transition()
+              .duration(0)
+              .ease(d3.easeLinear);
 
 // ##########################################   TREE ZOOMING / PANNING
 const zoom = d3.zoom();
@@ -110,23 +114,34 @@ function addShowStateListener() {
   document.getElementById('show-state').addEventListener('click', closedUpdateNodes()) 
 }
 
-// ##########################################   SEARCH
-function highlightNodes(){
-  let keyword = document.getElementById('searchBox').value;
-  d3.selectAll('circle.node')
-    .each(function(d){
-      if (d.data.name === keyword) {
-        d3.select(this).transition(t)
-                      .style("fill", 'blue')
-                      .attr('r', 14)
-      }
-    })
+// Grabs all nodes and adds 'click' event listener
+function addClickListeners(panelInstance){
+  let nodes = d3.selectAll('circle.node');
+  let selected;
+  let originalColor;
+  nodes.on('click', function (datum, index, nodes) {
+    console.log("INSIDE CLICK LISTENER")
+    if (selected) {
+      selected.interrupt()
+      console.log('before color')
+      selected.style('fill', originalColor)
+    }
+    selected = d3.select(this);
+    originalColor = selected.attr('fill')
+    function repeat(){
+      selected.style("fill", '#F6CF63')
+              .transition(tSlow)
+              .attr('r', 8)
+              .transition(tSlow)
+              .attr('r', 7)
+              .on('end', repeat)
+    }
+    repeat()
+    panelInstance.update(datum.data);
+  });
 }
 
-function addSearchListener(){
-  const searchBox = document.getElementById('searchBox');
-  searchBox.addEventListener('search', highlightNodes)
-}
 
 
-export { addInterationsListeners };
+
+export { addInteractionsListeners };

@@ -1,5 +1,5 @@
 import * as d3 from '../../libraries/d3.min.js';
-import { addInterationsListeners } from './interactions';
+import { addInteractionsListeners } from './interactions';
 
 // ##########################################   BUILDING THE TREE
 function createTree(inputData, panelInstance) {
@@ -114,7 +114,7 @@ function createTree(inputData, panelInstance) {
               .x(d => d.x)
               .y(d => d.y));
 
-  addInterationsListeners(panelInstance)
+    addInteractionsListeners(panelInstance)
 }
 
 export {createTree};

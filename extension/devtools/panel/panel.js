@@ -4,10 +4,26 @@ import { data } from './data-example.js';
 import ComponentDisplay from './componentDisplay';
 import { getValue } from './search';
 import { createTree } from './createTree';
-import { addInterationsListeners } from './interactions'
 
-// Store 66% of the users screen width for creating the tree
-const panelWidth = Math.floor(screen.width * 0.66);
+// ################################# POPULATING THE PANEL
+// name - String
+// state - object
+// stateCategory
+// props - array?
+// hooks if functional
+
+const theInfoPanel = document.getElementById('info-panel');
+const CompDisplay = new ComponentDisplay(theInfoPanel);
+
+
+let idFind = document.getElementById("searchInput")
+idFind.addEventListener('keyup', () => {
+  console.log('hi there');
+  let value = document.getElementById("searchInput").value;
+  getValue(value)
+})
+
+
 
 // ########################################## CREATE PORT CONNECTION WITH BACKGROUND.JS
 const createPort = () => {
@@ -21,36 +37,14 @@ const createPort = () => {
     // if (!message.data) return;
 
     console.log('message received by panel ', message);
-    createTree(message);
-    addInterationsListeners()
+    createTree(message, CompDisplay);
   });
 };
 createPort();
 
 // For testing
-createTree(data[0])
-addInterationsListeners()
+createTree(data[0], CompDisplay)
 
 
-// ################################# POPULATING THE PANEL
-// name - String
-// state - object
-// stateCategory
-// props - array?
-// hooks if functional
 
-const theInfoPanel = document.getElementById('info-panel');
-const CompDisplay = new ComponentDisplay(theInfoPanel);
-
-function populatePanel(dataObj) {
-  CompDisplay.update(dataObj);
-}
-
-
-let idFind = document.getElementById("searchInput")
-idFind.addEventListener('keyup', () => {
-  console.log('hi there');
-  let value = document.getElementById("searchInput").value;
-  getValue(value)
-})
 

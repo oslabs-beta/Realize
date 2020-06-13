@@ -41,8 +41,6 @@ function hook() {
     return;
   }
 
-  console.log('ayy lamo');
-
   // patch react devtools function called on render
   devTools.onCommitFiberRoot = (function (original) {
     return function (...args) {

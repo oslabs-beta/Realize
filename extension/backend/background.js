@@ -25,13 +25,6 @@ chrome.runtime.onConnect.addListener((port) => {
 
 function handleMessage(request, sender, sendResponse) {
   // if from panel
-  if (sender.url === chrome.runtime.getURL('panel.html')) {
-    // Execute the script that is send from Devtools (This is just an example)
-    chrome.tabs.executeScript(request.tabId, {
-      code: request.script,
-    });
-    return;
-  }
 
   if (sender.tab) {
     const tabID = sender.tab.id;

@@ -43,8 +43,4 @@ const createPort = () => {
 createPort();
 
 // For testing
-createTree(data[0], CompDisplay)
-
-
-
-
+// createTree(data[0], CompDisplay)

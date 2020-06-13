@@ -2,8 +2,8 @@
 // This creates the dev tools panel using the panel.html file as the template
 
 chrome.devtools.panels.create(
-  'Realise', // title
-  'palm-tree.svg', // icon
+  'Realize', // title
+  '', // icon
   './panel.html' // content
 );
 // Adds a sidebar to the elements panel

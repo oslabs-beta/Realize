@@ -140,6 +140,12 @@ summary, details {
 
 #tree {
   margin: auto;
+  overflow:visible;
+  padding-top: 15px;
+}
+
+#treeG {
+  /* margin: 10px; */
 }
 
 .nodes {
@@ -152,7 +158,7 @@ summary, details {
   font: 12px sans-serif;
 }
 #tree-container {
-  padding: 10px;
+  /* padding: 10px; */
 }
 
 .button-bar {

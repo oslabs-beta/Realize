@@ -1,5 +1,6 @@
 import * as d3 from '../../libraries/d3.min.js';
 import { addInteractionsListeners } from './interactions';
+import addSearchListener from './search';
 
 // ##########################################   BUILDING THE TREE
 function createTree(inputData, panelInstance) {
@@ -138,7 +139,15 @@ function createTree(inputData, panelInstance) {
       .attr("stroke-opacity", 0.4)
       .attr("stroke-width", 1.5)
 
+    let namesArray = []
+    d3.selectAll('circle.node')
+      .each(function(d){
+        namesArray.push(d.data.name)
+      })
+    
+    let uniqueNamesArray = [...new Set(namesArray)];
     addInteractionsListeners(panelInstance)
+    addSearchListener(uniqueNamesArray);
 }
 
 export {createTree};

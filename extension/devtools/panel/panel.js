@@ -16,14 +16,6 @@ const theInfoPanel = document.getElementById('info-panel');
 const CompDisplay = new ComponentDisplay(theInfoPanel);
 
 
-let idFind = document.getElementById("searchInput")
-idFind.addEventListener('keyup', () => {
-  console.log('hi there');
-  let value = document.getElementById("searchInput").value;
-  getValue(value)
-})
-
-
 
 // ########################################## CREATE PORT CONNECTION WITH BACKGROUND.JS
 const createPort = () => {

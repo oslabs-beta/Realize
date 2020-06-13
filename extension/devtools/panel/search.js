@@ -22,8 +22,11 @@ function getValue(val) {
     var res = '';
     data.each(function (e) {
         res += '<li>' + e.data.name + '</li>';
+        console.log('hi');
     });
     result.innerHTML = res;
+    // Result
+    console.log('The components:~!!!', result); // Holds the name of the variables in a <li><li>
 }
 // export { getValue }
 exports["default"] = getValue;

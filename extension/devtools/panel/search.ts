@@ -7,8 +7,9 @@ let result = document.querySelector('.result');
  function autoComplete(input) {
   //  Grab all nodes use d3.selectalcll
   // replicate filter using d3 method -> d3 object of filters
-    let allNodes = d3.selectAll('circle.node');
-    return allNodes.filter(e =>e.data.name.toLowerCase().includes(input.toLowerCase()));
+     let allNodes = d3.selectAll('circle.node');
+     return allNodes.filter(e =>e.data.name.toLowerCase().includes(input.toLowerCase()));
+     
  }
 
 function getValue(val){
@@ -22,15 +23,23 @@ function getValue(val){
      // search goes here 
      let data = autoComplete(val);
     
-    
     // append list data
      let res = '';
      data.each(e=>{
         res += '<li>'+e.data.name+'</li>';
+        console.log('hi');
      })
+
   
      result.innerHTML = res;
+
+     // Result
+     console.log('The components:~!!!', result); // Holds the name of the variables in a <li><li>
+
+
  }
+
+
 
 // export { getValue }
 export default getValue;

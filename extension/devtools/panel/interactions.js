@@ -27,14 +27,14 @@ function addZoomListener(zoom) {
 
   // Attach eventlistener for 'option' keydown and trigger startZoom()
   bodyElement.addEventListener('keydown', (event) => {
-    if (event.keyCode === 18) {
+    if (event.keyCode === 16) {
       startZoom(zoom);
     }
   });
 
   // Remove zoom on key release
   bodyElement.addEventListener('keyup', (event) => {
-    if (event.keyCode === 18) {
+    if (event.keyCode === 16) {
       endZoom();
     }
   });
@@ -120,6 +120,7 @@ function addClickListeners(panelInstance){
   let selected;
   let originalColor;
   nodes.on('click', function (datum, index, nodes) {
+    if(d3.event.shiftKey) console.log("SHIFT PRESSED") // FOR USE WITH NESTING CHILDREN
     console.log("INSIDE CLICK LISTENER")
     if (selected) {
       selected.interrupt()
@@ -130,9 +131,9 @@ function addClickListeners(panelInstance){
     originalColor = selected.attr('fill')
     function repeat(){
       selected.style("fill", '#F6CF63')
-              .transition(tSlow)
+              .transition(t)
               .attr('r', 8)
-              .transition(tSlow)
+              .transition(t)
               .attr('r', 7)
               .on('end', repeat)
     }
@@ -142,6 +143,22 @@ function addClickListeners(panelInstance){
 }
 
 
+//#################################### Search Function
+function highlightNodes(lowerCaseInput) {
+  let selected = d3.selectAll('circle.node')
+    .filter(function(d){
+      d.data.name.toLowerCase() === lowerCaseInput;
+    })
+
+    selected.transition(t)
+            .attr('r', 10)
+            .transition(t)
+            .attr('r', 7)
+            .transition(t)
+            .attr('r', 10)
+            .transition(t)
+            .attr('r', 7)
+}
 
 
-export { addInteractionsListeners };
+export { addInteractionsListeners, highlightNodes };

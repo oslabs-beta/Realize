@@ -172,6 +172,10 @@ function highlightNodes(lowerCaseInput) {
             .attr('r', 10)
             .transition(t)
             .attr('r', 7)
+            .transition(t)
+            .attr('r', 10)
+            .transition(t)
+            .attr('r', 7)
 }
 
 

@@ -27,6 +27,7 @@ idFind.addEventListener('keyup', () => {
 
 // ########################################## CREATE PORT CONNECTION WITH BACKGROUND.JS
 const createPort = () => {
+  console.log('Inside create port')
   const port = chrome.runtime.connect({ name: 'test' });
   port.postMessage({
     name: 'connect',
@@ -35,7 +36,6 @@ const createPort = () => {
 
   port.onMessage.addListener((message) => {
     // if (!message.data) return;
-
     console.log('message received by panel ', message);
     createTree(message, CompDisplay);
   });

@@ -77,6 +77,10 @@ module.exports = {
           from: 'extension/devtools/panel/styles.css',
           to: '../extension/styles.css',
         },
+        {
+          from: 'extension/icon128.png',
+          to: '../extension/icon128.png',
+        },
       ],
     }),
     // Enables hot reloading - use npm run dev command

@@ -77,10 +77,6 @@ module.exports = {
           from: 'extension/devtools/panel/styles.css',
           to: '../extension/styles.css',
         },
-        {
-          from: 'extension/devtools/palm-tree.svg',
-          to: '../extension/palm-tree.svg',
-        },
       ],
     }),
     // Enables hot reloading - use npm run dev command

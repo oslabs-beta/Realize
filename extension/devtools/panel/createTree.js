@@ -13,8 +13,8 @@ function createTree(inputData, panelInstance) {
   // Creates a heirarchical data structure based on the object passed into it
   let root = d3.hierarchy(inputData); // using fake data here
   // // Can check out what the structure looks like
-  console.log('Nodes',root.descendants()) // -> shows the nested object of nodes
-  console.log(root.links()) // -> shows the array on links which connect the nodes
+  // console.log('Nodes',root.descendants()) // -> shows the nested object of nodes
+  // console.log(root.links()) // -> shows the array on links which connect the nodes
 
   // Store 66% of the users screen width for creating the tree
   const panelWidth = Math.floor(screen.width * 0.66);

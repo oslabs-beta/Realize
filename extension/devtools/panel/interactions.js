@@ -83,16 +83,19 @@ function closedUpdateNodes() {
   // create closure for stateShown
   let stateShown = false;
   return function updateNodes(){
-    let nodes = d3.selectAll('circle.node')
+    let nodes = d3.selectAll('circle.background-node')
     let color;
+    let linkColor;
     let size;
     if (stateShown) {
       color = '#14a897'
-      size = 7
+      linkColor = '#e8e888'
+      size = 6
       stateShown = false
     } else {
       color = '#E45F59'
-      size = 14
+      linkColor = '#E45F59'
+      size = 10
       stateShown = true
     };
     nodes.each(function(d) {
@@ -106,6 +109,18 @@ function closedUpdateNodes() {
     })
     let button = d3.select('#show-state')
     stateShown ? button.transition(t).style('color', color)  : button.transition(t).style('color', 'white')
+
+    let links = d3.selectAll('path.link');
+    links.each(function(d){
+      console.log(d)
+      if (d.source.data.stateType){
+        if(d.source.data.stateType.sending && d.target.data.stateType.receiving){
+          d3.select(this)
+            .transition(t)
+            .style('stroke', linkColor)
+        }
+      }
+    })
   }
 }
 
@@ -121,23 +136,22 @@ function addClickListeners(panelInstance){
   let originalColor;
   nodes.on('click', function (datum, index, nodes) {
     if(d3.event.shiftKey) console.log("SHIFT PRESSED") // FOR USE WITH NESTING CHILDREN
-    console.log("INSIDE CLICK LISTENER")
     if (selected) {
       selected.interrupt()
-      console.log('before color')
       selected.style('fill', originalColor)
     }
     selected = d3.select(this);
     originalColor = selected.attr('fill')
-    function repeat(){
-      selected.style("fill", '#F6CF63')
-              .transition(t)
-              .attr('r', 8)
-              .transition(t)
-              .attr('r', 7)
-              .on('end', repeat)
-    }
-    repeat()
+    selected.style("fill", '#F6CF63')
+    // function repeat(){
+    //   selected.style("fill", '#F6CF63')
+    //           .transition(t)
+    //           .attr('r', 8)
+    //           .transition(t)
+    //           .attr('r', 7)
+    //           .on('end', repeat)
+    // }
+    // repeat()
     panelInstance.update(datum.data);
   });
 }
@@ -162,3 +176,7 @@ function highlightNodes(lowerCaseInput) {
 
 
 export { addInteractionsListeners, highlightNodes };
+
+// Resources for collapsable trees:
+// - http://bl.ocks.org/robschmuecker/7926762
+// - https://www.codeproject.com/tips/1021936/creating-vertical-collapsible-tree-with-d-js

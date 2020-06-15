@@ -2,8 +2,6 @@
 const d3 = require('../../libraries/d3.min.js')
 
 let result = document.querySelector('.result');
-
-  // make it all lowercase
  
 
 function addSearchListener(valuesArray) {
@@ -35,9 +33,6 @@ function addSearchListener(valuesArray) {
  
     result.innerHTML = res;
 
-    // Result
-    //console.log('The components:~!!!', result); // Holds the name of the variables in a <li><li>
-
 
   } 
 
@@ -51,5 +46,5 @@ function addSearchListener(valuesArray) {
 }
 
 
-// export { getValue }
+
 export default addSearchListener;

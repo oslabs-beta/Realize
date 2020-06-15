@@ -66,7 +66,37 @@ function sendToContentScript(tree) {
   window.postMessage({ tree }, '*');
 }
 
-const clean = (item): void => {};
+const clean = (item, depth = 0): any => {
+  // base case
+  if (depth > 10) return 'max recursion depth reached';
+  if (typeof item !== 'object' && typeof item !== 'function') return item;
+
+  // if item is composite
+  if (item === null) return null;
+  if (typeof item === 'object') {
+    let result;
+    if (item.$$typeof && typeof item.$$typeof === 'symbol') {
+      return item.type && typeof item.type !== 'string'
+        ? `<${item.type.name} />`
+        : 'React component';
+    }
+    if (Array.isArray(item)) {
+      result = [];
+      item.forEach((elem, idx) => {
+        result[idx] = clean(elem, depth + 1);
+      });
+    } else {
+      result = {};
+      Object.keys(item).forEach((key) => {
+        result[key] = clean(item[key], depth + 1);
+      });
+    }
+    return result;
+  }
+  if (typeof item === 'function') {
+    return `function: ${item.name}()`;
+  }
+};
 
 const getName = (node, component, parentArr): void | -1 => {
   if (!node.type || !node.type.name) {
@@ -82,21 +112,8 @@ const getName = (node, component, parentArr): void | -1 => {
 
 const getState = (node, component): void => {
   const llRecurse = (stateNode, arr): any => {
-    if (Array.isArray(stateNode.memoizedState)) {
-      const stateArr = [];
-      stateNode.memoizedState.forEach((elem, idx) => {
-        // clean elements of state arr if they are react components
-        if (elem.$$typeof && typeof elem.$$typeof === 'symbol') {
-          console.log('bad state here');
-          stateArr.push(`<${elem.type.name} />`);
-        } else {
-          stateArr.push(elem);
-        }
-      });
-      arr.push(stateArr);
-    } else {
-      arr.push(stateNode.memoizedState);
-    }
+    arr.push(clean(stateNode.memoizedState));
+
     if (
       stateNode.next &&
       stateNode.memoizedState !== stateNode.next.memoizedState
@@ -114,27 +131,17 @@ const getState = (node, component): void => {
   }
 
   // not linked list
-  component.state = node.memoizedState;
+  component.state = clean(node.memoizedState);
 };
 
 const getProps = (node, component): void => {
   if (node.memoizedProps && Object.keys(node.memoizedProps).length > 0) {
-    const cleanProps = {};
+    const props = {};
     Object.keys(node.memoizedProps).forEach((prop) => {
-      cleanProps[prop] = node.memoizedProps[prop];
-      if (typeof cleanProps[prop] === 'function')
-        cleanProps[prop] = `f ${prop}()`;
-      if (
-        cleanProps[prop] &&
-        cleanProps[prop].$$typeof &&
-        typeof cleanProps[prop].$$typeof === 'symbol'
-      )
-        cleanProps[prop] = cleanProps[prop].type
-          ? `<${cleanProps[prop].type.name} />`
-          : 'react component';
+      props[prop] = clean(node.memoizedProps[prop]);
     });
 
-    component.props = cleanProps;
+    component.props = props;
   }
 };
 
@@ -177,7 +184,7 @@ function recurse(node: any, parentArr) {
   // if invalid component, recursion will contine, exit here
   if (getName(node, component, parentArr) === -1) return;
   getState(node, component);
-  if (component.name === 'App') delete component.state;
+  //   if (component.name === 'App') delete component.state;
   getProps(node, component);
   getHooks(node, component);
   // insert component into parent's children array
@@ -189,4 +196,4 @@ function recurse(node: any, parentArr) {
 
 hook();
 
-export {};
+export { clean };

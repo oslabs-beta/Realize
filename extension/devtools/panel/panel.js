@@ -1,8 +1,6 @@
 /* eslint-env browser */
-import * as d3 from '../../libraries/d3.min.js';
 import { data } from './data-example.js';
 import ComponentDisplay from './componentDisplay';
-import getValue from './search';
 import { createTree } from './createTree';
 
 // ################################# POPULATING THE PANEL

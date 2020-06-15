@@ -1,4 +1,4 @@
-import * as d3 from '../../libraries/d3.min.js';
+import * as d3 from '../../libraries/d3.js';
 import { addInteractionsListeners } from './interactions';
 import addSearchListener from './search';
 

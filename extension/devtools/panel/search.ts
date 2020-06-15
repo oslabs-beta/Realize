@@ -1,5 +1,5 @@
 // It works with Common JS File
-const d3 = require('../../libraries/d3.min.js')
+const d3 = require('../../libraries/d3.js')
 
 let result = document.querySelector('.result');
 

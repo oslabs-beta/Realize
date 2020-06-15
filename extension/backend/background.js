@@ -39,3 +39,12 @@ function handleMessage(request, sender, sendResponse) {
 
 // Listen for messages from devtools
 chrome.runtime.onMessage.addListener(handleMessage);
+
+// Called when the user clicks on the browser action.
+chrome.browserAction.onClicked.addListener(function(tab) {
+  // No tabs or host permissions needed!
+  console.log('Turning ' + tab.url + ' red!');
+  chrome.tabs.executeScript({
+    file: "./content_script.js"
+  });
+})

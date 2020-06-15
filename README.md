@@ -6,6 +6,9 @@ As applications scale, it becomes more difficult to track state and to have a ho
 1. Run `npm i`
 2. Run `npm build`
 3. Load the extension into Firefox via Load Temporary Addon - `about:debugging#/runtime/this-firefox`
+4. Navigate to a React website and open the Realize dev tools panel
+5. Click the extension icon (Browser Action) to hook in Realize
+6. Trigger a state change to populate the component tree
 
 * Realize requires React Dev Tools to be installed before use.
 * For optimal performance, Realize is best used with React applications launched from a local server. When running production builds, due to the minification, component names will display differently (they display as only one letter).

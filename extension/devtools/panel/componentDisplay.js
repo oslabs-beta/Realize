@@ -69,6 +69,7 @@ class ComponentDisplay {
     const summary = document.createElement('summary');
     const list = document.createElement('ul');
     summary.textContent = 'State';
+    summary.id = 'state';
 
     if (usedHooks) {
       input.forEach((stateValue) => {

@@ -88,13 +88,15 @@ function closedUpdateNodes() {
     let linkColor;
     let size;
     if (stateShown) {
-      color = '#14a897'
-      linkColor = '#e8e888'
+      // default colors
+      color = '#808080'
+      linkColor = '#353535'
       size = 6
       stateShown = false
     } else {
-      color = '#E45F59'
-      linkColor = '#E45F59'
+      // state showns colors
+      color = '#1eabd5'
+      linkColor = '#1eabd5'
       size = 10
       stateShown = true
     };

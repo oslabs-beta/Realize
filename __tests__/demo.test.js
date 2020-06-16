@@ -145,7 +145,7 @@ describe('ComponentDisplay class testing', () => {
     const result = CD.displayState(state, false);
 
     const target = document.createElement('details');
-    target.innerHTML = formatHTML`<summary>State</summary>
+    target.innerHTML = formatHTML`<summary id="state">State</summary>
                                   <ul>
                                     <li>
                                       <details>

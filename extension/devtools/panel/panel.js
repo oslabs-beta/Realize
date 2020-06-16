@@ -36,3 +36,18 @@ createPort();
 
 // For testing
 // createTree(data[0], CompDisplay)
+
+
+
+// ##################################################### ATTEMPT TO IMPORT FONT!!!!
+let font = new FontFace("Ubuntu", "url('ubuntu.woff2')");
+// document.fonts.add(font);
+
+font.load().then(function(loadedFont)
+{
+    document.fonts.add(loadedFont);
+    //do something after the font is loaded
+    console.log('good job the font loaded')
+}).catch(function(error) {
+    // error occurred
+});

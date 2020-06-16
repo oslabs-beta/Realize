@@ -18,7 +18,7 @@
     }
   ],
 
-  "web_accessible_resources": ["hook.js", "devtools/panel/*.woff2"],
+  "web_accessible_resources": ["hook.js"],
 
   "devtools_page": "devtools-root.html",
 

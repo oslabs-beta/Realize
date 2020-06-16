@@ -89,8 +89,8 @@ function closedUpdateNodes() {
     let size;
     if (stateShown) {
       // default colors
-      color = '#808080'
-      linkColor = '#353535'
+      color = '#707070'
+      linkColor = '#606060'
       size = 6
       stateShown = false
     } else {
@@ -144,7 +144,7 @@ function addClickListeners(panelInstance){
     }
     selected = d3.select(this);
     originalColor = selected.attr('fill')
-    selected.style("fill", '#F6CF63')
+    selected.style("fill", '#eee')
     // function repeat(){
     //   selected.style("fill", '#F6CF63')
     //           .transition(t)

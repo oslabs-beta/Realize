@@ -4,6 +4,8 @@
 /* eslint-disable func-names */
 /* eslint-disable no-underscore-dangle */
 
+const throttle = require('lodash.throttle');
+
 // need to define types here
 declare global {
   interface devTools {
@@ -31,12 +33,14 @@ function hook() {
 
   // if devtools not activated
   if (!devTools) {
+    sendToContentScript('no devtools');
     console.log("looks like you don't have react devtools activated");
     return;
   }
 
   // if hook can't find react
   if (devTools.renderers && devTools.renderers.size < 1) {
+    sendToContentScript('no react');
     console.log("looks like this page doesn't use react");
     return;
   }
@@ -49,10 +53,10 @@ function hook() {
       const arr = [];
       try {
         recurse(rootNode.child, arr);
-        sendToContentScript(arr[0]);
+        if (arr.length > 0) sendToContentScript(arr[0]);
       } catch (error) {
         console.log(error);
-        // sendToContentScript(error);
+        sendToContentScript('error');
       }
 
       return original(...args);
@@ -61,9 +65,9 @@ function hook() {
 }
 
 // message sending function
-function sendToContentScript(tree) {
-  console.log(tree);
-  window.postMessage({ tree }, '*');
+function sendToContentScript(data) {
+  console.log('sent to backend: ', data);
+  window.postMessage({ data }, '*');
 }
 
 const clean = (item, depth = 0): any => {
@@ -174,6 +178,8 @@ const getStateType = (component): void => {
   }
 };
 
+const throttledRecurse = throttle(recurse, 1000);
+
 // function for fiber tree traversal
 function recurse(node: any, parentArr) {
   const component: component = {
@@ -184,7 +190,7 @@ function recurse(node: any, parentArr) {
   // if invalid component, recursion will contine, exit here
   if (getName(node, component, parentArr) === -1) return;
   getState(node, component);
-  //   if (component.name === 'App') delete component.state;
+  if (component.name === 'App') delete component.state;
   getProps(node, component);
   getHooks(node, component);
   // insert component into parent's children array

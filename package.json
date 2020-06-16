@@ -34,6 +34,7 @@
     "webpack-extension-reloader": "^1.1.4"
   },
   "dependencies": {
+    "lodash.throttle": "^4.1.1",
     "node-sass": "^4.14.1"
   }
 }

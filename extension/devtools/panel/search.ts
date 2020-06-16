@@ -1,6 +1,6 @@
 // It works with Common JS File
 const d3 = require('../../libraries/d3.min.js')
-
+import autoComplete from 'accessible-autocomplete'
 let result = document.querySelector('.result');
  
 

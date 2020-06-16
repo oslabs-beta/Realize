@@ -2,6 +2,8 @@
 const d3 = require('../../libraries/d3.min.js')
 // import autoComplete from 'accessible-autocomplete'
 const $ = require('jquery');
+console.log('jquery: ', $);
+// const $ui = require('jquery-ui');
 let result = document.querySelector('.result');
  
 
@@ -28,13 +30,14 @@ function addSearchListener(valuesArray) {
     let res = '';
     data.forEach(e=>{
        res += '<li>'+e+'</li>';
-       console.log('hi');
+       console.log('Jquery...: ', $);
     })
 
  
     result.innerHTML = res;
 
-  } 
+  }
+  
 
   let searchInput = document.getElementById('searchInput');
   searchInput.addEventListener('keyup', () => {
@@ -43,6 +46,13 @@ function addSearchListener(valuesArray) {
 
     getValue(value)
   })
+
+  // $(function() {
+  //   var components = valuesArray;
+  //   $( "#tags" ).autocomplete({
+  //     source: components
+  //   });
+  // });
 }
 
 

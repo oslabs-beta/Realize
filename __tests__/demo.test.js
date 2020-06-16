@@ -23,7 +23,7 @@ describe('ComponentDisplay class testing', () => {
     const test = 'Name';
     const result = CD.displayName(test);
     const target = document.createElement('span');
-    target.classList.add('component');
+    target.classList.add('component-display-name');
     target.innerHTML = formatHTML``;
   });
 

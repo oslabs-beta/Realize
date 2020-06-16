@@ -83,6 +83,7 @@ function createTree(inputData, panelInstance) {
     .enter()
     .append('text')
     .classed('label', true)
+    .style('fill', 'white')
     .style('text-anchor', 'middle')
     .text((d) => d.data.name)
     .attr('x', (d) => d.x)

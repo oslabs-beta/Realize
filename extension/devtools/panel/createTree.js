@@ -10,7 +10,8 @@ function createTree(inputData, panelInstance) {
   // d3.selectAll("circle.node").remove()
   // d3.selectAll("line.link").remove()
   // d3.selectAll("text.label").remove()
-
+  d3.select('#error-message')
+      .style('visibility', 'hidden')
   d3.selectAll("svg g.links").html("")
   d3.selectAll("svg g.nodes").html("")
 

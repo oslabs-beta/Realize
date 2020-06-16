@@ -34,6 +34,10 @@
     "webpack-extension-reloader": "^1.1.4"
   },
   "dependencies": {
+    "accessible-autocomplete": "^2.0.2",
+    "jquery": "^3.5.1",
+    "jquery-ui-dist": "^1.12.1",
+    "jsdom": "^16.2.2",
     "node-sass": "^4.14.1"
   }
 }

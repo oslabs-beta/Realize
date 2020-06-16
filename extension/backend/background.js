@@ -45,8 +45,6 @@ function handleMessage(request, sender, sendResponse) {
 
 // Listen for messages from devtools
 chrome.runtime.onMessage.addListener(handleMessage);
-<<<<<<< HEAD
-=======
 
 // Re-injects the script on refresh
 chrome.tabs.onUpdated.addListener(function(tabId,changeInfo,tab){
@@ -56,4 +54,3 @@ chrome.tabs.onUpdated.addListener(function(tabId,changeInfo,tab){
     });
   }
 });
->>>>>>> mdn-deploy

@@ -6,6 +6,10 @@ chrome.runtime.onConnect.addListener((port) => {
     if (request.name === 'connect' && request.tabID) {
       console.log('tab connected, tabs: ', connectedTabs);
       connectedTabs[request.tabID] = port;
+      // Injects the content-script when panel connection made
+      chrome.tabs.executeScript({
+        file: "./content_script.js"
+      });
     }
   };
 
@@ -21,6 +25,7 @@ chrome.runtime.onConnect.addListener((port) => {
       }
     }
   });
+  
 });
 
 function handleMessage(request, sender, sendResponse) {
@@ -31,6 +36,7 @@ function handleMessage(request, sender, sendResponse) {
     if (tabID in connectedTabs) {
       connectedTabs[tabID].postMessage(request);
       console.log('message sent to tab: ', tabID);
+      console.log("MESSAGE PAYLOAD: ",request)
     }
   }
 
@@ -39,3 +45,15 @@ function handleMessage(request, sender, sendResponse) {
 
 // Listen for messages from devtools
 chrome.runtime.onMessage.addListener(handleMessage);
+<<<<<<< HEAD
+=======
+
+// Re-injects the script on refresh
+chrome.tabs.onUpdated.addListener(function(tabId,changeInfo,tab){
+  if (connectedTabs[tabId]){
+    chrome.tabs.executeScript({
+      file: "./content_script.js"
+    });
+  }
+});
+>>>>>>> mdn-deploy

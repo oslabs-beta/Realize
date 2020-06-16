@@ -3,12 +3,12 @@
 As applications scale, it becomes more difficult to track state and to have a holistic overview of the component hierarchy. Realize is a tool to help developers visualize the structure and state flow of their React applications, especially when they are  growing in scale and complexity. It currently supports React v.16.8.
 
 ## Installation:
-1. Run `npm i`
-2. Run `npm build`
-3. Load the extension into Firefox via Load Temporary Addon - `about:debugging#/runtime/this-firefox`
-4. Navigate to a React website and open the Realize dev tools panel
-5. Click the extension icon (Browser Action) to hook in Realize
-6. Trigger a state change to populate the component tree
+1. Clone the repo onto your computer
+2. Run `npm i` from inside the root directory
+3. Run `npm build`
+4. Load the extension from `build/extension` into Firefox via Load Temporary Addon (found by navigating to `about:debugging#/runtime/this-firefox`)
+5. Navigate to a website that uses React and open the Realize dev tools panel
+7. Trigger a state change to populate the component tree
 
 * Realize requires React Dev Tools to be installed before use.
 * For optimal performance, Realize is best used with React applications launched from a local server. When running production builds, due to the minification, component names will display differently (they display as only one letter).

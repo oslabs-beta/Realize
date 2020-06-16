@@ -4,6 +4,8 @@
 /* eslint-disable func-names */
 /* eslint-disable no-underscore-dangle */
 
+const throttle = require('lodash.throttle');
+
 // need to define types here
 declare global {
   interface devTools {
@@ -48,8 +50,8 @@ function hook() {
       const rootNode = fiberDOM.current.stateNode.current;
       const arr = [];
       try {
-        recurse(rootNode.child, arr);
-        sendToContentScript(arr[0]);
+        throttledRecurse(rootNode.child, arr);
+        if (arr.length > 0) sendToContentScript(arr[0]);
       } catch (error) {
         console.log(error);
         // sendToContentScript(error);
@@ -174,6 +176,8 @@ const getStateType = (component): void => {
   }
 };
 
+const throttledRecurse = throttle(recurse, 300);
+
 // function for fiber tree traversal
 function recurse(node: any, parentArr) {
   const component: component = {
@@ -184,7 +188,7 @@ function recurse(node: any, parentArr) {
   // if invalid component, recursion will contine, exit here
   if (getName(node, component, parentArr) === -1) return;
   getState(node, component);
-  //   if (component.name === 'App') delete component.state;
+  if (component.name === 'App') delete component.state;
   getProps(node, component);
   getHooks(node, component);
   // insert component into parent's children array

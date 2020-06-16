@@ -8,18 +8,13 @@
   },
 
   "permissions": [
-    "activeTab"
+    "activeTab",
+    "<all_urls>"
   ],
-
-  "browser_action": {
-    "default_title": "Make this page red"
-  },
 
   "background": {
     "scripts": ["background.js"]
   },
-
-
 
   "web_accessible_resources": ["hook.js"],
 

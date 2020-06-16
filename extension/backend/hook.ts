@@ -33,14 +33,12 @@ function hook() {
 
   // if devtools not activated
   if (!devTools) {
-    sendToContentScript('no devtools');
     console.log("looks like you don't have react devtools activated");
     return;
   }
 
   // if hook can't find react
   if (devTools.renderers && devTools.renderers.size < 1) {
-    sendToContentScript('no react');
     console.log("looks like this page doesn't use react");
     return;
   }
@@ -52,11 +50,11 @@ function hook() {
       const rootNode = fiberDOM.current.stateNode.current;
       const arr = [];
       try {
-        recurse(rootNode.child, arr);
+        throttledRecurse(rootNode.child, arr);
         if (arr.length > 0) sendToContentScript(arr[0]);
       } catch (error) {
         console.log(error);
-        sendToContentScript('error');
+        // sendToContentScript(error);
       }
 
       return original(...args);
@@ -65,9 +63,9 @@ function hook() {
 }
 
 // message sending function
-function sendToContentScript(data) {
-  console.log('sent to backend: ', data);
-  window.postMessage({ data }, '*');
+function sendToContentScript(tree) {
+  console.log(tree);
+  window.postMessage({ tree }, '*');
 }
 
 const clean = (item, depth = 0): any => {
@@ -178,7 +176,7 @@ const getStateType = (component): void => {
   }
 };
 
-const throttledRecurse = throttle(recurse, 1000);
+const throttledRecurse = throttle(recurse, 300);
 
 // function for fiber tree traversal
 function recurse(node: any, parentArr) {

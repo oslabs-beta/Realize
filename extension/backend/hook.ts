@@ -33,13 +33,13 @@ function hook() {
 
   // if devtools not activated
   if (!devTools) {
-    console.log("looks like you don't have react devtools activated");
+    sendToContentScript("looks like you don't have react devtools activated");
     return;
   }
 
   // if hook can't find react
   if (devTools.renderers && devTools.renderers.size < 1) {
-    console.log("looks like this page doesn't use react");
+    sendToContentScript("looks like this page doesn't use react");
     return;
   }
 
@@ -53,8 +53,9 @@ function hook() {
         throttledRecurse(rootNode.child, arr);
         if (arr.length > 0) sendToContentScript(arr[0]);
       } catch (error) {
-        console.log(error);
-        // sendToContentScript(error);
+        sendToContentScript(
+          "we're sorry, there was an error on our end. To contribute: https://github.com/oslabs-beta/Realize"
+        );
       }
 
       return original(...args);
@@ -64,7 +65,8 @@ function hook() {
 
 // message sending function
 function sendToContentScript(tree) {
-  console.log(tree);
+  // for debugging:
+  // console.log(tree);
   window.postMessage({ tree }, '*');
 }
 
@@ -113,6 +115,7 @@ const getName = (node, component, parentArr): void | -1 => {
 };
 
 const getState = (node, component): void => {
+  // for linked list recursion
   const llRecurse = (stateNode, arr): any => {
     arr.push(clean(stateNode.memoizedState));
 
@@ -126,7 +129,11 @@ const getState = (node, component): void => {
   // if no state, exit
   if (!node.memoizedState) return;
   // if state stored in linked list
-  if (node.memoizedState.memoizedState) {
+  if (node.memoizedState.memoizedState !== undefined) {
+    if (node.memoizedState.next === null) {
+      component.state = clean(node.memoizedState.memoizedState);
+      return;
+    }
     component.state = [];
     llRecurse(node.memoizedState, component.state);
     return;
@@ -165,10 +172,11 @@ const getChildren = (node, component, parentArr): void => {
 
 const getStateType = (component): void => {
   const stateType = {
-    stateful: !!component.state,
-    receiving: !!component.props,
+    stateful: !(component.state === undefined),
+    receiving: !(component.props === undefined),
     sending:
-      component.children && component.children.some((child) => child.props),
+      component.children &&
+      component.children.some((child) => child.props !== undefined),
   };
 
   if (Object.values(stateType).some((isTrue) => isTrue)) {
@@ -182,13 +190,15 @@ const throttledRecurse = throttle(recurse, 300);
 function recurse(node: any, parentArr) {
   const component: component = {
     name: '',
+    // for debugging:
     // node,
   };
 
   // if invalid component, recursion will contine, exit here
   if (getName(node, component, parentArr) === -1) return;
   getState(node, component);
-  if (component.name === 'App') delete component.state;
+  // if (component.name === 'App') component.state = null;
+  // delete component.state;
   getProps(node, component);
   getHooks(node, component);
   // insert component into parent's children array

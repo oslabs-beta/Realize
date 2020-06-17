@@ -18,7 +18,7 @@ class ComponentDisplay {
     compArr.push(this.displayName(component.name));
 
     // conditionals to load compArr based on component properties
-    if (component.state) {
+    if (component.state !== undefined) {
       // if functional state
       if (
         component.hooks &&
@@ -70,7 +70,7 @@ class ComponentDisplay {
     summary.textContent = 'State';
     summary.id = 'state';
 
-    if (usedHooks) {
+    if (usedHooks && Array.isArray(input)) {
       input.forEach((stateValue) => {
         const li = document.createElement('li');
         li.append(this.displayData(stateValue));
@@ -106,7 +106,7 @@ class ComponentDisplay {
   displayData(input) {
     // base case
     if (typeof input !== 'object') return input;
-    if (input === null) return null;
+    if (input === null) return 'null';
 
     const details = document.createElement('details');
     const summary = document.createElement('summary');

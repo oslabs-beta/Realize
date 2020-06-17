@@ -163,8 +163,11 @@ function addClickListeners(panelInstance){
 function highlightNodes(lowerCaseInput) {
   let selected = d3.selectAll('circle.node')
     .filter(function(d){
-      d.data.name.toLowerCase() === lowerCaseInput;
+      console.log('d data name',d.data.name.toLowerCase())
+      console.log('input', lowerCaseInput)
+      return d.data.name.toLowerCase() === lowerCaseInput;
     })
+    console.log('selected nodes', selected)
 
     selected.transition(t)
             .attr('r', 10)

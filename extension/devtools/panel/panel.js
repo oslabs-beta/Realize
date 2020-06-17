@@ -3,6 +3,8 @@ import { data } from './data-example.js';
 import ComponentDisplay from './componentDisplay';
 import { createTree } from './createTree';
 import * as d3 from '../../libraries/d3.js';
+// import search from './search';
+import { highlightNodes } from './interactions';
 
 // Instantiate the Panel
 
@@ -36,7 +38,19 @@ chrome.runtime.sendMessage({
 
 // For testing
 // createTree(data[0], CompDisplay)
-
+let search = document.getElementById('searchInput')
+console.log(search)
+search.addEventListener("keyup", function(event) {
+  console.log("Inside event listener")
+  console.log("event", event)
+  if (event.keyCode === 13){
+    console.log('hit');
+    let input = search.value.toLowerCase()
+    console.log('input', input)
+    highlightNodes(input)
+    search.textContent = ''
+  }
+})
 
 
 // ##################################################### ATTEMPT TO IMPORT FONT!!!!

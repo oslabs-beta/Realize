@@ -29,10 +29,8 @@ function addSearchListener(valuesArray) {
 
  
     result.innerHTML = res;
-
   }
   
-
   let searchInput = document.getElementById('searchInput');
   searchInput.addEventListener('keyup', () => {
     const HTMLInputElement = document.getElementById('searchInput') 
@@ -40,7 +38,7 @@ function addSearchListener(valuesArray) {
 
     getValue(value)
   })
-
+  
   
 }
 

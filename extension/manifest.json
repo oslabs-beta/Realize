@@ -1,10 +1,14 @@
 {
   "manifest_version": 2,
-  "name": "Realize",
-  "version": "0.0.0.1",
+  "name": "Realize for React",
+  "version": "1.0.0.0",
+  "description": "A React component tree visualizer",
 
   "icons": {
-    "128": "icon128.png" 
+    "16": "16.png",
+    "32": "32.png",
+    "48": "48.png",
+    "128": "128.png" 
   },
 
   "permissions": [
@@ -18,7 +22,5 @@
 
   "web_accessible_resources": ["hook.js"],
 
-  "devtools_page": "devtools-root.html",
-
-  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self';"
+  "devtools_page": "devtools-root.html"
 }

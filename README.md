@@ -21,6 +21,6 @@ As applications scale, it becomes more difficult to track state and to have a ho
 * Click on center to center tree
 * Click on state to view all the state that exists in the tree and where the state is being passed. State is indicated by a pulsing animation behind the node.
 
-## To navigate the tree:
+### To navigate the tree:
 * Shift + mouse scroll will zoom the tree in and out
 * Shift + left click will allow you to move the tree around in the panel

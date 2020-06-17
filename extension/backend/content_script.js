@@ -15,7 +15,6 @@ const sendMessage = (tree) => {
 
 function handleMessage(request, sender, sendResponse) {
   if (request.data && request.data.tree) {
-    console.log('message sent');
     sendMessage(request.data.tree);
   }
 }

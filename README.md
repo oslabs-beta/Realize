@@ -11,10 +11,9 @@ As applications scale, it becomes more difficult to track state and to have a ho
 5. Navigate to a website that uses React and open the Realize dev tools panel
 7. Trigger a state change to populate the component tree
 
-* Realize requires React Dev Tools to be installed before use.
-* For optimal performance, Realize is best used with React applications launched from a local server. When running production builds, due to the minification, component names will display differently (they display as only one letter).
-* After downloading, the Realize extension can be found as a tab in the dev tools panel.
-* To view the tree hierarchy, click on a stateful element on the app to begin. The tree will live update as more components are accessed.
+**Prerequisites**
+- Realize requires React Dev Tools to be installed before use.
+-  For optimal performance, Realize is best used with React applications launched from a local server in development mode. Minification reduces production websites component names
 
 ### Functionality:
 * Utilize the search bar to search for any component that exists in the tree. The search will bring you to the first top-most level component that matches.

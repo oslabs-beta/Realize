@@ -78,8 +78,20 @@ module.exports = {
           to: '../extension/styles.css',
         },
         {
-          from: 'extension/icon128.png',
-          to: '../extension/icon128.png',
+          from: 'extension/128.png',
+          to: '../extension/128.png',
+        },
+        {
+          from: 'extension/32.png',
+          to: '../extension/32.png',
+        },
+        {
+          from: 'extension/16.png',
+          to: '../extension/16.png',
+        },
+        {
+          from: 'extension/48.png',
+          to: '../extension/48.png',
         },
       ],
     }),

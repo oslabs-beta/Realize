@@ -149,6 +149,7 @@ function createTree(inputData, panelInstance) {
     let uniqueNamesArray = [...new Set(namesArray)];
     addInteractionsListeners(panelInstance)
     addSearchListener(uniqueNamesArray);
+    //addSearchListener(namesArray) // If we want multpile components with the same name
 }
 
 export {createTree};

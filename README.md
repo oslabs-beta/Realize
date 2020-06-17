@@ -9,10 +9,11 @@ As React applications scale, it becomes more difficult to track state and to hav
 3. Open the dev tools window and select the Realize Panel
 4. Trigger a state change to see the component tree populate
 
+  
 **Prerequisites**
 - Realize requires React Dev Tools to be installed before use.
 - Realize is best used on non-deployed applications. This uglification of deployed websites makes the component structure pretty unreadable.
-
+  
 ## 🔥 Key Features  
 **Zoom & Pan** - Hold down shift to enable dragging and zooming on the tree (to recenter just click the center button)  
 **Component Focus** - Click on a node to view state, props and children in the right and panel  
@@ -34,6 +35,15 @@ Fan Shao - [Github](https://github.com/fansfansfansfans) | [LinkedIn](https://ww
 Harry Clifford - [Github](https://github.com/HpwClifford/) | [LinkedIn](https://www.linkedin.com/in/harry-clifford-3788951a9/)  
 Henry Black - [Github](https://github.com/blackhaj) | [LinkedIn](https://www.linkedin.com/in/henryblack1/)  
 Horatiu Mitrea - [Github](https://github.com/hmitrea) | [LinkedIn](https://www.linkedin.com/in/horatiu-mitrea-515704137/)  
+
+## Contact
+You can contact us personally through our LinkedIn accounts (links above) or as a team via [realizeforeact@gmail.com](mailto:realizeforeact@gmail.com)
+
+## Contributing
+We would love for you to test out our extensions and submit any issues you encounter. Feel free to fork to your own repo and submit PRs. Some features we would like to add:
+1. Performance data on render times
+2. Expanding/collapsing nodes
+3. Autocomplete on search
 
 
 ### License

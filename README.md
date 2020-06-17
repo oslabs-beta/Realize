@@ -1,4 +1,4 @@
-![Logo](./assets/logo150.png)
+![Logo](./assets/LogoAnimSmall.gif)
 # Realize For React
 
 As React applications scale, it becomes more difficult to track state and to have a holistic overview of the component hierarchy. Realize is a tool to help developers visualize the structure and state flow of their React applications, especially when they are growing in scale and complexity. It currently supports React v.16.8.

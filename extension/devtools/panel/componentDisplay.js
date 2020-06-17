@@ -41,10 +41,10 @@ class ComponentDisplay {
   }
 
   displayName(name){
-    const span = document.createElement('span')
-    span.classList.add('component-display-name')
-    span.textContent = name
-    return span
+    const div = document.createElement('div')
+    div.classList.add('component-display-name')
+    div.textContent = name
+    return div
   }
 
   displayChildren(arr) {
@@ -69,6 +69,7 @@ class ComponentDisplay {
     const summary = document.createElement('summary');
     const list = document.createElement('ul');
     summary.textContent = 'State';
+    summary.id = 'state';
 
     if (usedHooks) {
       input.forEach((stateValue) => {

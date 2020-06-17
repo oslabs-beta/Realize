@@ -1,11 +1,7 @@
 // It works with Common JS File
-const d3 = require('../../libraries/d3.min.js')
-// import autoComplete from 'accessible-autocomplete'
-// const $ = require('jquery');
-// const $ui = require('jquery-ui');
-let result = document.querySelector('.result');
- 
-
+var d3 = require('../../libraries/d3.js');
+var result = document.querySelector('.result');
+// make it all lowercase
 function addSearchListener(valuesArray) {
 
   function autoComplete(input) {
@@ -29,7 +25,6 @@ function addSearchListener(valuesArray) {
     let res = '';
     data.forEach(e=>{
        res += '<li>'+e+'</li>';
-       console.log('Jquery...: ', $);
     })
 
  
@@ -48,8 +43,6 @@ function addSearchListener(valuesArray) {
 
   
 }
-
-
 
 
 export default addSearchListener;

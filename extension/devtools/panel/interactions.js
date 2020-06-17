@@ -1,4 +1,4 @@
-import * as d3 from '../../libraries/d3.min.js';
+import * as d3 from '../../libraries/d3.js';
 
 // ##########################################   OVERALL FUNCTION
 function addInteractionsListeners(panelInstance) {
@@ -88,13 +88,15 @@ function closedUpdateNodes() {
     let linkColor;
     let size;
     if (stateShown) {
-      color = '#14a897'
-      linkColor = '#e8e888'
+      // default colors
+      color = '#707070'
+      linkColor = '#606060'
       size = 6
       stateShown = false
     } else {
-      color = '#E45F59'
-      linkColor = '#E45F59'
+      // state showns colors
+      color = '#1eabd5'
+      linkColor = '#1eabd5'
       size = 10
       stateShown = true
     };
@@ -142,7 +144,7 @@ function addClickListeners(panelInstance){
     }
     selected = d3.select(this);
     originalColor = selected.attr('fill')
-    selected.style("fill", '#F6CF63')
+    selected.style("fill", '#eee')
     // function repeat(){
     //   selected.style("fill", '#F6CF63')
     //           .transition(t)

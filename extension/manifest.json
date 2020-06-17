@@ -7,16 +7,14 @@
     "128": "icon128.png" 
   },
 
+  "permissions": [
+    "activeTab",
+    "<all_urls>"
+  ],
+
   "background": {
     "scripts": ["background.js"]
   },
-
-  "content_scripts": [
-    {
-      "matches": ["<all_urls>"],
-      "js": ["content_script.js"]
-    }
-  ],
 
   "web_accessible_resources": ["hook.js"],
 

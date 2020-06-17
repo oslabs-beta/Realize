@@ -1,7 +1,8 @@
 {
   "manifest_version": 2,
-  "name": "Realize",
+  "name": "Realize for React",
   "version": "1.0.0.0",
+  "description": "A React component tree visualizer",
 
   "icons": {
     "16": "16.png",

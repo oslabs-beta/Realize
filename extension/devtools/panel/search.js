@@ -1,8 +1,7 @@
 // It works with Common JS File
 const d3 = require('../../libraries/d3.min.js')
 // import autoComplete from 'accessible-autocomplete'
-const $ = require('jquery');
-console.log('jquery: ', $);
+// const $ = require('jquery');
 // const $ui = require('jquery-ui');
 let result = document.querySelector('.result');
  
@@ -47,13 +46,9 @@ function addSearchListener(valuesArray) {
     getValue(value)
   })
 
-  // $(function() {
-  //   var components = valuesArray;
-  //   $( "#tags" ).autocomplete({
-  //     source: components
-  //   });
-  // });
+  
 }
+
 
 
 

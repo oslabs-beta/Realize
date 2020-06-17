@@ -1,7 +1,7 @@
 "use strict";
 exports.__esModule = true;
 // It works with Common JS File
-var d3 = require('../../libraries/d3.min.js');
+var d3 = require('../../libraries/d3.js');
 var result = document.querySelector('.result');
 // make it all lowercase
 function addSearchListener(valuesArray) {

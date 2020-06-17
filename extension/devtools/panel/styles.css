@@ -1,3 +1,7 @@
+body {
+  background-color: #242424;
+}
+
 #info-panel {
   font-family: 'Helvetica';
   font-size: 1.5em;
@@ -8,7 +12,6 @@
   text-decoration: none;
   margin: 0;
   color: white;
-  /* border: 1px solid white; */
 }
 
 /* Main Window and Panels */
@@ -39,10 +42,6 @@
   flex-direction: column;
 }
 
-#searchInput {
-  color: black;
-}
-
 #title-panel {
   color: white;
 }
@@ -51,9 +50,9 @@
   color: white;
   font-size: 1.5em;
   text-align: center;
-  letter-spacing: 0.2em;
+  letter-spacing: 0.05em;
   padding: 10px;
-  opacity: 0.8;
+  opacity: .8;
 }
 
 #info-panel {
@@ -107,6 +106,7 @@
   text-align: center;
   letter-spacing: 0.2em;
   font-weight: bold;
+  color: rgb(210, 215, 240); 
 }
 
 #state {
@@ -135,10 +135,6 @@ summary {
   padding-top: 15px;
 }
 
-#treeG {
-  /* margin: 10px; */
-}
-
 .nodes {
   fill: #707070;
 }
@@ -149,13 +145,10 @@ summary {
   font: 12px sans-serif;
   fill: white;
 }
-#tree-container {
-  /* padding: 10px; */
-}
 
 .button-bar {
-  display: flex;
-  flex-direction: column;
+  top: 0px;
+  right: 0px;
 }
 
 #center-tree,

@@ -2,7 +2,7 @@
 
 As applications scale, it becomes more difficult to track state and to have a holistic overview of the component hierarchy. Realize is a tool to help developers visualize the structure and state flow of their React applications, especially when they are  growing in scale and complexity. It currently supports React v.16.8.
 
-## Installation:
+##  Installation:
 1. Clone the repo onto your computer
 2. Run `npm i` from inside the root directory
 3. Run `npm build`

@@ -33,13 +33,13 @@ function hook() {
 
   // if devtools not activated
   if (!devTools) {
-    sendToContentScript("looks like you don't have react devtools activated");
+    sendToContentScript("Looks like you don't have react devtools activated");
     return;
   }
 
   // if hook can't find react
   if (devTools.renderers && devTools.renderers.size < 1) {
-    sendToContentScript("looks like this page doesn't use react");
+    sendToContentScript("Looks like this page doesn't use React. Go to a React page and trigger a state change");
     return;
   }
 

@@ -92,6 +92,10 @@ module.exports = {
       },
     }),
   ],
+
+  optimization: {
+    minimize: false
+  },
   
   // devtool: 'cheap-module-source-map', // Needed as to stop Chrome eval errors when using dev server
 };

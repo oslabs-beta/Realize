@@ -23,8 +23,9 @@ port.onMessage.addListener((message) => {
     createTree(message, CompDisplay);
   } else {
     d3.select('#error-message')
-      .style('visibility', 'visible')
+      .style('display', 'block')
       .text(message)
+
   }
   
 });

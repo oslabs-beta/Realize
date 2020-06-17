@@ -13,7 +13,7 @@ As applications scale, it becomes more difficult to track state and to have a ho
 
 **Prerequisites**
 - Realize requires React Dev Tools to be installed before use.
--  For optimal performance, Realize is best used with React applications launched from a local server in development mode. Minification reduces production websites component names
+-  For optimal performance, Realize is best used with React applications launched from a local server in development mode. Minification reduces production websites component names`
 
 ### Functionality:
 * Utilize the search bar to search for any component that exists in the tree. The search will bring you to the first top-most level component that matches.

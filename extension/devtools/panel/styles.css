@@ -1,29 +1,6 @@
-@font-face {
-  font-family: 'Ubuntu';
-  font-style: normal;
-  font-weight: 400;
-  src: url('chrome-extension://__MSG_@@extension_id__/ubuntu.woff2') format('woff2');
-}
-/* 
-@font-face {
-  font-family: 'Ubuntu';
-  font-style: normal;
-  font-weight: 400;
-  src: url('/font/ubuntu.woff') format('woff');
-}
-
-
-@font-face {
-  font-family: 'FontName';
-  font-style: normal;
-  font-weight: 300;
-  src: local('FontName Light'), local('FontName-Light'), url(https://fonts.gstatic.com/some-url.woff2) format('woff2');
-} */
-
-
 #info-panel {
   font-family: 'Helvetica';
-  font-size: 2em;
+  font-size: 1.5em;
 }
 /* GENERAL STYLES */
 * {
@@ -123,16 +100,6 @@
   padding-top: 15px;
 }
 
-.title-bar, #state-title, #props-title, #children-title {
-  font-weight: bold;
-  font-size: 1.2em;
-  letter-spacing: 0.1em;
-}
-
-#state-title, #props-title, #children-title {
-  padding-top: 10px;
-  color: white;
-}
 
 #state-type {
   font-size: 1em;
@@ -140,29 +107,28 @@
   padding-left: 25px;
 }
 
-.property-name {
-  padding-left: 25px;
+.component-display-name {
+  text-align: center;
+  letter-spacing: 0.2em;
   font-weight: bold;
-  font-size: 1em;
+  
 }
-.property-value {
-  padding-left: 50px;
-  font-weight: normal;
-  font-weight: .8em;
-}
-
-.propBar, .childrenBar {
-  padding-left: 25px;
-}
-
 
 #state {
   outline: none;
   color: #1eabd5;
 }
 
+#searchInput {
+  border-radius: 9px;
+  background-color: #30353e;
+  color: rgb(234, 242, 250);
+  opacity: 0.8;
+  outline: none;
+  border: 0px;
+  padding: 5px;
 
-
+}
 
 /* TREE */
 
@@ -177,10 +143,10 @@
 }
 
 .nodes {
-  fill: #808080;
+  fill: #707070;
 }
 .link {
-  stroke: #353535;
+  stroke: #606060;
 }
 .node text {
   font: 12px sans-serif;

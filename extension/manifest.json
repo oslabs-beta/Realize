@@ -18,5 +18,7 @@
 
   "web_accessible_resources": ["hook.js"],
 
-  "devtools_page": "devtools-root.html"
+  "devtools_page": "devtools-root.html",
+
+  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self';"
 }

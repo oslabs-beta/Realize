@@ -197,8 +197,6 @@ function recurse(node: any, parentArr) {
   // if invalid component, recursion will contine, exit here
   if (getName(node, component, parentArr) === -1) return;
   getState(node, component);
-  // if (component.name === 'App') component.state = null;
-  // delete component.state;
   getProps(node, component);
   getHooks(node, component);
   // insert component into parent's children array

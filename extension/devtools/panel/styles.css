@@ -1,30 +1,17 @@
-/* 
-@font-face {
-  font-family: 'Ubuntu';
-  font-style: normal;
-  font-weight: 400;
-  src: url('./font/ubuntu.woff') format('woff');
+body {
+  background-color: #242424;
 }
 
-
-@font-face {
-  font-family: 'FontName';
-  font-style: normal;
-  font-weight: 300;
-  src: local('FontName Light'), local('FontName-Light'), url(https://fonts.gstatic.com/some-url.woff2) format('woff2');
-} */
-
-
-body {
-  font-family: 'Helvetica', Times, serif, sans-serif;
+#info-panel {
+  font-family: 'Helvetica';
+  font-size: 1.5em;
 }
 /* GENERAL STYLES */
 * {
   box-sizing: border-box;
   text-decoration: none;
   margin: 0;
-  color:white;
-  /* border: 1px solid white; */
+  color: white;
 }
 
 /* Main Window and Panels */
@@ -55,37 +42,49 @@ body {
   flex-direction: column;
 }
 
-#searchInput {
-  color:black;
-}
-
-#title-panel{
+#title-panel {
   color: white;
 }
 
-#info-title{
+#info-title {
   color: white;
   font-size: 1.5em;
   text-align: center;
-  letter-spacing: 0.2em;
+  letter-spacing: 0.05em;
   padding: 10px;
   opacity: .8;
 }
 
-#info-panel{
+#info-panel {
   display: block;
-  overflow: auto;
+  overflow-y: scroll;
   flex-direction: column;
   padding: 10px;
   background-color: #30353e;
   opacity: 0.8;
   color: rgb(234, 242, 250);
-  border-radius: 5px;
-  border: 1px solid white;
+  border-radius: 9px;
+  /* border: 1px solid rgb(200, 200, 200); */
+  scrollbar-width: thin;
+  scrollbar-color: rgb(150, 150, 150) #30353e;
   width: 99%;
   min-width: 350px;
   min-height: 200px;
-  box-shadow: 0 0 5px #0ff;
+  max-height: 20%;
+  /* box-shadow: 0 0 5px #1eabd5; */
+}
+
+::-webkit-scrollbar {
+  width: 12px; /* for vertical scrollbars */
+  height: 12px; /* for horizontal scrollbars */
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.5);
 }
 
 .component-title-bar {
@@ -97,75 +96,80 @@ body {
   padding-top: 15px;
 }
 
-.title-bar, #state-title, #props-title, #children-title {
-  font-weight: bold;
-  font-size: 1.2em;
-  letter-spacing: 0.1em;
-}
-
-#state-title, #props-title, #children-title {
-  padding-top: 10px;
-  color: white;
-}
-
 #state-type {
   font-size: 1em;
   font-weight: normal;
   padding-left: 25px;
 }
 
-.property-name {
-  padding-left: 25px;
+.component-display-name {
+  text-align: center;
+  letter-spacing: 0.2em;
   font-weight: bold;
-  font-size: 1em;
-}
-.property-value {
-  padding-left: 50px;
-  font-weight: normal;
-  font-weight: .8em;
+  color: rgb(210, 215, 240); 
 }
 
-.propBar, .childrenBar {
-  padding-left: 25px;
+#state {
+  color: #1eabd5;
 }
 
-
-summary, details {
+summary {
   outline: none;
 }
 
-
+#searchInput {
+  border-radius: 9px;
+  background-color: #30353e;
+  color: rgb(234, 242, 250);
+  opacity: 0.8;
+  outline: none;
+  border: 0px;
+  padding: 5px;
+}
 
 /* TREE */
 
 #tree {
   margin: auto;
+  overflow: visible;
+  padding-top: 15px;
 }
 
 .nodes {
-  fill: #14a897;
+  fill: #707070;
 }
 .link {
-  stroke: #e8e888;
+  stroke: #606060;
 }
 .node text {
   font: 12px sans-serif;
-}
-#tree-container {
-  padding: 10px;
+  fill: white;
 }
 
 .button-bar {
-  display: flex;
-  flex-direction: column;
+  top: 0px;
+  right: 0px;
 }
 
-#center-tree, #show-state {
+#center-tree,
+#show-state {
   /* font-size: 1.2rem; */
   color: white;
   font-size: 1em;
   text-align: center;
   letter-spacing: 0.2em;
   padding: 3px;
-  opacity: .8;
+  opacity: 0.8;
 }
+
+#error-message {
+  color: #E06C75;
+  /* margin-left: 30px;
+  margin-top: 30px; */
+  margin-right: 400px;
+  margin-top:100px;
+  width: 400px;
+  height: 400px;
+  background-color: #242424;
+  font-size: large;
+} 

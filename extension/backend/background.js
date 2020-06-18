@@ -6,6 +6,10 @@ chrome.runtime.onConnect.addListener((port) => {
     if (request.name === 'connect' && request.tabID) {
       console.log('tab connected, tabs: ', connectedTabs);
       connectedTabs[request.tabID] = port;
+      // Injects the content-script when panel connection made
+      chrome.tabs.executeScript({
+        file: "./content_script.js"
+      });
     }
   };
 
@@ -21,23 +25,18 @@ chrome.runtime.onConnect.addListener((port) => {
       }
     }
   });
+  
 });
 
 function handleMessage(request, sender, sendResponse) {
   // if from panel
-  if (sender.url === chrome.runtime.getURL('panel.html')) {
-    // Execute the script that is send from Devtools (This is just an example)
-    chrome.tabs.executeScript(request.tabId, {
-      code: request.script,
-    });
-    return;
-  }
 
   if (sender.tab) {
     const tabID = sender.tab.id;
     if (tabID in connectedTabs) {
       connectedTabs[tabID].postMessage(request);
       console.log('message sent to tab: ', tabID);
+      console.log("MESSAGE PAYLOAD: ",request)
     }
   }
 
@@ -46,3 +45,12 @@ function handleMessage(request, sender, sendResponse) {
 
 // Listen for messages from devtools
 chrome.runtime.onMessage.addListener(handleMessage);
+
+// Re-injects the script on refresh
+chrome.tabs.onUpdated.addListener(function(tabId,changeInfo,tab){
+  if (connectedTabs[tabId]){
+    chrome.tabs.executeScript({
+      file: "./content_script.js"
+    });
+  }
+});

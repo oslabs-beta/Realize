@@ -4,19 +4,27 @@
 /* eslint-disable func-names */
 /* eslint-disable no-underscore-dangle */
 
+const throttle = require('lodash.throttle');
+
 // need to define types here
 declare global {
+  interface devTools {
+    renderers: { size?: number };
+    onCommitFiberRoot(any?);
+  }
+
   interface Window {
-    __REACT_DEVTOOLS_GLOBAL_HOOK__: any;
+    __REACT_DEVTOOLS_GLOBAL_HOOK__: devTools;
   }
 
   interface component {
     name: any;
-    state?: any;
-    stateType?: any;
-    hooks?: any;
-    children?: any;
-    props?: any;
+    node?: any;
+    state?: object;
+    stateType?: { stateful: boolean; receiving: boolean; sending: any } | -1;
+    hooks?: [string];
+    children?: [string] | [];
+    props?: object;
   }
 }
 
@@ -25,26 +33,29 @@ function hook() {
 
   // if devtools not activated
   if (!devTools) {
-    console.log("looks like you don't have react devtools activated");
+    sendToContentScript("Looks like you don't have react devtools activated");
     return;
   }
 
   // if hook can't find react
-  if (devTools.renderers.size < 1) {
-    console.log("looks like this page doesn't use react");
+  if (devTools.renderers && devTools.renderers.size < 1) {
+    sendToContentScript("Looks like this page doesn't use React. Go to a React page and trigger a state change");
     return;
   }
 
+  // patch react devtools function called on render
   devTools.onCommitFiberRoot = (function (original) {
     return function (...args) {
       const fiberDOM = args[1];
       const rootNode = fiberDOM.current.stateNode.current;
       const arr = [];
       try {
-        recurse(rootNode.child, arr);
-        sendToContentScript(arr[0]);
+        throttledRecurse(rootNode.child, arr);
+        if (arr.length > 0) sendToContentScript(arr[0]);
       } catch (error) {
-        console.log(error);
+        sendToContentScript(
+          "we're sorry, there was an error on our end. To contribute: https://github.com/oslabs-beta/Realize"
+        );
       }
 
       return original(...args);
@@ -54,138 +65,147 @@ function hook() {
 
 // message sending function
 function sendToContentScript(tree) {
-  console.log(tree);
+  // for debugging:
+  // console.log(tree);
   window.postMessage({ tree }, '*');
 }
 
-// get props and clean
-function getProps(props) {
-  const cleanProps = {};
-  Object.keys(props).forEach((prop) => {
-    cleanProps[prop] = props[prop];
-    if (typeof cleanProps[prop] === 'function')
-      cleanProps[prop] = `f ${prop}()`;
-    if (
-      cleanProps[prop] &&
-      cleanProps[prop].$$typeof &&
-      typeof cleanProps[prop].$$typeof === 'symbol'
-    )
-      cleanProps[prop] = cleanProps[prop].type
-        ? `<${cleanProps[prop].type.name} />`
-        : 'react component';
-  });
+const clean = (item, depth = 0): any => {
+  // base case
+  if (depth > 10) return 'max recursion depth reached';
+  if (typeof item !== 'object' && typeof item !== 'function') return item;
 
-  return cleanProps;
-}
-
-// recursion for state linked list
-function getState(stateNode, arr) {
-  if (Array.isArray(stateNode.memoizedState)) {
-    const stateArr = [];
-    stateNode.memoizedState.forEach((elem, idx) => {
-      // clean elements of state arr if they are react components
-      if (elem.$$typeof && typeof elem.$$typeof === 'symbol') {
-        console.log('bad state here');
-        stateArr.push(`<${elem.type.name} />`);
-      } else {
-        stateArr.push(elem);
-      }
-    });
-    arr.push(stateArr);
-  } else {
-    arr.push(stateNode.memoizedState);
-  }
-  if (stateNode.next && stateNode.next.memoizedState.tag !== 5)
-    // ^^^
-    // DEFINITELY CHECK THIS OUT
-    getState(stateNode.next, arr);
-}
-
-// get type of state
-function getStateType(component) {
-  // has own state
-  const stateful = !!component.state;
-
-  // receives props from parent
-  const receiving = !!component.props;
-
-  // has children that receive props
-  const sending =
-    component.children && component.children.some((child) => child.props);
-
-  if (!stateful && !receiving && !sending) return -1;
-
-  return {
-    stateful,
-    receiving,
-    sending,
-  };
-}
-
-// TODO: write conditions and separate funcs for class and functional components
-function recurse(node, parentArr) {
-  const component: component = {
-    name: '',
-    // node,
-  };
-
-  // get name
-  if (node.type) {
-    if (node.type.name) {
-      component.name = node.type.name;
-    } else {
-      // this is an html element
-      // continue traversal without adding to data obj
-      if (node.child) recurse(node.child, parentArr);
-      if (node.sibling) recurse(node.sibling, parentArr);
-      return;
+  // if item is composite
+  if (item === null) return null;
+  if (typeof item === 'object') {
+    let result;
+    if (item.$$typeof && typeof item.$$typeof === 'symbol') {
+      return item.type && typeof item.type !== 'string'
+        ? `<${item.type.name} />`
+        : 'React component';
     }
-  } else {
-    // this is a misc fiber node
-    // continue traversal without adding to data obj
+    if (Array.isArray(item)) {
+      result = [];
+      item.forEach((elem, idx) => {
+        result[idx] = clean(elem, depth + 1);
+      });
+    } else {
+      result = {};
+      Object.keys(item).forEach((key) => {
+        result[key] = clean(item[key], depth + 1);
+      });
+    }
+    return result;
+  }
+  if (typeof item === 'function') {
+    return `function: ${item.name}()`;
+  }
+};
+
+const getName = (node, component, parentArr): void | -1 => {
+  if (!node.type || !node.type.name) {
+    // this is a misc fiber node or html element, continue without appending
     if (node.child) recurse(node.child, parentArr);
     if (node.sibling) recurse(node.sibling, parentArr);
+    return -1;
+  } else {
+    // if valid, extract component name
+    component.name = node.type.name;
+  }
+};
+
+const getState = (node, component): void => {
+  // for linked list recursion
+  const llRecurse = (stateNode, arr): any => {
+    arr.push(clean(stateNode.memoizedState));
+
+    if (
+      stateNode.next &&
+      stateNode.memoizedState !== stateNode.next.memoizedState
+    )
+      llRecurse(stateNode.next, arr);
+  };
+
+  // if no state, exit
+  if (!node.memoizedState) return;
+  // if state stored in linked list
+  if (node.memoizedState.memoizedState !== undefined) {
+    if (node.memoizedState.next === null) {
+      component.state = clean(node.memoizedState.memoizedState);
+      return;
+    }
+    component.state = [];
+    llRecurse(node.memoizedState, component.state);
     return;
   }
 
-  // get state
-  // if functional component, traverse state linked list
-  if (node.memoizedState && node.memoizedState.memoizedState) {
-    component.state = [];
-    getState(node.memoizedState, component.state);
-  } else if (node.memoizedState) component.state = node.memoizedState;
+  // not linked list
+  component.state = clean(node.memoizedState);
+};
 
-  // get props
-  if (node.memoizedProps && Object.keys(node.memoizedProps).length > 0)
-    component.props = getProps(node.memoizedProps);
+const getProps = (node, component): void => {
+  if (node.memoizedProps && Object.keys(node.memoizedProps).length > 0) {
+    const props = {};
+    Object.keys(node.memoizedProps).forEach((prop) => {
+      props[prop] = clean(node.memoizedProps[prop]);
+    });
 
-  // get hooks
+    component.props = props;
+  }
+};
+
+const getHooks = (node, component): void => {
   if (node._debugHookTypes) component.hooks = node._debugHookTypes;
+};
 
-  if (component.name === 'App') delete component.state;
+const getChildren = (node, component, parentArr): void => {
+  const children = [];
 
-  // insert component into parent's children array
-  parentArr.push(component);
-
-  // get children/ siblings
   if (node.child) {
-    component.children = [];
-    recurse(node.child, component.children);
+    recurse(node.child, children);
   }
   if (node.sibling) recurse(node.sibling, parentArr);
 
-  // get state type
-  component.stateType = getStateType(component);
-  if (component.stateType === -1) delete component.stateType;
+  //   console.log(children.length);
+  if (children.length > 0) component.children = children;
+};
 
-  // remove children arr if none added in recursion
-  if (component.children.length === 0) delete component.children;
+const getStateType = (component): void => {
+  const stateType = {
+    stateful: !(component.state === undefined),
+    receiving: !(component.props === undefined),
+    sending:
+      component.children &&
+      component.children.some((child) => child.props !== undefined),
+  };
+
+  if (Object.values(stateType).some((isTrue) => isTrue)) {
+    component.stateType = stateType;
+  }
+};
+
+const throttledRecurse = throttle(recurse, 300);
+
+// function for fiber tree traversal
+function recurse(node: any, parentArr) {
+  const component: component = {
+    name: '',
+    // for debugging:
+    // node,
+  };
+
+  // if invalid component, recursion will contine, exit here
+  if (getName(node, component, parentArr) === -1) return;
+  getState(node, component);
+  getProps(node, component);
+  getHooks(node, component);
+  // insert component into parent's children array
+  parentArr.push(component);
+  // below functions must execute after inner recursion
+  getChildren(node, component, parentArr);
+  getStateType(component);
 }
 
 hook();
 
-// module.exports = function (a, b) {
-//   return a + b;
-// };
-
-export {};
+export { clean };

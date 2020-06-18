@@ -2,7 +2,6 @@
 /* eslint-disable class-methods-use-this */
 /* eslint-env browser */
 
-
 // parent: reference to infopanel dom node
 // obj: component being sent by the tree (node)
 class ComponentDisplay {
@@ -16,10 +15,10 @@ class ComponentDisplay {
     const compArr = [];
 
     // add name of component
-    compArr.push(this.displayName(component.name))
+    compArr.push(this.displayName(component.name));
 
     // conditionals to load compArr based on component properties
-    if (component.state) {
+    if (component.state !== undefined) {
       // if functional state
       if (
         component.hooks &&
@@ -31,7 +30,7 @@ class ComponentDisplay {
       }
     }
     // add the hook
-    if (component.hooks) compArr.push(this.displayHooks(component.hooks))
+    if (component.hooks) compArr.push(this.displayHooks(component.hooks));
     if (component.props) compArr.push(this.displayProps(component.props));
     if (component.children)
       compArr.push(this.displayChildren(component.children));
@@ -40,11 +39,11 @@ class ComponentDisplay {
     this.parent.append(...compArr);
   }
 
-  displayName(name){
-    const span = document.createElement('span')
-    span.classList.add('component-display-name')
-    span.textContent = name
-    return span
+  displayName(name) {
+    const div = document.createElement('div');
+    div.classList.add('component-display-name');
+    div.textContent = name;
+    return div;
   }
 
   displayChildren(arr) {
@@ -69,8 +68,9 @@ class ComponentDisplay {
     const summary = document.createElement('summary');
     const list = document.createElement('ul');
     summary.textContent = 'State';
+    summary.id = 'state';
 
-    if (usedHooks) {
+    if (usedHooks && Array.isArray(input)) {
       input.forEach((stateValue) => {
         const li = document.createElement('li');
         li.append(this.displayData(stateValue));
@@ -106,6 +106,7 @@ class ComponentDisplay {
   displayData(input) {
     // base case
     if (typeof input !== 'object') return input;
+    if (input === null) return 'null';
 
     const details = document.createElement('details');
     const summary = document.createElement('summary');
@@ -132,20 +133,26 @@ class ComponentDisplay {
     } else {
       // if object
       summary.textContent = 'Object';
+      const keys = Object.keys(input);
       list = document.createElement('ul');
-      Object.keys(input).forEach((key) => {
+      if (keys.length > 0) {
+        keys.forEach((key) => {
+          const li = document.createElement('li');
+          li.append(`${key}: `, this.displayData(input[key]));
+          list.appendChild(li);
+        });
+      } else {
         const li = document.createElement('li');
-        li.append(`${key}: `, this.displayData(input[key]));
+        li.append('empty object');
         list.appendChild(li);
-      });
+      }
     }
 
     details.append(summary, list);
     return details;
   }
 
-
-  displayHooks(input){
+  displayHooks(input) {
     const details = document.createElement('details');
     const summary = document.createElement('summary');
     const list = document.createElement('ul');
@@ -154,7 +161,7 @@ class ComponentDisplay {
       const li = document.createElement('li');
       li.innerHTML = hook;
       list.appendChild(li);
-    })
+    });
 
     details.append(summary, list);
     return details;

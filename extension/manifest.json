@@ -1,24 +1,26 @@
 {
   "manifest_version": 2,
-  "name": "REACTionary",
-  "version": "0.1",
+  "name": "Realize for React",
+  "version": "1.0.0.0",
+  "description": "A React component tree visualizer",
+
+  "icons": {
+    "16": "16.png",
+    "32": "32.png",
+    "48": "48.png",
+    "128": "128.png" 
+  },
+
+  "permissions": [
+    "activeTab",
+    "<all_urls>"
+  ],
 
   "background": {
     "scripts": ["background.js"]
   },
 
-  "content_scripts": [
-    {
-      "matches": ["<all_urls>"],
-      "js": ["content_script.js"]
-    }
-  ],
-
   "web_accessible_resources": ["hook.js"],
 
-  "devtools_page": "devtools-root.html",
-
-  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self';",
-
-  "permissions": ["activeTab", "tabs", "<all_urls>"]
+  "devtools_page": "devtools-root.html"
 }

@@ -1,52 +1,46 @@
-import * as d3 from '../../libraries/d3.min.js';
-// Recursively go over the tree until we find the name of a component
-// function findComp(arr, name) {
-//   const result = [];
+// It works with Common JS File
+var d3 = require('../../libraries/d3.js');
+var result = document.querySelector('.result');
+// make it all lowercase
+function addSearchListener(valuesArray) {
 
-//   // Iterate over the array(one we get from D3)
-//   arr.forEach((elem) => {
-//     if (elem.data && elem.data.name === name) {
-//       const { data, ...clone } = elem;
-//       result.push(clone);
-//     } else {
-//       return -1;
-//     }
-//   });
+  function autoComplete(input) {
+    //  Grab all nodes use d3.selectalcll
+    // replicate filter using d3 method -> d3 object of filters
+    return valuesArray.filter(e =>e.toLowerCase().includes(input.toLowerCase()));
+   }
 
-//   return result;
-// }
-
-
-let result = document.querySelector('.result');
-let arr = ['HTML', 'CSS', 'PHP', 'Javascript', 'Dart', 'Python', 'Swift', 'Java', 'C++','Go','SASS','C#','LISP','Perl', 'Ruby']
-
-  // make it all lowercase
- function autoComplete(arr, input) {
-  //  Grab all nodes use d3.selectall
-  // replicate filter using d3 method -> d3 object of filters
-    let allNodes = d3.selectAll('circle.node');
-    return allNodes.filter(e =>e.data.name.toLowerCase().includes(input.toLowerCase()));
- }
-
-function getValue(val){
+  function getValue(val){
     
-     // if no value, have an empty page, 
-     if(!val){
-       result.innerHTML='';
-       return
-     }
-   
-     // search goes here 
-     let data = autoComplete(arr,val);
-    
-    
-    // append list data
-     let res = '';
-     data.each(e=>{
-        res += '<li>'+e.data.name+'</li>';
-     })
+    // if no value, have an empty page, 
+    if(!val){
+      result.innerHTML='';
+      return
+    }
   
-     result.innerHTML = res;
- }
+    // search goes here 
+    let data = autoComplete(val);
+   
+   // append list data
+    let res = '';
+    data.forEach(e=>{
+       res += '<li>'+e+'</li>';
+    })
 
-export { getValue }
+ 
+    result.innerHTML = res;
+  }
+  
+  let searchInput = document.getElementById('searchInput');
+  searchInput.addEventListener('keyup', () => {
+    const HTMLInputElement = document.getElementById('searchInput') 
+    const value= searchInput.value
+
+    getValue(value)
+  })
+  
+  
+}
+
+
+export default addSearchListener;

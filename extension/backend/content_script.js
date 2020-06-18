@@ -4,10 +4,9 @@
 const time = 500;
 
 setTimeout(() => {
-  console.log(`I waited ${time}milliseconds`);
-  const s = document.createElement('script');
-  s.src = chrome.extension.getURL('hook.js');
-  document.head.appendChild(s);
+  const script = document.createElement('script');
+  script.src = chrome.extension.getURL('hook.js');
+  document.head.appendChild(script);
 }, time);
 
 const sendMessage = (tree) => {
@@ -16,7 +15,6 @@ const sendMessage = (tree) => {
 
 function handleMessage(request, sender, sendResponse) {
   if (request.data && request.data.tree) {
-    console.log('message sent');
     sendMessage(request.data.tree);
   }
 }

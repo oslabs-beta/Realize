@@ -4,7 +4,7 @@
 As React applications scale, it becomes more difficult to track state and to have a holistic overview of the component hierarchy. Realize is a tool to help developers visualize the structure and state flow of their React applications, especially when they are growing in scale and complexity. It currently supports React v.16.8.
 
 ## 👩‍💻 How to use it 
-1. Install the extension from the [Chrome](https://chrome.google.com/webstore/detail/realize-for-react/llondniabnmnappjekpflmgcikaiilmh) or [Firefox](https://addons.mozilla.org/en-GB/firefox/addon/realizeforreact/) stores
+1. Install the extension from the [Firefox](https://addons.mozilla.org/en-GB/firefox/addon/realizeforreact/) store (Chrome extension pending approval!)
 2. Navigate to your React website
 3. Open the dev tools window and select the Realize Panel
 4. Trigger a state change to see the component tree populate

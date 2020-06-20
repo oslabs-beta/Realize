@@ -6,7 +6,7 @@ As React applications scale, it becomes more difficult to track state and to hav
 ![Logo](./assets/treeVisCropped1.gif)
 
 ## 👩‍💻 How to use it 
-1. Install the extension from the [Firefox](https://addons.mozilla.org/en-GB/firefox/addon/realizeforreact/) store (Chrome extension pending approval!)
+1. Install the extension from the [Firefox](https://addons.mozilla.org/en-GB/firefox/addon/realizeforreact/) store & [Chrome](https://chrome.google.com/webstore/detail/realize-for-react/llondniabnmnappjekpflmgcikaiilmh?authuser=0&hl=en) store
 2. Navigate to your React website
 3. Open the dev tools window and select the Realize Panel
 4. Trigger a state change to see the component tree populate

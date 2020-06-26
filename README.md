@@ -39,7 +39,7 @@ Henry Black - [Github](https://github.com/blackhaj) | [LinkedIn](https://www.lin
 Horatiu Mitrea - [Github](https://github.com/hmitrea) | [LinkedIn](https://www.linkedin.com/in/horatiu-mitrea-515704137/)  
 
 ## Contact
-You can contact us personally through our LinkedIn accounts (links above) or as a team via [realizeforeact@gmail.com](mailto:realizeforeact@gmail.com)
+You can contact us personally through our LinkedIn accounts (links above) or as a team via [realizeforreact@gmail.com](mailto:realizeforreact@gmail.com)
 
 ## Contributing
 We would love for you to test out our extensions and submit any issues you encounter. Feel free to fork to your own repo and submit PRs. Some features we would like to add:

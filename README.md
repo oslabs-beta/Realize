@@ -33,7 +33,7 @@ As React applications scale, it becomes more difficult to track state and to hav
 
 
 ## Authors
-Fan Shao - [Github](https://github.com/fansfansfansfans) | [LinkedIn](https://www.linkedin.com/in/fan-shao-85312ab4/)  
+Fan Shao - [Github](https://github.com/fan-shao) | [LinkedIn](https://www.linkedin.com/in/fan-shao/)  
 Harry Clifford - [Github](https://github.com/HpwClifford/) | [LinkedIn](https://www.linkedin.com/in/harry-clifford-3788951a9/)  
 Henry Black - [Github](https://github.com/blackhaj) | [LinkedIn](https://www.linkedin.com/in/henryblack1/)  
 Horatiu Mitrea - [Github](https://github.com/hmitrea) | [LinkedIn](https://www.linkedin.com/in/horatiu-mitrea-515704137/)  

@@ -39,6 +39,6 @@
     "jquery-ui-dist": "^1.12.1",
     "jsdom": "^16.2.2",
     "lodash.throttle": "^4.1.1",
-    "node-sass": "^4.14.1"
+    "node-sass": "^7.0.0"
   }
 }

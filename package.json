@@ -37,7 +37,7 @@
     "accessible-autocomplete": "^2.0.2",
     "jquery": "^3.5.1",
     "jquery-ui-dist": "^1.12.1",
-    "jsdom": "^16.2.2",
+    "jsdom": "^16.5.0",
     "lodash.throttle": "^4.1.1",
     "node-sass": "^4.14.1"
   }
